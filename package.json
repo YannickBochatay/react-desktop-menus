@@ -9,10 +9,19 @@
     "react-dom": "^15.4.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
+    "babel-preset-env": "^1.1.4",
+    "babel-preset-react": "^6.16.0",
+    "eslint": "^3.12.2",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-react": "^6.8.0",
     "font-awesome": "^4.7.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src -d dist",
+    "lint": "eslint src --fix"
   },
   "repository": {
     "type": "git",
