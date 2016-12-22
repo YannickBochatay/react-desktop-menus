@@ -1,3 +1,4 @@
+/* globals React, ReactDOM */
 (() => {
 
   "use strict"
@@ -91,7 +92,8 @@
 
       this.state = {
         checked : false,
-        active : false
+        active : false,
+        submenuPosition : { left : 0, top : 0 }
       }
 
     }
@@ -102,7 +104,7 @@
 
       if (this.props.disabled) return
 
-      if (this.props.action) this.props.action(e)
+      if (this.props.action) this.props.action(e, !this.state.checked)
 
       this.setState({
         active : true,
@@ -125,7 +127,7 @@
 
     handleMouseOut() {
 
-      this.setState({ active : false })
+      // this.setState({ active : false })
 
     }
 
@@ -168,7 +170,10 @@
 
     createLabel() {
 
-      const { children : label, shortcut } = this.props
+      const { shortcut, children } = this.props
+      let { label } = this.props
+
+      if (typeof children === "string") label = children
 
       if (shortcut) {
 
@@ -190,39 +195,106 @@
 
     }
 
+    createIcon() {
+
+      const { icon, checkbox } = this.props
+      const { checked } = this.state
+
+      if (checkbox) {
+
+        return (
+          <span style={ styles.checkbox }>
+            { checked ? "☑" : "☐" }
+          </span>
+        )
+
+      } else {
+
+        return (
+          <span style={ styles.icon }>
+            { (typeof icon === "string") ? <i className={ icon }/> : icon }
+          </span>
+        )
+
+      }
+
+    }
+
+    createSubmenu() {
+
+      return React.cloneElement(this.props.children, {
+        display : this.state.active,
+        style : { position : "absolute", ...this.state.submenuPosition },
+        ref : node => this.submenu = node
+      })
+
+    }
+
+    hasSubmenu() {
+
+      const { children } = this.props
+
+      return children && typeof children !== "string"
+
+    }
+
+    componentDidUpdate(prevPRops, prevState) {
+
+      if (this.state.active && !prevState.active && this.hasSubmenu()) {
+
+        this.setSubmenuPosition()
+
+      }
+
+    }
+
+    setSubmenuPosition() {
+
+      const li = ReactDOM.findDOMNode(this)
+      const dim = li.getBoundingClientRect()
+      const sub = ReactDOM.findDOMNode(this.submenu)
+
+      let left = li.offsetWidth
+      let top = li.offsetTop
+
+      if (dim.right + sub.offsetWidth > window.innerWidth) left = -sub.offsetWidth
+
+      if (dim.bottom + sub.offsetHeight > window.innerHeight) top = li.offsetTop + li.offsetHeight - sub.offsetHeight
+
+      this.setState({ submenuPosition : { left, top } })
+
+    }
+
     render() {
 
-      const { checkbox, submenu, style, icon, ...rest } = this.props
+      const { style, action, ...rest } = this.props
 
-      const { checked } = this.state
+      const submenu = this.hasSubmenu()
 
       delete rest.disabled
       delete rest.action
       delete rest.defaultChecked
       delete rest.defaultActive
       delete rest.disabled
-      delete rest.children
       delete rest.shortcut
+      delete rest.checkbox
+      delete rest.icon
+      delete rest.children
 
       return (
         <li style={ { ...styles.li, ...style } } { ...rest } >
           <a
             href="#"
-            onClick={ this.handleAction }
+            onClick={ !submenu && action ? this.handleAction : null }
             onMouseOver={ this.handleMouseOver }
             onMouseOut={ this.handleMouseOut }
             style={ this.getStyle() }
           >
-            { submenu ? <span style={ styles.arrow }/> : "" }
-
-            <span style={ styles.icon }>
-              { (typeof icon === "string") ? <i className={ icon }/> : icon }
-            </span>
-
-            { checkbox ? <span style={ styles.checkbox }>{ checked ? "☑" : "☐" }</span> : "" }
-
+            { submenu ? <span style={ styles.arrow }>▶</span> : "" }
+            { this.createIcon() }
             { this.createLabel() }
           </a>
+          { submenu ? this.createSubmenu() : null }
         </li>
       )
 
@@ -234,12 +306,12 @@
   MenuItem.propTypes = {
     icon : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     style : PropTypes.object,
+    label : PropTypes.string,
     children : PropTypes.node,
-    submenu : PropTypes.node,
     defaultActive : PropTypes.bool,
     defaultChecked : PropTypes.bool,
     disabled : PropTypes.bool,
-    action : PropTypes.func.isRequired,
+    action : PropTypes.func,
     keepMenu : PropTypes.bool,
     checkbox : PropTypes.bool,
     shortcut : PropTypes.string
@@ -255,15 +327,25 @@
 
     render() {
 
-      return <ul style={ styles.ul } { ...this.props }>{ this.props.children }</ul>
+      const { display, style, ...rest } = this.props
+
+      return (
+        <ul style={ { ...styles.ul, ...style, visibility : display ? "visible" : "hidden" } } { ...rest }>
+          { this.props.children }
+        </ul>
+      )
 
     }
 
   }
 
   Menu.propTypes = {
-    children : PropTypes.node
+    children : PropTypes.node,
+    display : PropTypes.bool,
+    style : PropTypes.object
   }
+
+  Menu.defaultProps = { display : true }
 
   window.ReactMenu = Menu
 

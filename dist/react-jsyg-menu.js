@@ -12,6 +12,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/* globals React, ReactDOM */
 (function () {
 
   "use strict";
@@ -106,7 +107,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
       _this.state = {
         checked: false,
-        active: false
+        active: false,
+        submenuPosition: { left: 0, top: 0 }
       };
 
       return _this;
@@ -120,7 +122,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         if (this.props.disabled) return;
 
-        if (this.props.action) this.props.action(e);
+        if (this.props.action) this.props.action(e, !this.state.checked);
 
         this.setState({
           active: true,
@@ -143,7 +145,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       key: "handleMouseOut",
       value: function handleMouseOut() {
 
-        this.setState({ active: false });
+        // this.setState({ active : false })
+
       }
     }, {
       key: "componentWillMount",
@@ -185,9 +188,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       key: "createLabel",
       value: function createLabel() {
         var _props = this.props,
-            label = _props.children,
-            shortcut = _props.shortcut;
+            shortcut = _props.shortcut,
+            children = _props.children;
+        var label = this.props.label;
 
+
+        if (typeof children === "string") label = children;
 
         if (shortcut) {
 
@@ -214,25 +220,96 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
       }
     }, {
-      key: "render",
-      value: function render() {
+      key: "createIcon",
+      value: function createIcon() {
         var _props2 = this.props,
-            checkbox = _props2.checkbox,
-            submenu = _props2.submenu,
-            style = _props2.style,
             icon = _props2.icon,
-            rest = _objectWithoutProperties(_props2, ["checkbox", "submenu", "style", "icon"]);
-
+            checkbox = _props2.checkbox;
         var checked = this.state.checked;
 
+
+        if (checkbox) {
+
+          return React.createElement(
+            "span",
+            { style: styles.checkbox },
+            checked ? "☑" : "☐"
+          );
+        } else {
+
+          return React.createElement(
+            "span",
+            { style: styles.icon },
+            typeof icon === "string" ? React.createElement("i", { className: icon }) : icon
+          );
+        }
+      }
+    }, {
+      key: "createSubmenu",
+      value: function createSubmenu() {
+        var _this2 = this;
+
+        return React.cloneElement(this.props.children, {
+          display: this.state.active,
+          style: _extends({ position: "absolute" }, this.state.submenuPosition),
+          ref: function ref(node) {
+            return _this2.submenu = node;
+          }
+        });
+      }
+    }, {
+      key: "hasSubmenu",
+      value: function hasSubmenu() {
+        var children = this.props.children;
+
+
+        return children && typeof children !== "string";
+      }
+    }, {
+      key: "componentDidUpdate",
+      value: function componentDidUpdate(prevPRops, prevState) {
+
+        if (this.state.active && !prevState.active && this.hasSubmenu()) {
+
+          this.setSubmenuPosition();
+        }
+      }
+    }, {
+      key: "setSubmenuPosition",
+      value: function setSubmenuPosition() {
+
+        var li = ReactDOM.findDOMNode(this);
+        var dim = li.getBoundingClientRect();
+        var sub = ReactDOM.findDOMNode(this.submenu);
+
+        var left = li.offsetWidth;
+        var top = li.offsetTop;
+
+        if (dim.right + sub.offsetWidth > window.innerWidth) left = -sub.offsetWidth;
+
+        if (dim.bottom + sub.offsetHeight > window.innerHeight) top = li.offsetTop + li.offsetHeight - sub.offsetHeight;
+
+        this.setState({ submenuPosition: { left: left, top: top } });
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var _props3 = this.props,
+            style = _props3.style,
+            action = _props3.action,
+            rest = _objectWithoutProperties(_props3, ["style", "action"]);
+
+        var submenu = this.hasSubmenu();
 
         delete rest.disabled;
         delete rest.action;
         delete rest.defaultChecked;
         delete rest.defaultActive;
         delete rest.disabled;
-        delete rest.children;
         delete rest.shortcut;
+        delete rest.checkbox;
+        delete rest.icon;
+        delete rest.children;
 
         return React.createElement(
           "li",
@@ -241,24 +318,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             "a",
             {
               href: "#",
-              onClick: this.handleAction,
+              onClick: !submenu && action ? this.handleAction : null,
               onMouseOver: this.handleMouseOver,
               onMouseOut: this.handleMouseOut,
               style: this.getStyle()
             },
-            submenu ? React.createElement("span", { style: styles.arrow }) : "",
-            React.createElement(
+            submenu ? React.createElement(
               "span",
-              { style: styles.icon },
-              typeof icon === "string" ? React.createElement("i", { className: icon }) : icon
-            ),
-            checkbox ? React.createElement(
-              "span",
-              { style: styles.checkbox },
-              checked ? "☑" : "☐"
+              { style: styles.arrow },
+              "\u25B6"
             ) : "",
+            this.createIcon(),
             this.createLabel()
-          )
+          ),
+          submenu ? this.createSubmenu() : null
         );
       }
     }]);
@@ -271,12 +344,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   MenuItem.propTypes = {
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     style: PropTypes.object,
+    label: PropTypes.string,
     children: PropTypes.node,
-    submenu: PropTypes.node,
     defaultActive: PropTypes.bool,
     defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
-    action: PropTypes.func.isRequired,
+    action: PropTypes.func,
     keepMenu: PropTypes.bool,
     checkbox: PropTypes.bool,
     shortcut: PropTypes.string
@@ -300,10 +373,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     _createClass(Menu, [{
       key: "render",
       value: function render() {
+        var _props4 = this.props,
+            display = _props4.display,
+            style = _props4.style,
+            rest = _objectWithoutProperties(_props4, ["display", "style"]);
 
         return React.createElement(
           "ul",
-          _extends({ style: styles.ul }, this.props),
+          _extends({ style: _extends({}, styles.ul, style, { visibility: display ? "visible" : "hidden" }) }, rest),
           this.props.children
         );
       }
@@ -313,8 +390,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   }(React.Component);
 
   Menu.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    display: PropTypes.bool,
+    style: PropTypes.object
   };
+
+  Menu.defaultProps = { display: true };
 
   window.ReactMenu = Menu;
 
