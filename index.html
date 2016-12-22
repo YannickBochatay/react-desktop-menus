@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="react-jsyg-menu">
+    <title>react-jsyg-menu</title>
+    <link rel="stylesheet" href="node_modules/jsyg-menu/JSYG.Menu.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+  </head>
+  <body>
+    <div id="content"></div>
+    <button class="btn btn-default">Show menu</button>
+    <ul id="menus"></ul>
+    <script src="node_modules/react/dist/react.js"></script>
+    <script src="node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/jsyg-events/JSYG.Events.js"></script>
+    <script src="node_modules/jsyg-stdconstruct/JSYG.StdConstruct.js"></script>
+    <script src="node_modules/jsyg-menu/JSYG.Menu.js"></script>
+    <script src="index.js"></script>
+    <script>
+      "use strict"
+
+      //ReactDOM.render( React.createElement("div",null,"Hello world"), document.getElementById("content") )
+
+      const menus = $('#menus');
+
+      const urlImages = "node_modules/jsyg-menu/"
+
+      menus.jMenu([{
+              text:"simple element",
+              icon:"fa fa-modx",
+              action:function() {
+                  alert("click on simple element");
+              }
+          },{
+              text:"element with keyboard shortcut",
+              shortcut:"k",
+              icon:"fa fa-bar-chart",
+              action : function(e) {
+                  alert(e.type+' on element');
+              }
+          },{
+              text:"element with global keyboard shortcut",
+              icon: $('<img>').attr("src",urlImages + "icon.png"),
+              action : function(e) {
+                  alert(e.type+' on element');
+              },
+              globalShortcut:"ctrl+d"
+          },{
+              text:"element with sub-menu",
+              icon:$('<img>').attr("src",urlImages + "icon.svg"),
+              submenu:[{
+                      text:"disabled element",
+                      action : function() {
+                          alert("click on sub-element 1");
+                      },
+                      disabled:true,
+                  },{
+                      text:"menu stays after click",
+                      action : function() {
+                          console.log("click on sub-element 1");
+                      },
+                      keepMenu:true,
+                  },{
+                      text:"sub-element 2",
+                      submenu:[{
+                              text:"sub-sub-element 1",
+                              checkbox:true,
+                              action:function(e,val) {
+                                  alert("checkbox is "+ (val ? '' : 'un') + "checked")
+                              }
+                          },{
+                              text:"sub-sub-element 2",
+                              action : function() {
+                                  alert("click on sub-sub-element 2");
+                              }
+                          }]
+                  }]
+          },{
+              text:"element with submenu and shortcut",
+              shortcut:"s",
+              submenu:[{
+                      text:"checkbox element, keep menu visible",
+                      checkbox:true,
+                      keepMenu:true,
+                      action:function(e,val) {
+                          alert("checkbox is "+ (val ? '' : 'un') + "checked")
+                      }
+                  },{
+                      text:"sub-sub-element 2",
+                      action : function() {
+                          alert("click on sub-sub-element 2");
+                      }
+                  }]
+          },{
+              text:"checkbox element",
+              checkbox:true,
+              checked:true,
+              action:function(e,val) {
+                  alert("checkbox is "+ (val ? '' : 'un') + "checked")
+              }
+          }]);
+
+      $('button').on("click",function() { menus.jMenu("toggle"); });
+
+    </script>
+  </body>
+</html>

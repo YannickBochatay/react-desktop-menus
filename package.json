@@ -1,0 +1,32 @@
+{
+  "name": "react-jsyg-menu",
+  "version": "0.0.1",
+  "description": "react version of jsyg-menu",
+  "main": "index.js",
+  "dependencies": {
+    "jsyg-menu": "^0.4.6",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
+  },
+  "devDependencies": {
+    "font-awesome": "^4.7.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YannickBochatay/react-jsyg-menu.git"
+  },
+  "keywords": [
+    "react",
+    "menu",
+    "javascript"
+  ],
+  "author": "Yannick Bochatay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YannickBochatay/react-jsyg-menu/issues"
+  },
+  "homepage": "https://github.com/YannickBochatay/react-jsyg-menu#readme"
+}
