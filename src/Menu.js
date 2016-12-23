@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from "react"
+import MenuItem from "./MenuItem"
+import Divider from "./Divider"
 
 const baseStyle = {
   position : "absolute",
@@ -101,17 +103,26 @@ class Menu extends Component {
 
   renderChildren() {
 
-    return React.Children.map(this.props.children, (child, i) => (
-      React.cloneElement(
+    let index = -1
+
+    return React.Children.map(this.props.children, child => {
+
+      if (child.type === Divider) return child
+
+      index++
+
+      return React.cloneElement(
         child,
         {
-          onMouseOver : this.handleMouseOver.bind(this, i),
+          onMouseOver : this.handleMouseOver.bind(this, index),
           display : this.props.display,
-          active : i === this.state.itemActive,
-          ref : elmt => this.items[i] = elmt,
-          submenuDisplay : i === this.state.itemActive && this.state.submenuDisplay
-        })
-    ))
+          active : index === this.state.itemActive,
+          ref : elmt => this.items[index] = elmt,
+          submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay
+        }
+      )
+
+    })
 
   }
 
