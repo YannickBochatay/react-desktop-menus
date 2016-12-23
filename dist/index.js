@@ -34,9 +34,10 @@ ReactDOM.render(React.createElement(
     { action: action, key: 5, icon: "fa fa-modx", shortcut: "s" },
     " Shortcut "
   ),
+  React.createElement(ReactMenu.Divider, null),
   React.createElement(
     ReactMenu.Item,
-    { action: action, key: 6, checkbox: true },
+    { action: action, key: 6, checkbox: true, shortcut: "c" },
     " checkbox "
   ),
   React.createElement(
@@ -52,17 +53,12 @@ ReactDOM.render(React.createElement(
       null,
       React.createElement(
         ReactMenu.Item,
-        { action: action, key: 1 },
+        { action: action, key: 1, checkbox: true, shortcut: "h" },
         " Hello world "
       ),
       React.createElement(
         ReactMenu.Item,
-        { action: action, key: 2, disabled: true },
-        " Disabled "
-      ),
-      React.createElement(
-        ReactMenu.Item,
-        { action: action, key: 3, icon: "fa fa-bar-chart", label: "another submenu" },
+        { action: action, key: 2, icon: "fa fa-bar-chart", label: "another submenu" },
         React.createElement(
           ReactMenu,
           null,
@@ -78,8 +74,26 @@ ReactDOM.render(React.createElement(
           ),
           React.createElement(
             ReactMenu.Item,
-            { action: action, key: 3, icon: "fa fa-bar-chart" },
-            " Fa Icon "
+            { action: action, key: 3, icon: "fa fa-bar-chart", label: "submenu again" },
+            React.createElement(
+              ReactMenu,
+              null,
+              React.createElement(
+                ReactMenu.Item,
+                { action: action, key: 1 },
+                " Hello world "
+              ),
+              React.createElement(
+                ReactMenu.Item,
+                { action: action, key: 2, disabled: true },
+                " Disabled "
+              ),
+              React.createElement(
+                ReactMenu.Item,
+                { action: action, key: 3, icon: "fa fa-bar-chart" },
+                " Fa Icon "
+              )
+            )
           )
         )
       )

@@ -127,7 +127,7 @@
 
     handleMouseOut() {
 
-      // this.setState({ active : false })
+      this.setState({ active : false })
 
     }
 
@@ -238,7 +238,7 @@
 
     }
 
-    componentDidUpdate(prevPRops, prevState) {
+    componentDidUpdate(prevProps, prevState) {
 
       if (this.state.active && !prevState.active && this.hasSubmenu()) {
 
@@ -280,14 +280,19 @@
       delete rest.checkbox
       delete rest.icon
       delete rest.children
+      delete rest.active
+      delete rest.displaySubmenu
 
       return (
-        <li style={ { ...styles.li, ...style } } { ...rest } >
+        <li
+          { ...rest }
+          style={ { ...styles.li, ...style } }
+          onMouseOver={ this.handleMouseOver }
+          onMouseOut={ this.handleMouseOut }
+        >
           <a
             href="#"
             onClick={ !submenu && action ? this.handleAction : null }
-            onMouseOver={ this.handleMouseOver }
-            onMouseOut={ this.handleMouseOut }
             style={ this.getStyle() }
           >
             { submenu ? <span style={ styles.arrow }>▶</span> : "" }
@@ -314,7 +319,9 @@
     action : PropTypes.func,
     keepMenu : PropTypes.bool,
     checkbox : PropTypes.bool,
-    shortcut : PropTypes.string
+    shortcut : PropTypes.string,
+    active : PropTypes.bool,
+    displaySubmenu : PropTypes.bool
   }
 
   MenuItem.defaultProps = {
@@ -323,15 +330,55 @@
     disabled : false
   }
 
+  const Divider = ({ style, ...rest }) => {
+
+    delete rest.active
+    delete rest.displaySubmenu
+
+    return <li style={ { ...styles.divider, ...style } } { ...rest } />
+
+  }
+
+  Divider.propTypes = { style : PropTypes.object }
+
+  function isChildOf(elmt, parent) {
+
+    let testedElmt = elmt
+
+    while (testedElmt) {
+
+      if (testedElmt === parent) return true
+      testedElmt = testedElmt.parentNode
+
+    }
+
+    return false
+
+  }
+
+
   class Menu extends React.Component {
+
+    constructor(props) {
+
+      super(props)
+
+      this.items = []
+
+      this.state = { itemActive : null }
+
+    }
 
     render() {
 
-      const { display, style, ...rest } = this.props
+      const { display, style, children, ...rest } = this.props
 
       return (
-        <ul style={ { ...styles.ul, ...style, visibility : display ? "visible" : "hidden" } } { ...rest }>
-          { this.props.children }
+        <ul
+          style={ { ...styles.ul, ...style, visibility : display ? "visible" : "hidden" } }
+          { ...rest }
+        >
+          { children }
         </ul>
       )
 
@@ -350,5 +397,6 @@
   window.ReactMenu = Menu
 
   Menu.Item = MenuItem
+  Menu.Divider = Divider
 
 })()

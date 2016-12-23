@@ -145,8 +145,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       key: "handleMouseOut",
       value: function handleMouseOut() {
 
-        // this.setState({ active : false })
-
+        this.setState({ active: false });
       }
     }, {
       key: "componentWillMount",
@@ -267,7 +266,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }
     }, {
       key: "componentDidUpdate",
-      value: function componentDidUpdate(prevPRops, prevState) {
+      value: function componentDidUpdate(prevProps, prevState) {
 
         if (this.state.active && !prevState.active && this.hasSubmenu()) {
 
@@ -310,17 +309,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         delete rest.checkbox;
         delete rest.icon;
         delete rest.children;
+        delete rest.active;
+        delete rest.displaySubmenu;
 
         return React.createElement(
           "li",
-          _extends({ style: _extends({}, styles.li, style) }, rest),
+          _extends({}, rest, {
+            style: _extends({}, styles.li, style),
+            onMouseOver: this.handleMouseOver,
+            onMouseOut: this.handleMouseOut
+          }),
           React.createElement(
             "a",
             {
               href: "#",
               onClick: !submenu && action ? this.handleAction : null,
-              onMouseOver: this.handleMouseOver,
-              onMouseOut: this.handleMouseOut,
               style: this.getStyle()
             },
             submenu ? React.createElement(
@@ -352,7 +355,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     action: PropTypes.func,
     keepMenu: PropTypes.bool,
     checkbox: PropTypes.bool,
-    shortcut: PropTypes.string
+    shortcut: PropTypes.string,
+    active: PropTypes.bool,
+    displaySubmenu: PropTypes.bool
   };
 
   MenuItem.defaultProps = {
@@ -361,13 +366,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     disabled: false
   };
 
+  var Divider = function Divider(_ref) {
+    var style = _ref.style,
+        rest = _objectWithoutProperties(_ref, ["style"]);
+
+    delete rest.active;
+    delete rest.displaySubmenu;
+
+    return React.createElement("li", _extends({ style: _extends({}, styles.divider, style) }, rest));
+  };
+
+  Divider.propTypes = { style: PropTypes.object };
+
+  function isChildOf(elmt, parent) {
+
+    var testedElmt = elmt;
+
+    while (testedElmt) {
+
+      if (testedElmt === parent) return true;
+      testedElmt = testedElmt.parentNode;
+    }
+
+    return false;
+  }
+
   var Menu = function (_React$Component2) {
     _inherits(Menu, _React$Component2);
 
-    function Menu() {
+    function Menu(props) {
       _classCallCheck(this, Menu);
 
-      return _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).apply(this, arguments));
+      var _this3 = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+
+      _this3.items = [];
+
+      _this3.state = { itemActive: null };
+
+      return _this3;
     }
 
     _createClass(Menu, [{
@@ -376,12 +412,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var _props4 = this.props,
             display = _props4.display,
             style = _props4.style,
-            rest = _objectWithoutProperties(_props4, ["display", "style"]);
+            children = _props4.children,
+            rest = _objectWithoutProperties(_props4, ["display", "style", "children"]);
 
         return React.createElement(
           "ul",
-          _extends({ style: _extends({}, styles.ul, style, { visibility: display ? "visible" : "hidden" }) }, rest),
-          this.props.children
+          _extends({
+            style: _extends({}, styles.ul, style, { visibility: display ? "visible" : "hidden" })
+          }, rest),
+          children
         );
       }
     }]);
@@ -400,4 +439,5 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   window.ReactMenu = Menu;
 
   Menu.Item = MenuItem;
+  Menu.Divider = Divider;
 })();
