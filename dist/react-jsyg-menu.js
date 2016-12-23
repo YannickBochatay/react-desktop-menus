@@ -103,11 +103,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       _this.handleAction = _this.handleAction.bind(_this);
       _this.handleKeyPress = _this.handleKeyPress.bind(_this);
       _this.handleMouseOver = _this.handleMouseOver.bind(_this);
-      _this.handleMouseOut = _this.handleMouseOut.bind(_this);
 
       _this.state = {
         checked: false,
-        active: false,
         submenuPosition: { left: 0, top: 0 }
       };
 
@@ -124,10 +122,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         if (this.props.action) this.props.action(e, !this.state.checked);
 
-        this.setState({
-          active: true,
-          checked: !this.state.checked
-        });
+        this.setState({ checked: !this.state.checked });
       }
     }, {
       key: "handleKeyPress",
@@ -137,24 +132,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }
     }, {
       key: "handleMouseOver",
-      value: function handleMouseOver() {
+      value: function handleMouseOver(e) {
 
-        this.setState({ active: true });
-      }
-    }, {
-      key: "handleMouseOut",
-      value: function handleMouseOut() {
-
-        this.setState({ active: false });
+        if (this.props.onMouseOver) this.props.onMouseOver(e);
       }
     }, {
       key: "componentWillMount",
       value: function componentWillMount() {
 
-        this.setState({
-          checked: this.props.defaultChecked,
-          active: this.props.defaultActive
-        });
+        this.setState({ checked: this.props.defaultChecked });
       }
     }, {
       key: "componentDidMount",
@@ -177,7 +163,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         var stateStyle = _extends({}, styles.a);
 
-        if (this.state.active) stateStyle = _extends({}, stateStyle, styles.active);
+        if (this.props.active) stateStyle = _extends({}, stateStyle, styles.active);
 
         if (this.props.disabled) stateStyle = _extends({}, stateStyle, styles.disabled);
 
@@ -249,7 +235,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var _this2 = this;
 
         return React.cloneElement(this.props.children, {
-          display: this.state.active,
+          display: this.props.display && this.props.active,
           style: _extends({ position: "absolute" }, this.state.submenuPosition),
           ref: function ref(node) {
             return _this2.submenu = node;
@@ -266,9 +252,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }
     }, {
       key: "componentDidUpdate",
-      value: function componentDidUpdate(prevProps, prevState) {
+      value: function componentDidUpdate(prevProps) {
 
-        if (this.state.active && !prevState.active && this.hasSubmenu()) {
+        if (this.props.active && !prevProps.active && this.hasSubmenu()) {
 
           this.setSubmenuPosition();
         }
@@ -310,7 +296,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         delete rest.icon;
         delete rest.children;
         delete rest.active;
-        delete rest.displaySubmenu;
+        delete rest.display;
 
         return React.createElement(
           "li",
@@ -357,13 +343,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     checkbox: PropTypes.bool,
     shortcut: PropTypes.string,
     active: PropTypes.bool,
-    displaySubmenu: PropTypes.bool
+    onMouseOver: PropTypes.func,
+    onMouseOut: PropTypes.func,
+    display: PropTypes.bool
   };
 
   MenuItem.defaultProps = {
     defaultActive: false,
     defaultChecked: false,
-    disabled: false
+    disabled: false,
+    display: true
   };
 
   var Divider = function Divider(_ref) {
@@ -371,25 +360,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         rest = _objectWithoutProperties(_ref, ["style"]);
 
     delete rest.active;
-    delete rest.displaySubmenu;
 
     return React.createElement("li", _extends({ style: _extends({}, styles.divider, style) }, rest));
   };
 
   Divider.propTypes = { style: PropTypes.object };
-
-  function isChildOf(elmt, parent) {
-
-    var testedElmt = elmt;
-
-    while (testedElmt) {
-
-      if (testedElmt === parent) return true;
-      testedElmt = testedElmt.parentNode;
-    }
-
-    return false;
-  }
 
   var Menu = function (_React$Component2) {
     _inherits(Menu, _React$Component2);
@@ -399,28 +374,94 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
       var _this3 = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
 
-      _this3.items = [];
-
       _this3.state = { itemActive: null };
+
+      _this3.handleKeyDown = _this3.handleKeyDown.bind(_this3);
 
       return _this3;
     }
 
     _createClass(Menu, [{
+      key: "handleMouseOver",
+      value: function handleMouseOver(i) {
+
+        this.setState({ itemActive: i });
+      }
+    }, {
+      key: "handleKeyDown",
+      value: function handleKeyDown(e) {
+
+        if (!this.props.display) return;
+
+        var length = React.Children.count(this.props.children);
+        var current = this.state.itemActive;
+
+        var newValue = null;
+
+        switch (e.code) {
+
+          case "ArrowDown":
+
+            if (current === null || current + 1 >= length) newValue = 0;else newValue = current + 1;
+            break;
+
+          case "ArrowUp":
+
+            if (current === null || current - 1 < 0) newValue = length - 1;else newValue = current - 1;
+            break;
+
+          case "Enter":
+
+            break;
+
+          default:
+
+            break;
+        }
+
+        if (newValue !== null) this.setState({ itemActive: newValue });
+      }
+    }, {
+      key: "renderChildren",
+      value: function renderChildren() {
+        var _this4 = this;
+
+        return React.Children.map(this.props.children, function (child, i) {
+          return React.cloneElement(child, {
+            onMouseOver: _this4.handleMouseOver.bind(_this4, i),
+            display: _this4.props.display,
+            active: i === _this4.state.itemActive
+          });
+        });
+      }
+    }, {
+      key: "componentDidMount",
+      value: function componentDidMount() {
+
+        document.addEventListener("keydown", this.handleKeyDown);
+      }
+    }, {
+      key: "componentWilluount",
+      value: function componentWilluount() {
+
+        document.removeEventListener("keydown", this.handleKeyDown);
+      }
+    }, {
       key: "render",
       value: function render() {
         var _props4 = this.props,
             display = _props4.display,
             style = _props4.style,
-            children = _props4.children,
-            rest = _objectWithoutProperties(_props4, ["display", "style", "children"]);
+            rest = _objectWithoutProperties(_props4, ["display", "style"]);
+
+        delete rest.children;
 
         return React.createElement(
           "ul",
           _extends({
             style: _extends({}, styles.ul, style, { visibility: display ? "visible" : "hidden" })
           }, rest),
-          children
+          this.renderChildren()
         );
       }
     }]);

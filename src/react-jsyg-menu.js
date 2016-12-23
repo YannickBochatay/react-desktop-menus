@@ -88,11 +88,9 @@
       this.handleAction = this.handleAction.bind(this)
       this.handleKeyPress = this.handleKeyPress.bind(this)
       this.handleMouseOver = this.handleMouseOver.bind(this)
-      this.handleMouseOut = this.handleMouseOut.bind(this)
 
       this.state = {
         checked : false,
-        active : false,
         submenuPosition : { left : 0, top : 0 }
       }
 
@@ -106,10 +104,7 @@
 
       if (this.props.action) this.props.action(e, !this.state.checked)
 
-      this.setState({
-        active : true,
-        checked : !this.state.checked
-      })
+      this.setState({ checked : !this.state.checked })
 
     }
 
@@ -119,24 +114,15 @@
 
     }
 
-    handleMouseOver() {
+    handleMouseOver(e) {
 
-      this.setState({ active : true })
-
-    }
-
-    handleMouseOut() {
-
-      this.setState({ active : false })
+      if (this.props.onMouseOver) this.props.onMouseOver(e)
 
     }
 
     componentWillMount() {
 
-      this.setState({
-        checked : this.props.defaultChecked,
-        active : this.props.defaultActive
-      })
+      this.setState({ checked : this.props.defaultChecked })
 
     }
 
@@ -160,7 +146,7 @@
 
       let stateStyle = { ...styles.a }
 
-      if (this.state.active) stateStyle = { ...stateStyle, ...styles.active }
+      if (this.props.active) stateStyle = { ...stateStyle, ...styles.active }
 
       if (this.props.disabled) stateStyle = { ...stateStyle, ...styles.disabled }
 
@@ -223,7 +209,7 @@
     createSubmenu() {
 
       return React.cloneElement(this.props.children, {
-        display : this.state.active,
+        display : this.props.display && this.props.active,
         style : { position : "absolute", ...this.state.submenuPosition },
         ref : node => this.submenu = node
       })
@@ -238,9 +224,9 @@
 
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
 
-      if (this.state.active && !prevState.active && this.hasSubmenu()) {
+      if (this.props.active && !prevProps.active && this.hasSubmenu()) {
 
         this.setSubmenuPosition()
 
@@ -281,7 +267,7 @@
       delete rest.icon
       delete rest.children
       delete rest.active
-      delete rest.displaySubmenu
+      delete rest.display
 
       return (
         <li
@@ -321,40 +307,27 @@
     checkbox : PropTypes.bool,
     shortcut : PropTypes.string,
     active : PropTypes.bool,
-    displaySubmenu : PropTypes.bool
+    onMouseOver : PropTypes.func,
+    onMouseOut : PropTypes.func,
+    display : PropTypes.bool
   }
 
   MenuItem.defaultProps = {
     defaultActive : false,
     defaultChecked : false,
-    disabled : false
+    disabled : false,
+    display : true
   }
 
   const Divider = ({ style, ...rest }) => {
 
     delete rest.active
-    delete rest.displaySubmenu
 
     return <li style={ { ...styles.divider, ...style } } { ...rest } />
 
   }
 
   Divider.propTypes = { style : PropTypes.object }
-
-  function isChildOf(elmt, parent) {
-
-    let testedElmt = elmt
-
-    while (testedElmt) {
-
-      if (testedElmt === parent) return true
-      testedElmt = testedElmt.parentNode
-
-    }
-
-    return false
-
-  }
 
 
   class Menu extends React.Component {
@@ -363,22 +336,92 @@
 
       super(props)
 
-      this.items = []
-
       this.state = { itemActive : null }
+
+      this.handleKeyDown = this.handleKeyDown.bind(this)
+
+    }
+
+    handleMouseOver(i) {
+
+      this.setState({ itemActive : i })
+
+    }
+
+    handleKeyDown(e) {
+
+      if (!this.props.display) return
+
+      const length = React.Children.count(this.props.children)
+      const current = this.state.itemActive
+
+      let newValue = null
+
+      switch (e.code) {
+
+      case "ArrowDown" :
+
+        if (current === null || current + 1 >= length) newValue = 0
+        else newValue = current + 1
+        break
+
+      case "ArrowUp" :
+
+        if (current === null || current - 1 < 0) newValue = length - 1
+        else newValue = current - 1
+        break
+
+      case "Enter" :
+
+        break
+
+      default :
+
+        break
+      }
+
+      if (newValue !== null) this.setState({ itemActive : newValue })
+
+    }
+
+    renderChildren() {
+
+      return React.Children.map(this.props.children, (child, i) => (
+        React.cloneElement(
+          child,
+          {
+            onMouseOver : this.handleMouseOver.bind(this, i),
+            display : this.props.display,
+            active : i === this.state.itemActive
+          })
+      ))
+
+    }
+
+    componentDidMount() {
+
+      document.addEventListener("keydown", this.handleKeyDown)
+
+    }
+
+    componentWilluount() {
+
+      document.removeEventListener("keydown", this.handleKeyDown)
 
     }
 
     render() {
 
-      const { display, style, children, ...rest } = this.props
+      const { display, style, ...rest } = this.props
+
+      delete rest.children
 
       return (
         <ul
           style={ { ...styles.ul, ...style, visibility : display ? "visible" : "hidden" } }
           { ...rest }
         >
-          { children }
+          { this.renderChildren() }
         </ul>
       )
 

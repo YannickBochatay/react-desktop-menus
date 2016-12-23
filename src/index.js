@@ -13,7 +13,7 @@ ReactDOM.render(
     <ReactMenu.Divider/>
     <ReactMenu.Item action={ action } key={ 6 } checkbox shortcut="c"> checkbox </ReactMenu.Item>
     <ReactMenu.Item action={ action } key={ 7 } checkbox defaultChecked> checkbox checked </ReactMenu.Item>
-    <ReactMenu.Item key={ 8 } label="sub-menu">
+    <ReactMenu.Item key={ 8 } label="sub-menu"  shortcut="m">
       <ReactMenu>
         <ReactMenu.Item action={ action } key={ 1 } checkbox shortcut="h"> Hello world </ReactMenu.Item>
         <ReactMenu.Item action={ action } key={ 2 } icon="fa fa-bar-chart" label="another submenu">

@@ -47,7 +47,7 @@ ReactDOM.render(React.createElement(
   ),
   React.createElement(
     ReactMenu.Item,
-    { key: 8, label: "sub-menu" },
+    { key: 8, label: "sub-menu", shortcut: "m" },
     React.createElement(
       ReactMenu,
       null,
