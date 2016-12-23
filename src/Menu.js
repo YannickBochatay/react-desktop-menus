@@ -23,6 +23,8 @@ class Menu extends Component {
 
     this.handleKeyDown = this.handleKeyDown.bind(this)
 
+    this.items = []
+
   }
 
   handleMouseOver(i) {
@@ -33,7 +35,11 @@ class Menu extends Component {
 
       this.setState({ itemActive : i, submenuDisplay : false })
 
-      this.delay = window.setTimeout(() => this.setState({ submenuDisplay : true }), 300)
+      if (this.items[i] && this.items[i].hasSubmenu && this.items[i].hasSubmenu()) {
+
+        this.delay = window.setTimeout(() => this.setState({ submenuDisplay : true }), 300)
+
+      }
 
     }
 
@@ -41,10 +47,13 @@ class Menu extends Component {
 
   handleKeyDown(e) {
 
-    if (!this.props.display || this.state.submenuDisplay) return
+    if (!this.props.display) return
 
     const length = React.Children.count(this.props.children)
     const current = this.state.itemActive
+    const { submenuDisplay } = this.state
+    const currentElmt = this.items[current]
+    const hasSubmenu = currentElmt && currentElmt.hasSubmenu && currentElmt.hasSubmenu()
 
     let newValue = null
 
@@ -52,18 +61,33 @@ class Menu extends Component {
 
     case "ArrowDown" :
 
+      if (submenuDisplay) return
+
       if (current === null || current + 1 >= length) newValue = 0
       else newValue = current + 1
       break
 
     case "ArrowUp" :
 
+      if (submenuDisplay) return
+
       if (current === null || current - 1 < 0) newValue = length - 1
       else newValue = current - 1
       break
 
+    case "ArrowLeft" :
+
+      if (submenuDisplay) this.setState({ submenuDisplay : false })
+      break
+
+    case "ArrowRight" :
+
+      if (hasSubmenu) this.setState({ submenuDisplay : true })
+      break
+
     case "Enter" :
 
+      if (!submenuDisplay && currentElmt.handleAction) currentElmt.handleAction(e)
       break
 
     default :
@@ -84,6 +108,7 @@ class Menu extends Component {
           onMouseOver : this.handleMouseOver.bind(this, i),
           display : this.props.display,
           active : i === this.state.itemActive,
+          ref : elmt => this.items[i] = elmt,
           submenuDisplay : i === this.state.itemActive && this.state.submenuDisplay
         })
     ))
@@ -96,7 +121,7 @@ class Menu extends Component {
 
   }
 
-  componentWilluount() {
+  componentWillUnmount() {
 
     document.removeEventListener("keydown", this.handleKeyDown)
 

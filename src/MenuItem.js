@@ -238,8 +238,6 @@ class MenuItem extends React.Component {
 
     delete rest.disabled
     delete rest.action
-    delete rest.defaultChecked
-    delete rest.defaultActive
     delete rest.disabled
     delete rest.shortcut
     delete rest.checkbox
@@ -247,6 +245,7 @@ class MenuItem extends React.Component {
     delete rest.children
     delete rest.active
     delete rest.display
+    delete rest.submenuDisplay
 
     return (
       <li
@@ -288,8 +287,6 @@ MenuItem.propTypes = {
 }
 
 MenuItem.defaultProps = {
-  defaultActive : false,
-  defaultChecked : false,
   disabled : false,
   display : true,
   submenuDisplay : false
