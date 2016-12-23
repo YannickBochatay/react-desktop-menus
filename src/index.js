@@ -1,37 +1,42 @@
-/* eslint-disable */
+import React from "react"
+import ReactDOM from "react-dom"
+import Menu from "./Menu"
+import Item from "./MenuItem"
+import Divider from "./Divider"
 
 const action = () => alert("hello world")
+const img = <img src="node_modules/jsyg-menu/icon.png" style={ { width : 16 } }/>
 
 ReactDOM.render(
 
-  <ReactMenu>
-    <ReactMenu.Item action={ action } key={ 1 }> Hello world </ReactMenu.Item>
-    <ReactMenu.Item action={ action } key={ 2 } disabled> Disabled </ReactMenu.Item>
-    <ReactMenu.Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </ReactMenu.Item>
-    <ReactMenu.Item action={ action } key={ 4 } icon={ <img src="node_modules/jsyg-menu/icon.png" style={{width:16}}/>}> Custom Icon </ReactMenu.Item>
-    <ReactMenu.Item action={ action } key={ 5 } icon="fa fa-modx" shortcut="s"> Shortcut </ReactMenu.Item>
-    <ReactMenu.Divider/>
-    <ReactMenu.Item action={ action } key={ 6 } checkbox shortcut="c"> checkbox </ReactMenu.Item>
-    <ReactMenu.Item action={ action } key={ 7 } checkbox defaultChecked> checkbox checked </ReactMenu.Item>
-    <ReactMenu.Item key={ 8 } label="sub-menu"  shortcut="m">
-      <ReactMenu>
-        <ReactMenu.Item action={ action } key={ 1 } checkbox shortcut="h"> Hello world </ReactMenu.Item>
-        <ReactMenu.Item action={ action } key={ 2 } icon="fa fa-bar-chart" label="another submenu">
-          <ReactMenu>
-            <ReactMenu.Item action={ action } key={ 1 }> Hello world </ReactMenu.Item>
-            <ReactMenu.Item action={ action } key={ 2 } disabled> Disabled </ReactMenu.Item>
-            <ReactMenu.Item action={ action } key={ 3 } icon="fa fa-bar-chart" label="submenu again">
-              <ReactMenu>
-                <ReactMenu.Item action={ action } key={ 1 }> Hello world </ReactMenu.Item>
-                <ReactMenu.Item action={ action } key={ 2 } disabled> Disabled </ReactMenu.Item>
-                <ReactMenu.Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </ReactMenu.Item>
-              </ReactMenu>
-            </ReactMenu.Item>
-          </ReactMenu>
-        </ReactMenu.Item>
-      </ReactMenu>
-    </ReactMenu.Item>
-  </ReactMenu>,
+  <Menu>
+    <Item action={ action } key={ 1 }> Hello world </Item>
+    <Item action={ action } key={ 2 } disabled> Disabled </Item>
+    <Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </Item>
+    <Item action={ action } key={ 4 } icon={ img }> Custom Icon </Item>
+    <Item action={ action } key={ 5 } icon="fa fa-modx" shortcut="s"> Shortcut </Item>
+    <Divider/>
+    <Item action={ action } key={ 6 } checkbox shortcut="c"> checkbox </Item>
+    <Item action={ action } key={ 7 } checkbox defaultChecked> checkbox checked </Item>
+    <Item key={ 8 } label="sub-menu" shortcut="m">
+      <Menu>
+        <Item action={ action } key={ 1 } checkbox shortcut="h"> Hello world </Item>
+        <Item action={ action } key={ 2 } icon="fa fa-bar-chart" label="another submenu">
+          <Menu>
+            <Item action={ action } key={ 1 }> Hello world </Item>
+            <Item action={ action } key={ 2 } disabled> Disabled </Item>
+            <Item action={ action } key={ 3 } icon="fa fa-bar-chart" label="submenu again">
+              <Menu>
+                <Item action={ action } key={ 1 }> Hello world </Item>
+                <Item action={ action } key={ 2 } disabled> Disabled </Item>
+                <Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </Item>
+              </Menu>
+            </Item>
+          </Menu>
+        </Item>
+      </Menu>
+    </Item>
+  </Menu>,
 
   document.getElementById("content")
 )
