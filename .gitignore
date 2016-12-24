@@ -1,5 +1,4 @@
 npm-debug.log*
 .grunt
 .npm
-build
 node_modules

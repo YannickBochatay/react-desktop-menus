@@ -1,10 +1,9 @@
 {
-  "name": "react-jsyg-menu",
+  "name": "react-desktop-menus",
   "version": "0.0.1",
-  "description": "react version of jsyg-menu",
-  "main": "index.js",
+  "description": "desktop app menus with react",
+  "main": "lib/index.js",
   "dependencies": {
-    "jsyg-menu": "^0.4.6",
     "react": "^15.4.1",
     "react-dom": "^15.4.1"
   },
@@ -16,6 +15,7 @@
     "babel-preset-env": "^1.1.4",
     "babel-preset-react": "^6.16.0",
     "babelify": "^7.3.0",
+    "bootstrap": "^3.3.7",
     "browserify": "^13.1.1",
     "eslint": "^3.12.2",
     "eslint-plugin-react": "^6.8.0",
@@ -23,13 +23,13 @@
     "watchify": "^3.8.0"
   },
   "scripts": {
-    "build": "babel src -d dist",
-    "start": "browserify src/index.js -v -t babelify -o build/bundle.js",
+    "build:lib": "babel src -d lib",
+    "build:ex": "browserify src/example.js -v -t babelify -o build/bundle.js",
     "lint": "eslint src --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YannickBochatay/react-jsyg-menu.git"
+    "url": "git+https://github.com/YannickBochatay/react-desktop-menus.git"
   },
   "keywords": [
     "react",
@@ -39,7 +39,7 @@
   "author": "Yannick Bochatay",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/YannickBochatay/react-jsyg-menu/issues"
+    "url": "https://github.com/YannickBochatay/react-desktop-menus/issues"
   },
-  "homepage": "https://github.com/YannickBochatay/react-jsyg-menu#readme"
+  "homepage": "https://github.com/YannickBochatay/react-desktop-menus#readme"
 }
