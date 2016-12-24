@@ -9,19 +9,14 @@ const styles = {
     whiteSpace : "nowrap",
     lineHeight : "140%",
     padding : "2px 5px",
-    cursor : "default"
+    cursor : "default",
+    display : "flex",
+    alignItems : "center"
   },
 
   icon : {
-    display : "inline-block",
     width : 16,
-    verticalAlign : "middle"
-  },
-
-  checkbox : {
-    display : "inline-block",
-    width : 16,
-    verticalAlign : "middle",
+    marginRight : 5,
     color : "black"
   },
 
@@ -35,19 +30,14 @@ const styles = {
 
   disabledActive : { backgroundColor : "#eee" },
 
-  globalShortcut : {
-    color : "gray",
-    display : "inline-block",
-    float : "right"
+  info : { color : "gray" },
+
+  label : {
+    marginRight : 15,
+    flex : 1
   },
 
-  label : { marginRight : 15 },
-
-  arrow : {
-    display : "inline-block",
-    float : "right",
-    fontSize : 9
-  }
+  arrow : { fontSize : 9 }
 }
 
 
@@ -106,25 +96,27 @@ class MenuItem extends React.Component {
 
     const { shortcut, label } = this.props
 
-    if (!label) return null
+    if (React.isValidElement(label)) {
 
-    if (shortcut) {
+      return React.cloneElement(label, { style : { ...styles.label, ...label.props.style } })
 
-      const index = label.toLowerCase().indexOf(shortcut.toLowerCase())
+    } else if (typeof label === "string") {
 
-      return (
-        <span style={ styles.label }>
-          { label.slice(0, index) }
-          <u>{ label.slice(index, index + 1) }</u>
-          { label.slice(index + 1) }
-        </span>
-      )
+      if (shortcut) {
 
-    } else {
+        const index = label.toLowerCase().indexOf(shortcut.toLowerCase())
 
-      return <span style={ styles.label }>{ label }</span>
+        return (
+          <span style={ styles.label }>
+            { label.slice(0, index) }
+            <u>{ label.slice(index, index + 1) }</u>
+            { label.slice(index + 1) }
+          </span>
+        )
 
-    }
+      } else return <span style={ styles.label }>{ label }</span>
+
+    } else return null
 
   }
 
@@ -136,14 +128,14 @@ class MenuItem extends React.Component {
     if (checkbox) {
 
       return (
-        <span style={ styles.checkbox }>
+        <span style={ styles.icon }>
           { checked ? "☑" : "☐" }
         </span>
       )
 
     } else if (typeof icon === "string") {
 
-      return <i className={ icon }/>
+      return <i className={ icon } style={ styles.icon }/>
 
     } else if (React.isValidElement(icon)) {
 
@@ -157,10 +149,26 @@ class MenuItem extends React.Component {
 
   }
 
+  createInfo() {
+
+    const { info } = this.props
+
+    if (React.isValidElement(info)) {
+
+      return React.cloneElement(info, { style : { ...styles.info, ...info.props.style } })
+
+    } else if (typeof info === "string") {
+
+      return <span style={ styles.info }>{ info }</span>
+
+    } else return null
+
+  }
+
   createSubmenu(child) {
 
     return React.cloneElement(child, {
-      display : this.props.display && this.props.submenuDisplay,
+      display : this.props.submenuDisplay,
       style : { position : "absolute", ...this.state.submenuPosition },
       ref : node => this.submenu = node
     })
@@ -236,10 +244,11 @@ class MenuItem extends React.Component {
         onMouseOver={ this.handleMouseOver }
         onClick={ !submenu && action ? this.handleAction : null }
       >
-        { submenu ? <span style={ styles.arrow }>▶</span> : "" }
         { this.createIcon() }
         { this.createLabel() }
         { this.renderChildren() }
+        { this.createInfo() }
+        { submenu ? <span style={ styles.arrow }>▶</span> : "" }
       </li>
     )
 
@@ -248,17 +257,16 @@ class MenuItem extends React.Component {
 
 MenuItem.propTypes = {
   icon : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  info : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  label : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   style : PropTypes.object,
-  label : PropTypes.string,
   children : PropTypes.node,
   disabled : PropTypes.bool,
   action : PropTypes.func,
-  keepMenu : PropTypes.bool,
   checkbox : PropTypes.bool,
   shortcut : PropTypes.string,
   onMouseOver : PropTypes.func,
   onMouseOut : PropTypes.func,
-  display : PropTypes.bool,
   active : PropTypes.bool,
   submenuDisplay : PropTypes.bool,
   defaultChecked : PropTypes.bool
@@ -266,7 +274,6 @@ MenuItem.propTypes = {
 
 MenuItem.defaultProps = {
   disabled : false,
-  display : true,
   submenuDisplay : false
 }
 

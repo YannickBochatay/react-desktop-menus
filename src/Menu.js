@@ -145,7 +145,6 @@ class Menu extends Component {
           child,
           {
             onMouseOver : this.handleMouseOver.bind(this, index),
-            display : this.props.display,
             active : index === this.state.itemActive,
             ref : this.setRef.bind(this, index),
             submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay
@@ -186,8 +185,8 @@ class Menu extends Component {
 
     return (
       <ul
-        style={ { ...baseStyle, ...style, visibility : display ? "visible" : "hidden" } }
         { ...rest }
+        style={ { ...baseStyle, ...style } }
       >
         { this.renderChildren() }
       </ul>
