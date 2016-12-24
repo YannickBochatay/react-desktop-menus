@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react"
 import ReactDOM from "react-dom"
+import Menu from "./Menu"
 
 const styles = {
 
@@ -41,6 +42,8 @@ const styles = {
     fontStyle : "italic",
     cursor : "not-allowed"
   },
+
+  disabledActive : { backgroundColor : "#eee" },
 
   globalShortcut : {
     color : "gray",
@@ -99,12 +102,6 @@ class MenuItem extends React.Component {
 
   }
 
-  componentWillMount() {
-
-    this.setState({ checked : this.props.defaultChecked })
-
-  }
-
   componentDidMount() {
 
     if (this.props.shortcut) {
@@ -123,11 +120,16 @@ class MenuItem extends React.Component {
 
   getStyle() {
 
+    const { active, disabled } = this.props
+
     let stateStyle = { ...styles.a }
 
-    if (this.props.active) stateStyle = { ...stateStyle, ...styles.active }
+    if (active) {
 
-    if (this.props.disabled) stateStyle = { ...stateStyle, ...styles.disabled }
+      if (disabled) stateStyle = { ...stateStyle, ...styles.disabled, ...styles.disabledActive }
+      else stateStyle = { ...stateStyle, ...styles.active }
+
+    } else if (disabled) stateStyle = { ...stateStyle, ...styles.disabled }
 
     return stateStyle
 
@@ -197,20 +199,23 @@ class MenuItem extends React.Component {
 
   hasSubmenu() {
 
-    const { children } = this.props
-
-    return children && typeof children !== "string"
+    return React.Children.toArray(this.props.children).some(child => child.type === Menu)
 
   }
 
   componentDidUpdate(prevProps) {
 
-    if (this.props.active && !prevProps.active && this.hasSubmenu()) {
+    if (this.props.submenuDisplay && !prevProps.submenuDisplay) {
 
       this.setSubmenuPosition()
 
     }
 
+  }
+
+  componentWillMount() {
+
+    this.setState({ checked : this.props.defaultChecked })
   }
 
   setSubmenuPosition() {
@@ -246,6 +251,7 @@ class MenuItem extends React.Component {
     delete rest.active
     delete rest.display
     delete rest.submenuDisplay
+    delete rest.defaultChecked
 
     return (
       <li
@@ -283,7 +289,8 @@ MenuItem.propTypes = {
   onMouseOut : PropTypes.func,
   display : PropTypes.bool,
   active : PropTypes.bool,
-  submenuDisplay : PropTypes.bool
+  submenuDisplay : PropTypes.bool,
+  defaultChecked : PropTypes.bool
 }
 
 MenuItem.defaultProps = {

@@ -17,7 +17,7 @@ ReactDOM.render(
     <Item action={ action } key={ 5 } icon="fa fa-modx" shortcut="s"> Shortcut </Item>
     <Divider/>
     <Item action={ action } key={ 6 } checkbox shortcut="c"> checkbox </Item>
-    <Item action={ action } key={ 7 } checkbox defaultChecked> checkbox checked </Item>
+    <Item action={ action } key={ 7 } checkbox checked> checkbox checked </Item>
     <Item key={ 8 } label="sub-menu" shortcut="m">
       <Menu>
         <Item action={ action } key={ 1 } checkbox shortcut="h"> Hello world </Item>

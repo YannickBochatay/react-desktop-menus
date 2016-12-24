@@ -12,6 +12,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _MenuItem = require("./MenuItem");
+
+var _MenuItem2 = _interopRequireDefault(_MenuItem);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -46,6 +50,8 @@ var Menu = function (_Component) {
 
     _this.handleKeyDown = _this.handleKeyDown.bind(_this);
 
+    _this.items = [];
+
     return _this;
   }
 
@@ -60,19 +66,28 @@ var Menu = function (_Component) {
 
         this.setState({ itemActive: i, submenuDisplay: false });
 
-        this.delay = window.setTimeout(function () {
-          return _this2.setState({ submenuDisplay: true });
-        }, 300);
+        var currentElmt = this.items[i];
+
+        if (currentElmt && currentElmt.hasSubmenu && currentElmt.hasSubmenu()) {
+
+          this.delay = window.setTimeout(function () {
+            return _this2.setState({ submenuDisplay: true });
+          }, 300);
+        }
       }
     }
   }, {
     key: "handleKeyDown",
     value: function handleKeyDown(e) {
 
-      if (!this.props.display || this.state.submenuDisplay) return;
+      if (!this.props.display) return;
 
       var length = _react2.default.Children.count(this.props.children);
       var current = this.state.itemActive;
+      var submenuDisplay = this.state.submenuDisplay;
+
+      var currentElmt = this.items[current];
+      var hasSubmenu = currentElmt && currentElmt.hasSubmenu && currentElmt.hasSubmenu();
 
       var newValue = null;
 
@@ -80,16 +95,34 @@ var Menu = function (_Component) {
 
         case "ArrowDown":
 
+          if (submenuDisplay) return;
+
           if (current === null || current + 1 >= length) newValue = 0;else newValue = current + 1;
           break;
 
         case "ArrowUp":
 
+          if (submenuDisplay) return;
+
           if (current === null || current - 1 < 0) newValue = length - 1;else newValue = current - 1;
+          break;
+
+        case "ArrowLeft":case "Escape":
+
+          if (submenuDisplay) this.setState({ submenuDisplay: false });
+          break;
+
+        case "ArrowRight":
+
+          if (hasSubmenu) this.setState({ submenuDisplay: true });
           break;
 
         case "Enter":
 
+          if (!submenuDisplay) {
+
+            if (hasSubmenu) this.setState({ submenuDisplay: true });else if (currentElmt && currentElmt.handleAction) currentElmt.handleAction(e);
+          }
           break;
 
         default:
@@ -100,17 +133,32 @@ var Menu = function (_Component) {
       if (newValue !== null) this.setState({ itemActive: newValue });
     }
   }, {
+    key: "setRef",
+    value: function setRef(i, elmt) {
+
+      this.items[i] = elmt;
+    }
+  }, {
     key: "renderChildren",
     value: function renderChildren() {
       var _this3 = this;
 
-      return _react2.default.Children.map(this.props.children, function (child, i) {
-        return _react2.default.cloneElement(child, {
-          onMouseOver: _this3.handleMouseOver.bind(_this3, i),
-          display: _this3.props.display,
-          active: i === _this3.state.itemActive,
-          submenuDisplay: i === _this3.state.itemActive && _this3.state.submenuDisplay
-        });
+      var index = -1;
+
+      return _react2.default.Children.map(this.props.children, function (child) {
+
+        if (child.type === _MenuItem2.default) {
+
+          index++;
+
+          return _react2.default.cloneElement(child, {
+            onMouseOver: _this3.handleMouseOver.bind(_this3, index),
+            display: _this3.props.display,
+            active: index === _this3.state.itemActive,
+            ref: _this3.setRef.bind(_this3, index),
+            submenuDisplay: index === _this3.state.itemActive && _this3.state.submenuDisplay
+          });
+        } else return child;
       });
     }
   }, {
@@ -120,10 +168,16 @@ var Menu = function (_Component) {
       document.addEventListener("keydown", this.handleKeyDown);
     }
   }, {
-    key: "componentWilluount",
-    value: function componentWilluount() {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
 
       document.removeEventListener("keydown", this.handleKeyDown);
+    }
+  }, {
+    key: "componentWillUpdate",
+    value: function componentWillUpdate(nextProps) {
+
+      if (!this.props.display && nextProps.display) this.setState({ itemActive: 0 });
     }
   }, {
     key: "render",
@@ -134,6 +188,8 @@ var Menu = function (_Component) {
           rest = _objectWithoutProperties(_props, ["display", "style"]);
 
       delete rest.children;
+
+      if (!display) return null;
 
       return _react2.default.createElement(
         "ul",

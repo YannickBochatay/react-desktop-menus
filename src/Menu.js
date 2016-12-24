@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from "react"
 import MenuItem from "./MenuItem"
-import Divider from "./Divider"
 
 const baseStyle = {
   position : "absolute",
@@ -37,7 +36,9 @@ class Menu extends Component {
 
       this.setState({ itemActive : i, submenuDisplay : false })
 
-      if (this.items[i] && this.items[i].hasSubmenu && this.items[i].hasSubmenu()) {
+      const currentElmt = this.items[i]
+
+      if (currentElmt && currentElmt.hasSubmenu && currentElmt.hasSubmenu()) {
 
         this.delay = window.setTimeout(() => this.setState({ submenuDisplay : true }), 300)
 
@@ -77,7 +78,7 @@ class Menu extends Component {
       else newValue = current - 1
       break
 
-    case "ArrowLeft" :
+    case "ArrowLeft" : case "Escape" :
 
       if (submenuDisplay) this.setState({ submenuDisplay : false })
       break
@@ -89,7 +90,12 @@ class Menu extends Component {
 
     case "Enter" :
 
-      if (!submenuDisplay && currentElmt.handleAction) currentElmt.handleAction(e)
+      if (!submenuDisplay) {
+
+        if (hasSubmenu) this.setState({ submenuDisplay : true })
+        else if (currentElmt && currentElmt.handleAction) currentElmt.handleAction(e)
+
+      }
       break
 
     default :
@@ -101,26 +107,34 @@ class Menu extends Component {
 
   }
 
+  setRef(i, elmt) {
+
+    this.items[i] = elmt
+
+  }
+
   renderChildren() {
 
     let index = -1
 
     return React.Children.map(this.props.children, child => {
 
-      if (child.type === Divider) return child
+      if (child.type === MenuItem) {
 
-      index++
+        index++
 
-      return React.cloneElement(
-        child,
-        {
-          onMouseOver : this.handleMouseOver.bind(this, index),
-          display : this.props.display,
-          active : index === this.state.itemActive,
-          ref : elmt => this.items[index] = elmt,
-          submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay
-        }
-      )
+        return React.cloneElement(
+          child,
+          {
+            onMouseOver : this.handleMouseOver.bind(this, index),
+            display : this.props.display,
+            active : index === this.state.itemActive,
+            ref : this.setRef.bind(this, index),
+            submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay
+          }
+        )
+
+      } else return child
 
     })
 
@@ -138,11 +152,19 @@ class Menu extends Component {
 
   }
 
+  componentWillUpdate(nextProps) {
+
+    if (!this.props.display && nextProps.display) this.setState({ itemActive : 0 })
+
+  }
+
   render() {
 
     const { display, style, ...rest } = this.props
 
     delete rest.children
+
+    if (!display) return null
 
     return (
       <ul

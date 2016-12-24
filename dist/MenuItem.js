@@ -16,6 +16,10 @@ var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _Menu = require("./Menu");
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -66,6 +70,8 @@ var styles = {
     fontStyle: "italic",
     cursor: "not-allowed"
   },
+
+  disabledActive: { backgroundColor: "#eee" },
 
   globalShortcut: {
     color: "gray",
@@ -127,12 +133,6 @@ var MenuItem = function (_React$Component) {
       if (this.props.onMouseOver) this.props.onMouseOver(e);
     }
   }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-
-      this.setState({ checked: this.props.defaultChecked });
-    }
-  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
 
@@ -150,21 +150,26 @@ var MenuItem = function (_React$Component) {
   }, {
     key: "getStyle",
     value: function getStyle() {
+      var _props = this.props,
+          active = _props.active,
+          disabled = _props.disabled;
+
 
       var stateStyle = _extends({}, styles.a);
 
-      if (this.props.active) stateStyle = _extends({}, stateStyle, styles.active);
+      if (active) {
 
-      if (this.props.disabled) stateStyle = _extends({}, stateStyle, styles.disabled);
+        if (disabled) stateStyle = _extends({}, stateStyle, styles.disabled, styles.disabledActive);else stateStyle = _extends({}, stateStyle, styles.active);
+      } else if (disabled) stateStyle = _extends({}, stateStyle, styles.disabled);
 
       return stateStyle;
     }
   }, {
     key: "createLabel",
     value: function createLabel() {
-      var _props = this.props,
-          shortcut = _props.shortcut,
-          children = _props.children;
+      var _props2 = this.props,
+          shortcut = _props2.shortcut,
+          children = _props2.children;
       var label = this.props.label;
 
 
@@ -197,9 +202,9 @@ var MenuItem = function (_React$Component) {
   }, {
     key: "createIcon",
     value: function createIcon() {
-      var _props2 = this.props,
-          icon = _props2.icon,
-          checkbox = _props2.checkbox;
+      var _props3 = this.props,
+          icon = _props3.icon,
+          checkbox = _props3.checkbox;
       var checked = this.state.checked;
 
 
@@ -235,19 +240,25 @@ var MenuItem = function (_React$Component) {
   }, {
     key: "hasSubmenu",
     value: function hasSubmenu() {
-      var children = this.props.children;
 
-
-      return children && typeof children !== "string";
+      return _react2.default.Children.toArray(this.props.children).some(function (child) {
+        return child.type === _Menu2.default;
+      });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
 
-      if (this.props.active && !prevProps.active && this.hasSubmenu()) {
+      if (this.props.submenuDisplay && !prevProps.submenuDisplay) {
 
         this.setSubmenuPosition();
       }
+    }
+  }, {
+    key: "componentWillMount",
+    value: function componentWillMount() {
+
+      this.setState({ checked: this.props.defaultChecked });
     }
   }, {
     key: "setSubmenuPosition",
@@ -269,17 +280,15 @@ var MenuItem = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _props3 = this.props,
-          style = _props3.style,
-          action = _props3.action,
-          rest = _objectWithoutProperties(_props3, ["style", "action"]);
+      var _props4 = this.props,
+          style = _props4.style,
+          action = _props4.action,
+          rest = _objectWithoutProperties(_props4, ["style", "action"]);
 
       var submenu = this.hasSubmenu();
 
       delete rest.disabled;
       delete rest.action;
-      delete rest.defaultChecked;
-      delete rest.defaultActive;
       delete rest.disabled;
       delete rest.shortcut;
       delete rest.checkbox;
@@ -287,6 +296,8 @@ var MenuItem = function (_React$Component) {
       delete rest.children;
       delete rest.active;
       delete rest.display;
+      delete rest.submenuDisplay;
+      delete rest.defaultChecked;
 
       return _react2.default.createElement(
         "li",
@@ -331,12 +342,11 @@ MenuItem.propTypes = {
   onMouseOut: _react.PropTypes.func,
   display: _react.PropTypes.bool,
   active: _react.PropTypes.bool,
-  submenuDisplay: _react.PropTypes.bool
+  submenuDisplay: _react.PropTypes.bool,
+  defaultChecked: _react.PropTypes.bool
 };
 
 MenuItem.defaultProps = {
-  defaultActive: false,
-  defaultChecked: false,
   disabled: false,
   display: true,
   submenuDisplay: false

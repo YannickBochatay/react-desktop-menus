@@ -63,7 +63,7 @@ _reactDom2.default.render(_react2.default.createElement(
   ),
   _react2.default.createElement(
     _MenuItem2.default,
-    { action: action, key: 7, checkbox: true, defaultChecked: true },
+    { action: action, key: 7, checkbox: true, checked: true },
     " checkbox checked "
   ),
   _react2.default.createElement(
