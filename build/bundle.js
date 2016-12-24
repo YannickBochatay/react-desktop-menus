@@ -1037,7 +1037,7 @@ module.exports = CSSPropertyOperations;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -2751,7 +2751,7 @@ module.exports = EventPluginHub;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -3678,7 +3678,7 @@ module.exports = HTMLDOMPropertyConfig;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -3875,7 +3875,7 @@ module.exports = LinkedValueUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -4515,7 +4515,7 @@ module.exports = ReactComponentBrowserEnvironment;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -8456,7 +8456,7 @@ module.exports = ReactDOMUnknownPropertyHook;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -8972,7 +8972,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -9023,7 +9023,7 @@ module.exports = ReactEmptyComponent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -9289,7 +9289,7 @@ module.exports = ReactEventListener;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -9389,7 +9389,7 @@ module.exports = ReactHostComponent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -9630,7 +9630,7 @@ module.exports = ReactInstanceMap;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -9656,7 +9656,7 @@ module.exports = { debugTool: debugTool };
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -10737,7 +10737,7 @@ module.exports = ReactMultiChild;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -10779,7 +10779,7 @@ module.exports = ReactNodeTypes;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -10875,7 +10875,7 @@ module.exports = ReactOwner;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -10901,7 +10901,7 @@ module.exports = ReactPropTypeLocationNames;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -11268,7 +11268,7 @@ module.exports = ReactReconciler;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -11450,7 +11450,7 @@ module.exports = ReactServerRenderingTransaction;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -12579,7 +12579,7 @@ module.exports = SelectEventPlugin;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -13654,7 +13654,7 @@ module.exports = SyntheticWheelEvent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -13908,7 +13908,7 @@ module.exports = ViewportMetrics;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -13967,7 +13967,7 @@ module.exports = accumulateInto;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -14399,7 +14399,7 @@ module.exports = findDOMNode;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -14476,7 +14476,7 @@ module.exports = flattenChildren;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -14767,7 +14767,7 @@ module.exports = getHostComponentFromComposite;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -14808,7 +14808,7 @@ module.exports = getIteratorFn;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -15217,7 +15217,7 @@ module.exports = isEventSupported;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -15294,7 +15294,7 @@ module.exports = quoteAttributeValueForBrowser;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 'use strict';
 
@@ -16299,7 +16299,7 @@ module.exports = camelizeStyleName;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 var isTextNode = require('./isTextNode');
@@ -16554,7 +16554,7 @@ module.exports = createNodesFromMarkup;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 function makeEmptyFunction(arg) {
@@ -16989,7 +16989,7 @@ module.exports = isTextNode;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  * @typechecks static-only
  */
 
@@ -17077,7 +17077,7 @@ module.exports = performanceNow;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /*eslint-disable no-self-compare */
@@ -18424,7 +18424,7 @@ module.exports = ReactComponent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -18759,7 +18759,7 @@ module.exports = ReactComponentTreeHook;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -20119,7 +20119,7 @@ arguments[4][80][0].apply(exports,arguments)
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 'use strict';
@@ -20700,6 +20700,7 @@ var Menu = function (_Component) {
           rest = _objectWithoutProperties(_props, ["display", "style"]);
 
       delete rest.children;
+      delete rest.label;
 
       if (!display) return null;
 
@@ -20719,7 +20720,8 @@ var Menu = function (_Component) {
 Menu.propTypes = {
   children: _react.PropTypes.node,
   display: _react.PropTypes.bool,
-  style: _react.PropTypes.object
+  style: _react.PropTypes.object,
+  label: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.node])
 };
 
 Menu.defaultProps = { display: true };
@@ -21058,6 +21060,179 @@ exports.default = MenuItem;
 },{"./Menu":184,"react":182,"react-dom":2}],186:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Menu = require("./Menu");
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var styles = {
+
+  ul: {
+    listStyle: "none",
+    margin: 0,
+    padding: 0
+  },
+  li: {
+    display: "inline-block",
+    padding: "0.2em 0.5em",
+    cursor: "default",
+    margin: 0
+  },
+  liHover: { backgroundColor: "#e5ecff" },
+  menu: { marginLeft: "-0.5em" }
+};
+
+function isChildOf(elmt, parent) {
+
+  var testElmt = elmt;
+
+  while (testElmt) {
+    if (testElmt === parent) return true;
+    testElmt = testElmt.parentNode;
+  }
+
+  return false;
+}
+
+var Menubar = function (_Component) {
+  _inherits(Menubar, _Component);
+
+  function Menubar(props) {
+    _classCallCheck(this, Menubar);
+
+    var _this = _possibleConstructorReturn(this, (Menubar.__proto__ || Object.getPrototypeOf(Menubar)).call(this, props));
+
+    _this.state = {
+      showMenus: false,
+      menuActive: null
+    };
+
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleClickDoc = _this.handleClickDoc.bind(_this);
+
+    return _this;
+  }
+
+  _createClass(Menubar, [{
+    key: "handleClick",
+    value: function handleClick() {
+
+      this.setState({ showMenus: true });
+    }
+  }, {
+    key: "handleMouseOver",
+    value: function handleMouseOver(i) {
+
+      if (i !== this.state.menuActive) {
+
+        this.setState({ menuActive: i });
+      }
+    }
+  }, {
+    key: "handleClickDoc",
+    value: function handleClickDoc(e) {
+
+      if (!isChildOf(e.target, this.ul)) this.setState({ showMenus: false });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+
+      document.addEventListener("click", this.handleClickDoc);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+
+      document.removeEventListener("click", this.handleClickDoc);
+    }
+  }, {
+    key: "renderChildren",
+    value: function renderChildren() {
+      var _this2 = this;
+
+      return _react2.default.Children.map(this.props.children, function (child, i) {
+
+        if (child.type === _Menu2.default) {
+
+          var active = _this2.state.menuActive === i;
+
+          var menu = _react2.default.cloneElement(child, {
+            display: _this2.state.showMenus && active,
+            style: _extends({}, styles.menu, child.props.style)
+          });
+
+          var style = _extends({}, styles.li, active ? styles.liHover : null);
+
+          return _react2.default.createElement(
+            "li",
+            { style: style, onMouseOver: _this2.handleMouseOver.bind(_this2, i) },
+            child.props.label,
+            _react2.default.createElement("br", null),
+            menu
+          );
+        } else return child;
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var _props = this.props,
+          style = _props.style,
+          rest = _objectWithoutProperties(_props, ["style"]);
+
+      delete rest.children;
+
+      return _react2.default.createElement(
+        "ul",
+        _extends({}, rest, {
+          style: _extends({}, styles.ul, style),
+          onClick: this.handleClick,
+          ref: function ref(node) {
+            return _this3.ul = node;
+          }
+        }),
+        this.renderChildren()
+      );
+    }
+  }]);
+
+  return Menubar;
+}(_react.Component);
+
+Menubar.propTypes = {
+  children: _react.PropTypes.node,
+  style: _react.PropTypes.object
+};
+
+exports.default = Menubar;
+
+},{"./Menu":184,"react":182}],187:[function(require,module,exports){
+"use strict";
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -21065,6 +21240,10 @@ var _react2 = _interopRequireDefault(_react);
 var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _Menubar = require("./Menubar");
+
+var _Menubar2 = _interopRequireDefault(_Menubar);
 
 var _Menu = require("./Menu");
 
@@ -21080,141 +21259,247 @@ var _Divider2 = _interopRequireDefault(_Divider);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*eslint-disable*/
+
 var action = function action() {
   return alert("hello world");
-}; /*eslint-disable*/
+};
 
 _reactDom2.default.render(_react2.default.createElement(
-  _Menu2.default,
+  _Menubar2.default,
   null,
   _react2.default.createElement(
-    _MenuItem2.default,
-    { action: action, key: 1 },
-    " Hello world "
-  ),
-  _react2.default.createElement(
-    _MenuItem2.default,
-    { action: action, key: 2, disabled: true },
-    " Disabled "
-  ),
-  _react2.default.createElement(
-    _MenuItem2.default,
-    { action: action, key: 3, icon: "glyphicon glyphicon-th-list" },
-    " Glyphicon "
-  ),
-  _react2.default.createElement(
-    _MenuItem2.default,
-    { action: action, key: 4, icon: _react2.default.createElement("img", { src: "build/icon.svg" }) },
-    " Custom Icon "
-  ),
-  _react2.default.createElement(_MenuItem2.default, {
-    action: action,
-    key: 5,
-    icon: _react2.default.createElement("i", { className: "fa fa-modx" }),
-    shortcut: "s",
-    label: "exemple with shortcut",
-    info: "ctrl+S"
-  }),
-  _react2.default.createElement(
-    _MenuItem2.default,
-    { key: 9, icon: "fa fa-bar-chart", label: "submenu again", shortcut: "a" },
+    _Menu2.default,
+    { label: "File" },
     _react2.default.createElement(
-      _Menu2.default,
-      null,
+      _MenuItem2.default,
+      { action: action, key: 1 },
+      " Hello world "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 2, disabled: true },
+      " Disabled "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 3, icon: "glyphicon glyphicon-th-list" },
+      " Fa Icon "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 4, icon: _react2.default.createElement("img", { src: "build/icon.svg" }) },
+      " Custom Icon "
+    ),
+    _react2.default.createElement(_MenuItem2.default, {
+      action: action,
+      key: 5,
+      icon: _react2.default.createElement("i", { className: "fa fa-modx" }),
+      shortcut: "s",
+      label: "exemple with shortcut",
+      info: "ctrl+S"
+    }),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { key: 9, icon: "fa fa-bar-chart", label: "submenu again", shortcut: "a" },
       _react2.default.createElement(
-        _MenuItem2.default,
-        { action: action, key: 1 },
-        " Hello world "
-      ),
-      _react2.default.createElement(
-        _MenuItem2.default,
-        { action: action, key: 2, disabled: true },
-        " Disabled "
-      ),
-      _react2.default.createElement(
-        _MenuItem2.default,
-        { action: action, key: 3, icon: "glyphicon glyphicon-road", label: "submenu again" },
+        _Menu2.default,
+        null,
         _react2.default.createElement(
-          _Menu2.default,
-          null,
+          _MenuItem2.default,
+          { action: action, key: 1 },
+          " Hello world "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 2, disabled: true },
+          " Disabled "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 3, icon: "glyphicon glyphicon-road", label: "submenu again" },
           _react2.default.createElement(
-            _MenuItem2.default,
-            { action: action, key: 1 },
-            " Hello world "
-          ),
+            _Menu2.default,
+            null,
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 1 },
+              " Hello world "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 2, disabled: true },
+              " Disabled "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 3, icon: "glyphicon glyphicon-headphones" },
+              " Fa Icon "
+            )
+          )
+        )
+      )
+    ),
+    _react2.default.createElement(_Divider2.default, null),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 6, checkbox: true, shortcut: "c" },
+      " checkbox "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 7, checkbox: true, defaultChecked: true },
+      " checkbox checked "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { key: 8, label: "sub-menu", shortcut: "m" },
+      _react2.default.createElement(
+        _Menu2.default,
+        null,
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 1, checkbox: true, shortcut: "h" },
+          " Hello world "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 2, icon: "glyphicon glyphicon-print", label: "another submenu" },
           _react2.default.createElement(
-            _MenuItem2.default,
-            { action: action, key: 2, disabled: true },
-            " Disabled "
-          ),
-          _react2.default.createElement(
-            _MenuItem2.default,
-            { action: action, key: 3, icon: "glyphicon glyphicon-headphones" },
-            " Glyphicon "
+            _Menu2.default,
+            null,
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 1 },
+              " Hello world "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 2, disabled: true },
+              " Disabled "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 3, icon: "glyphicon glyphicon-fire", label: "submenu again" },
+              _react2.default.createElement(
+                _Menu2.default,
+                null,
+                _react2.default.createElement(
+                  _MenuItem2.default,
+                  { action: action, key: 1 },
+                  " Hello world "
+                ),
+                _react2.default.createElement(
+                  _MenuItem2.default,
+                  { action: action, key: 2, disabled: true },
+                  " Disabled "
+                ),
+                _react2.default.createElement(
+                  _MenuItem2.default,
+                  { action: action, key: 3, icon: "glyphicon glyphicon-thumbs-up" },
+                  " Fa Icon "
+                )
+              )
+            )
           )
         )
       )
     )
   ),
-  _react2.default.createElement(_Divider2.default, null),
   _react2.default.createElement(
-    _MenuItem2.default,
-    { action: action, key: 6, checkbox: true, shortcut: "c" },
-    " checkbox "
-  ),
-  _react2.default.createElement(
-    _MenuItem2.default,
-    { action: action, key: 7, checkbox: true, defaultChecked: true },
-    " checkbox checked "
-  ),
-  _react2.default.createElement(
-    _MenuItem2.default,
-    { key: 8, label: "sub-menu", shortcut: "m" },
+    _Menu2.default,
+    { label: "Edit" },
     _react2.default.createElement(
-      _Menu2.default,
-      null,
+      _MenuItem2.default,
+      { action: action, key: 1, checkbox: true, shortcut: "h" },
+      " Hello world "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 2, icon: "glyphicon glyphicon-print", label: "another submenu" },
       _react2.default.createElement(
-        _MenuItem2.default,
-        { action: action, key: 1, checkbox: true, shortcut: "h" },
-        " Hello world "
-      ),
-      _react2.default.createElement(
-        _MenuItem2.default,
-        { action: action, key: 2, icon: "glyphicon glyphicon-print", label: "another submenu" },
+        _Menu2.default,
+        null,
         _react2.default.createElement(
-          _Menu2.default,
-          null,
+          _MenuItem2.default,
+          { action: action, key: 1 },
+          " Hello world "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 2, disabled: true },
+          " Disabled "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 3, icon: "glyphicon glyphicon-fire", label: "submenu again" },
           _react2.default.createElement(
-            _MenuItem2.default,
-            { action: action, key: 1 },
-            " Hello world "
-          ),
-          _react2.default.createElement(
-            _MenuItem2.default,
-            { action: action, key: 2, disabled: true },
-            " Disabled "
-          ),
-          _react2.default.createElement(
-            _MenuItem2.default,
-            { action: action, key: 3, icon: "glyphicon glyphicon-fire", label: "submenu again" },
+            _Menu2.default,
+            null,
             _react2.default.createElement(
-              _Menu2.default,
-              null,
-              _react2.default.createElement(
-                _MenuItem2.default,
-                { action: action, key: 1 },
-                " Hello world "
-              ),
-              _react2.default.createElement(
-                _MenuItem2.default,
-                { action: action, key: 2, disabled: true },
-                " Disabled "
-              ),
-              _react2.default.createElement(
-                _MenuItem2.default,
-                { action: action, key: 3, icon: "glyphicon glyphicon-thumbs-up" },
-                " Glyphicon "
-              )
+              _MenuItem2.default,
+              { action: action, key: 1 },
+              " Hello world "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 2, disabled: true },
+              " Disabled "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 3, icon: "glyphicon glyphicon-thumbs-up" },
+              " Fa Icon "
+            )
+          )
+        )
+      )
+    )
+  ),
+  _react2.default.createElement(
+    _Menu2.default,
+    { label: "View" },
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 1, checkbox: true, shortcut: "h" },
+      " Hello world "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, key: 2, icon: "glyphicon glyphicon-print", label: "another submenu" },
+      _react2.default.createElement(
+        _Menu2.default,
+        null,
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 1 },
+          " Hello world "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 2, disabled: true },
+          " Disabled "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, key: 3, icon: "glyphicon glyphicon-fire", label: "submenu again" },
+          _react2.default.createElement(
+            _Menu2.default,
+            null,
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 1 },
+              " Hello world "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 2, disabled: true },
+              " Disabled "
+            ),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { action: action, key: 3, icon: "glyphicon glyphicon-thumbs-up" },
+              " Fa Icon "
             )
           )
         )
@@ -21223,4 +21508,4 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById("content"));
 
-},{"./Divider":183,"./Menu":184,"./MenuItem":185,"react":182,"react-dom":2}]},{},[186]);
+},{"./Divider":183,"./Menu":184,"./MenuItem":185,"./Menubar":186,"react":182,"react-dom":2}]},{},[187]);

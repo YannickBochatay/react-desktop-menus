@@ -180,6 +180,7 @@ class Menu extends Component {
     const { display, style, ...rest } = this.props
 
     delete rest.children
+    delete rest.label
 
     if (!display) return null
 
@@ -199,7 +200,8 @@ class Menu extends Component {
 Menu.propTypes = {
   children : PropTypes.node,
   display : PropTypes.bool,
-  style : PropTypes.object
+  style : PropTypes.object,
+  label : PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 }
 
 Menu.defaultProps = { display : true }
