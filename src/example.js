@@ -7,16 +7,14 @@ import Item from "./MenuItem"
 import Divider from "./Divider"
 
 const action = () => alert("hello world")
-const img = <img src="node_modules/jsyg-menu/icon.png"/>
-const globalShortcut = <span style={ { color : "gray" } }>Ctrl+S</span>
 
 ReactDOM.render(
 
   <Menu>
     <Item action={ action } key={ 1 }> Hello world </Item>
     <Item action={ action } key={ 2 } disabled> Disabled </Item>
-    <Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </Item>
-    <Item action={ action } key={ 4 } icon={ img }> Custom Icon </Item>
+    <Item action={ action } key={ 3 } icon="glyphicon glyphicon-th-list"> Fa Icon </Item>
+    <Item action={ action } key={ 4 } icon={ <img src="build/icon.svg"/> }> Custom Icon </Item>
     <Item
       action={ action }
       key={ 5 }
@@ -29,11 +27,11 @@ ReactDOM.render(
       <Menu>
         <Item action={ action } key={ 1 }> Hello world </Item>
         <Item action={ action } key={ 2 } disabled> Disabled </Item>
-        <Item action={ action } key={ 3 } icon="fa fa-bar-chart" label="submenu again">
+        <Item action={ action } key={ 3 } icon="glyphicon glyphicon-road" label="submenu again">
           <Menu>
             <Item action={ action } key={ 1 }> Hello world </Item>
             <Item action={ action } key={ 2 } disabled> Disabled </Item>
-            <Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </Item>
+            <Item action={ action } key={ 3 } icon="glyphicon glyphicon-headphones"> Fa Icon </Item>
           </Menu>
         </Item>
       </Menu>
@@ -44,15 +42,15 @@ ReactDOM.render(
     <Item key={ 8 } label="sub-menu" shortcut="m">
       <Menu>
         <Item action={ action } key={ 1 } checkbox shortcut="h"> Hello world </Item>
-        <Item action={ action } key={ 2 } icon="fa fa-bar-chart" label="another submenu">
+        <Item action={ action } key={ 2 } icon="glyphicon glyphicon-print" label="another submenu">
           <Menu>
             <Item action={ action } key={ 1 }> Hello world </Item>
             <Item action={ action } key={ 2 } disabled> Disabled </Item>
-            <Item action={ action } key={ 3 } icon="fa fa-bar-chart" label="submenu again">
+            <Item action={ action } key={ 3 } icon="glyphicon glyphicon-fire" label="submenu again">
               <Menu>
                 <Item action={ action } key={ 1 }> Hello world </Item>
                 <Item action={ action } key={ 2 } disabled> Disabled </Item>
-                <Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </Item>
+                <Item action={ action } key={ 3 } icon="glyphicon glyphicon-thumbs-up"> Fa Icon </Item>
               </Menu>
             </Item>
           </Menu>

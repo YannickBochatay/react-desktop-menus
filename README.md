@@ -1,2 +1,2 @@
-# react-jsyg-menu
-React version of jsyg-menu
+# react-desktop-menus
+Desktop app menus with react
