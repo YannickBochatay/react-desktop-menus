@@ -80,7 +80,11 @@ class Menu extends Component {
 
     case "ArrowLeft" : case "Escape" :
 
-      if (submenuDisplay && (!submenu || !submenu.state.submenuDisplay)) this.setState({ submenuDisplay : false })
+      if (submenuDisplay && (!submenu || !submenu.state.submenuDisplay)) {
+
+        window.setTimeout(() => this.setState({ submenuDisplay : false }), 0)
+
+      }
       break
 
     case "ArrowRight" :

@@ -220,6 +220,8 @@ class MenuItem extends React.Component {
     const dim = li.getBoundingClientRect()
     const sub = ReactDOM.findDOMNode(this.submenu)
 
+    if (!sub) return
+
     let left = li.offsetWidth
     let top = li.offsetTop
 

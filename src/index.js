@@ -8,6 +8,7 @@ import Divider from "./Divider"
 
 const action = () => alert("hello world")
 const img = <img src="node_modules/jsyg-menu/icon.png" style={ { width : 16 } }/>
+// const globalShortcut = <span style={ { color : "gray", float : "right ", display: "inline-block" } }>Ctrl+S</span>
 
 ReactDOM.render(
 
@@ -16,7 +17,7 @@ ReactDOM.render(
     <Item action={ action } key={ 2 } disabled> Disabled </Item>
     <Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </Item>
     <Item action={ action } key={ 4 } icon={ img }> Custom Icon </Item>
-    <Item action={ action } key={ 5 } icon="fa fa-modx" shortcut="s"> Shortcut </Item>
+    <Item action={ action } key={ 5 } icon="fa fa-modx" shortcut="s">Shortcut</Item>
     <Item action={ action } key={ 9 } icon="fa fa-bar-chart" label="submenu again">
       <Menu>
         <Item action={ action } key={ 1 }> Hello world </Item>
