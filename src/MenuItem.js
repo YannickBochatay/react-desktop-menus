@@ -58,7 +58,6 @@ class MenuItem extends React.Component {
     super(props)
 
     this.handleAction = this.handleAction.bind(this)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
 
     this.state = {
@@ -80,31 +79,9 @@ class MenuItem extends React.Component {
 
   }
 
-  handleKeyPress(e) {
-
-    if (e.key === this.props.shortcut) this.handleAction(e)
-
-  }
-
   handleMouseOver(e) {
 
     if (this.props.onMouseOver) this.props.onMouseOver(e)
-
-  }
-
-  componentDidMount() {
-
-    if (this.props.shortcut) {
-
-      document.addEventListener("keypress", this.handleKeyPress)
-
-    }
-
-  }
-
-  componentWillUnmount() {
-
-    document.removeEventListener("keypress", this.handleKeyPress)
 
   }
 
@@ -250,18 +227,7 @@ class MenuItem extends React.Component {
 
     const submenu = this.hasSubmenu()
 
-    delete rest.disabled
-    delete rest.action
-    delete rest.disabled
-    delete rest.shortcut
-    delete rest.checkbox
-    delete rest.icon
-    delete rest.children
-    delete rest.active
-    delete rest.display
-    delete rest.submenuDisplay
-    delete rest.defaultChecked
-    delete rest.style
+    for (const n in this.constructor.propTypes) delete rest[n]
 
     return (
       <li

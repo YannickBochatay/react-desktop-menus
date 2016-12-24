@@ -17,8 +17,8 @@ ReactDOM.render(
     <Item action={ action } key={ 2 } disabled> Disabled </Item>
     <Item action={ action } key={ 3 } icon="fa fa-bar-chart"> Fa Icon </Item>
     <Item action={ action } key={ 4 } icon={ img }> Custom Icon </Item>
-    <Item action={ action } key={ 5 } icon="fa fa-modx" shortcut="s">Shortcut</Item>
-    <Item action={ action } key={ 9 } icon="fa fa-bar-chart" label="submenu again">
+    <Item action={ action } key={ 5 } icon="fa fa-modx" shortcut="s" label="Shortcut"></Item>
+    <Item key={ 9 } icon="fa fa-bar-chart" label="submenu again" shortcut="a">
       <Menu>
         <Item action={ action } key={ 1 }> Hello world </Item>
         <Item action={ action } key={ 2 } disabled> Disabled </Item>

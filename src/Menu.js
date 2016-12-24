@@ -60,7 +60,7 @@ class Menu extends Component {
 
     let newValue = null
 
-    switch (e.code) {
+    switch (e.key) {
 
     case "ArrowDown" :
 
@@ -104,6 +104,19 @@ class Menu extends Component {
       break
 
     default :
+
+      if (!submenuDisplay) {
+
+        const index = this.items.findIndex(item => item.props.shortcut === e.key)
+
+        if (index !== -1) {
+
+          newValue = index
+          if (this.items[index].handleAction) this.items[index].handleAction(e)
+
+        }
+
+      }
 
       break
     }
