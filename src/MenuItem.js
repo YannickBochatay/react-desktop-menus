@@ -7,18 +7,8 @@ const styles = {
   li : {
     margin : 0,
     whiteSpace : "nowrap",
-    lineHeight : "140%"
-  },
-
-  a : {
-    color : "#333",
-    textDecoration : "none",
-    display : "block",
+    lineHeight : "140%",
     padding : "2px 5px",
-    backgroundPosition : "5px 50%",
-    backgroundSize : "16px 16px",
-    backgroundRepeat : "no-repeat",
-    position : "relative",
     cursor : "default"
   },
 
@@ -120,9 +110,9 @@ class MenuItem extends React.Component {
 
   getStyle() {
 
-    const { active, disabled } = this.props
+    const { active, disabled, style } = this.props
 
-    let stateStyle = { ...styles.a }
+    let stateStyle = { ...styles.li }
 
     if (active) {
 
@@ -131,16 +121,15 @@ class MenuItem extends React.Component {
 
     } else if (disabled) stateStyle = { ...stateStyle, ...styles.disabled }
 
-    return stateStyle
+    return { ...stateStyle, ...style }
 
   }
 
   createLabel() {
 
-    const { shortcut, children } = this.props
-    let { label } = this.props
+    const { shortcut, label } = this.props
 
-    if (typeof children === "string") label = children
+    if (!label) return null
 
     if (shortcut) {
 
@@ -175,21 +164,25 @@ class MenuItem extends React.Component {
         </span>
       )
 
+    } else if (typeof icon === "string") {
+
+      return <i className={ icon }/>
+
+    } else if (React.isValidElement(icon)) {
+
+      return React.cloneElement(icon, { style : { ...styles.icon, ...icon.props.style } })
+
     } else {
 
-      return (
-        <span style={ styles.icon }>
-          { (typeof icon === "string") ? <i className={ icon }/> : icon }
-        </span>
-      )
+      return <span style={ styles.icon }/>
 
     }
 
   }
 
-  createSubmenu() {
+  createSubmenu(child) {
 
-    return React.cloneElement(this.props.children, {
+    return React.cloneElement(child, {
       display : this.props.display && this.props.submenuDisplay,
       style : { position : "absolute", ...this.state.submenuPosition },
       ref : node => this.submenu = node
@@ -199,7 +192,9 @@ class MenuItem extends React.Component {
 
   hasSubmenu() {
 
-    return React.Children.toArray(this.props.children).some(child => child.type === Menu)
+    return React.Children
+      .toArray(this.props.children)
+      .some(child => child.type === Menu)
 
   }
 
@@ -216,6 +211,7 @@ class MenuItem extends React.Component {
   componentWillMount() {
 
     this.setState({ checked : this.props.defaultChecked })
+
   }
 
   setSubmenuPosition() {
@@ -235,9 +231,20 @@ class MenuItem extends React.Component {
 
   }
 
+  renderChildren() {
+
+    return React.Children.map(this.props.children, child => {
+
+      if (child.type === Menu) return this.createSubmenu(child)
+      else return child
+
+    })
+
+  }
+
   render() {
 
-    const { style, action, ...rest } = this.props
+    const { action, ...rest } = this.props
 
     const submenu = this.hasSubmenu()
 
@@ -252,23 +259,19 @@ class MenuItem extends React.Component {
     delete rest.display
     delete rest.submenuDisplay
     delete rest.defaultChecked
+    delete rest.style
 
     return (
       <li
         { ...rest }
-        style={ { ...styles.li, ...style } }
+        style={ this.getStyle() }
         onMouseOver={ this.handleMouseOver }
+        onClick={ !submenu && action ? this.handleAction : null }
       >
-        <a
-          href="#"
-          onClick={ !submenu && action ? this.handleAction : null }
-          style={ this.getStyle() }
-        >
-          { submenu ? <span style={ styles.arrow }>▶</span> : "" }
-          { this.createIcon() }
-          { this.createLabel() }
-        </a>
-        { submenu ? this.createSubmenu() : null }
+        { submenu ? <span style={ styles.arrow }>▶</span> : "" }
+        { this.createIcon() }
+        { this.createLabel() }
+        { this.renderChildren() }
       </li>
     )
 

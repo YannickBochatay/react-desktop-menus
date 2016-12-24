@@ -56,7 +56,7 @@ class Menu extends Component {
     const current = this.state.itemActive
     const { submenuDisplay } = this.state
     const currentElmt = this.items[current]
-    const hasSubmenu = currentElmt && currentElmt.hasSubmenu && currentElmt.hasSubmenu()
+    const submenu = currentElmt && currentElmt.submenu
 
     let newValue = null
 
@@ -80,19 +80,20 @@ class Menu extends Component {
 
     case "ArrowLeft" : case "Escape" :
 
-      if (submenuDisplay) this.setState({ submenuDisplay : false })
+      if (submenuDisplay && (!submenu || !submenu.state.submenuDisplay)) this.setState({ submenuDisplay : false })
       break
 
     case "ArrowRight" :
 
-      if (hasSubmenu) this.setState({ submenuDisplay : true })
+      if (submenu && !submenuDisplay) this.setState({ submenuDisplay : true })
+      else if (!submenuDisplay && current === -1) newValue = 0
       break
 
     case "Enter" :
 
       if (!submenuDisplay) {
 
-        if (hasSubmenu) this.setState({ submenuDisplay : true })
+        if (submenu) this.setState({ submenuDisplay : true })
         else if (currentElmt && currentElmt.handleAction) currentElmt.handleAction(e)
 
       }
@@ -154,7 +155,7 @@ class Menu extends Component {
 
   componentWillUpdate(nextProps) {
 
-    if (!this.props.display && nextProps.display) this.setState({ itemActive : 0 })
+    if (!this.props.display && nextProps.display) this.setState({ itemActive : -1 })
 
   }
 
