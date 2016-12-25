@@ -135,7 +135,7 @@ class Menu extends Component {
 
     let index = -1
 
-    return React.Children.map(this.props.children, child => {
+    return React.Children.map(this.props.children, (child, i) => {
 
       if (child.type === MenuItem) {
 
@@ -147,11 +147,12 @@ class Menu extends Component {
             onMouseOver : this.handleMouseOver.bind(this, index),
             active : index === this.state.itemActive,
             ref : this.setRef.bind(this, index),
-            submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay
+            submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
+            key : i
           }
         )
 
-      } else return child
+      } else return React.cloneElement(child, { key : i })
 
     })
 
@@ -181,6 +182,7 @@ class Menu extends Component {
 
     delete rest.children
     delete rest.label
+    delete rest.onAction
 
     if (!display) return null
 

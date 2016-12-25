@@ -20472,6 +20472,177 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("react-dom");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _Menu = require("./Menu");
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _utils = require("./utils");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ContextMenu = function (_Component) {
+  _inherits(ContextMenu, _Component);
+
+  function ContextMenu(props) {
+    _classCallCheck(this, ContextMenu);
+
+    var _this = _possibleConstructorReturn(this, (ContextMenu.__proto__ || Object.getPrototypeOf(ContextMenu)).call(this, props));
+
+    _this.state = { display: false, position: { x: 0, y: 0 } };
+
+    _this.handleBlurWindow = _this.handleBlurWindow.bind(_this);
+    _this.handleClickDoc = _this.handleClickDoc.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+
+    return _this;
+  }
+
+  _createClass(ContextMenu, [{
+    key: "handleBlurWindow",
+    value: function handleBlurWindow() {
+
+      this.setState({ display: false });
+    }
+  }, {
+    key: "handleClickDoc",
+    value: function handleClickDoc(e) {
+
+      if (!(0, _utils.isChildOf)(e.target, _reactDom2.default.findDOMNode(this.menu))) this.setState({ display: false });
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+
+      if (e.which !== 3) return;
+
+      e.stopPropagation();
+
+      this.setState({ display: true });
+
+      this.setPosition(e);
+    }
+  }, {
+    key: "preventDefault",
+    value: function preventDefault(e) {
+
+      e.preventDefault();
+    }
+  }, {
+    key: "setPosition",
+    value: function setPosition(e) {
+
+      var menu = _reactDom2.default.findDOMNode(this.menu);
+      var parent = menu && menu.offsetParent;
+      var dimParent = parent && parent.getBoundingClientRect();
+
+      if (!menu) return;
+
+      var x = e.clientX - dimParent.left;
+      var y = e.clientY - dimParent.top;
+
+      if (e.clientX + menu.offsetWidth > window.innerWidth) {
+
+        x -= menu.offsetWidth;
+        if (x < 0) x = window.innerWidth - menu.offsetWidth;
+      }
+
+      if (e.clientY + menu.offsetHeight > window.innerHeight) {
+
+        y -= menu.offsetHeight;
+        if (y < 0) y = window.innerHeight - menu.offsetHeight;
+      }
+
+      this.setState({ position: { x: x, y: y } });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+
+      this.container.addEventListener("mouseup", this.handleClick);
+      this.container.addEventListener("contextmenu", this.preventDefault);
+      document.addEventListener("mouseup", this.handleClickDoc);
+      window.addEventListener("blur", this.handleBlurWindow);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+
+      this.container.removeEventListener("mouseup", this.handleClick);
+      this.container.removeEventListener("contextmenu", this.preventDefault);
+      document.removeEventListener("mouseup", this.handleClickDoc);
+      window.removeEventListener("blur", this.handleBlurWindow);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          children = _props.children,
+          rest = _objectWithoutProperties(_props, ["children"]);
+
+      if (_react2.default.Children.count(children) !== 2) throw new Error("You should have exactly 2 children");
+
+      var elmts = _react2.default.Children.toArray(children);
+
+      var menu = elmts[0].type === _Menu2.default ? elmts[0] : elmts[1];
+      var container = elmts[0].type === _Menu2.default ? elmts[1] : elmts[0];
+
+      if (this.state.display) {
+
+        menu = _react2.default.cloneElement(menu, {
+          ref: function ref(elmt) {
+            return _this2.menu = elmt;
+          },
+          style: {
+            left: this.state.position.x,
+            top: this.state.position.y
+          }
+        });
+      } else menu = null;
+
+      return _react2.default.cloneElement(container, _extends({
+        ref: function ref(elmt) {
+          return _this2.container = elmt;
+        }
+      }, rest), menu);
+    }
+  }]);
+
+  return ContextMenu;
+}(_react.Component);
+
+ContextMenu.propTypes = { children: _react.PropTypes.node };
+
+exports.default = ContextMenu;
+
+},{"./Menu":185,"./utils":189,"react":182,"react-dom":2}],184:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -20491,7 +20662,7 @@ Divider.propTypes = { style: _react.PropTypes.object };
 
 exports.default = Divider;
 
-},{"react":182}],184:[function(require,module,exports){
+},{"react":182}],185:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20658,7 +20829,7 @@ var Menu = function (_Component) {
 
       var index = -1;
 
-      return _react2.default.Children.map(this.props.children, function (child) {
+      return _react2.default.Children.map(this.props.children, function (child, i) {
 
         if (child.type === _MenuItem2.default) {
 
@@ -20668,9 +20839,10 @@ var Menu = function (_Component) {
             onMouseOver: _this4.handleMouseOver.bind(_this4, index),
             active: index === _this4.state.itemActive,
             ref: _this4.setRef.bind(_this4, index),
-            submenuDisplay: index === _this4.state.itemActive && _this4.state.submenuDisplay
+            submenuDisplay: index === _this4.state.itemActive && _this4.state.submenuDisplay,
+            key: i
           });
-        } else return child;
+        } else return _react2.default.cloneElement(child, { key: i });
       });
     }
   }, {
@@ -20701,6 +20873,7 @@ var Menu = function (_Component) {
 
       delete rest.children;
       delete rest.label;
+      delete rest.onAction;
 
       if (!display) return null;
 
@@ -20728,7 +20901,7 @@ Menu.defaultProps = { display: true };
 
 exports.default = Menu;
 
-},{"./MenuItem":185,"react":182}],185:[function(require,module,exports){
+},{"./MenuItem":186,"react":182}],186:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20823,6 +20996,8 @@ var MenuItem = function (_React$Component) {
     value: function handleAction(e) {
 
       e.preventDefault();
+
+      if (this.props.keepMenu) e.stopPropagation();
 
       if (this.props.disabled) return;
 
@@ -21041,6 +21216,7 @@ MenuItem.propTypes = {
   children: _react.PropTypes.node,
   disabled: _react.PropTypes.bool,
   action: _react.PropTypes.func,
+  keepMenu: _react.PropTypes.bool,
   checkbox: _react.PropTypes.bool,
   shortcut: _react.PropTypes.string,
   onMouseOver: _react.PropTypes.func,
@@ -21057,7 +21233,7 @@ MenuItem.defaultProps = {
 
 exports.default = MenuItem;
 
-},{"./Menu":184,"react":182,"react-dom":2}],186:[function(require,module,exports){
+},{"./Menu":185,"react":182,"react-dom":2}],187:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21075,6 +21251,8 @@ var _react2 = _interopRequireDefault(_react);
 var _Menu = require("./Menu");
 
 var _Menu2 = _interopRequireDefault(_Menu);
+
+var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21103,19 +21281,6 @@ var styles = {
   menu: { marginLeft: "-0.5em" }
 };
 
-function isChildOf(elmt, parent) {
-
-  var testElmt = elmt;
-
-  while (testElmt) {
-
-    if (testElmt === parent) return true;
-    testElmt = testElmt.parentNode;
-  }
-
-  return false;
-}
-
 var Menubar = function (_Component) {
   _inherits(Menubar, _Component);
 
@@ -21129,7 +21294,7 @@ var Menubar = function (_Component) {
       menuActive: null
     };
 
-    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleMouseDown = _this.handleMouseDown.bind(_this);
     _this.handleClickDoc = _this.handleClickDoc.bind(_this);
     _this.handleKeyDown = _this.handleKeyDown.bind(_this);
     _this.handleMouseOut = _this.handleMouseOut.bind(_this);
@@ -21140,8 +21305,8 @@ var Menubar = function (_Component) {
   }
 
   _createClass(Menubar, [{
-    key: "handleClick",
-    value: function handleClick() {
+    key: "handleMouseDown",
+    value: function handleMouseDown() {
 
       this.setState({ showMenus: true });
     }
@@ -21164,7 +21329,7 @@ var Menubar = function (_Component) {
     key: "handleClickDoc",
     value: function handleClickDoc(e) {
 
-      if (!isChildOf(e.target, this.ul)) this.setState({ showMenus: false, menuActive: null });
+      if (!(0, _utils.isChildOf)(e.target, this.ul)) this.setState({ showMenus: false, menuActive: null });
     }
   }, {
     key: "handleKeyDown",
@@ -21277,7 +21442,7 @@ var Menubar = function (_Component) {
         "ul",
         _extends({}, rest, {
           style: _extends({}, styles.ul, style),
-          onClick: this.handleClick,
+          onMouseDown: this.handleMouseDown,
           onMouseOut: this.handleMouseOut,
           ref: function ref(node) {
             return _this3.ul = node;
@@ -21298,7 +21463,7 @@ Menubar.propTypes = {
 
 exports.default = Menubar;
 
-},{"./Menu":184,"react":182}],187:[function(require,module,exports){
+},{"./Menu":185,"./utils":189,"react":182}],188:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -21317,6 +21482,10 @@ var _Menu = require("./Menu");
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
+var _ContextMenu = require("./ContextMenu");
+
+var _ContextMenu2 = _interopRequireDefault(_ContextMenu);
+
 var _MenuItem = require("./MenuItem");
 
 var _MenuItem2 = _interopRequireDefault(_MenuItem);
@@ -21327,11 +21496,9 @@ var _Divider2 = _interopRequireDefault(_Divider);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*eslint-disable*/
-
 var action = function action() {
   return alert("hello world");
-};
+}; /*eslint-disable*/
 
 _reactDom2.default.render(_react2.default.createElement(
   _Menubar2.default,
@@ -21341,27 +21508,26 @@ _reactDom2.default.render(_react2.default.createElement(
     { label: "File" },
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 1 },
+      { action: action },
       " Hello world "
     ),
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 2, disabled: true },
+      { action: action, disabled: true },
       " Disabled "
     ),
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 3, icon: "glyphicon glyphicon-th-list" },
+      { action: action, icon: "glyphicon glyphicon-th-list" },
       " Fa Icon "
     ),
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 4, icon: _react2.default.createElement("img", { src: "build/icon.svg" }) },
+      { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }) },
       " Custom Icon "
     ),
     _react2.default.createElement(_MenuItem2.default, {
       action: action,
-      key: 5,
       icon: _react2.default.createElement("i", { className: "fa fa-modx" }),
       shortcut: "s",
       label: "exemple with shortcut",
@@ -21369,39 +21535,46 @@ _reactDom2.default.render(_react2.default.createElement(
     }),
     _react2.default.createElement(
       _MenuItem2.default,
-      { key: 9, icon: "fa fa-bar-chart", label: "submenu again", shortcut: "a" },
+      { icon: "fa fa-bar-chart", label: "submenu again", shortcut: "a" },
       _react2.default.createElement(
         _Menu2.default,
         null,
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 1 },
+          { action: action },
           " Hello world "
         ),
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 2, disabled: true },
+          { action: function action() {
+              return console.log("action");
+            }, keepMenu: true },
+          " Keep menu open on action "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, disabled: true },
           " Disabled "
         ),
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 3, icon: "glyphicon glyphicon-road", label: "submenu again" },
+          { action: action, icon: "glyphicon glyphicon-road", label: "submenu again" },
           _react2.default.createElement(
             _Menu2.default,
             null,
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 1 },
+              { action: action },
               " Hello world "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 2, disabled: true },
+              { action: action, disabled: true },
               " Disabled "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 3, icon: "glyphicon glyphicon-headphones" },
+              { action: action, icon: "glyphicon glyphicon-headphones" },
               " Fa Icon "
             )
           )
@@ -21411,12 +21584,12 @@ _reactDom2.default.render(_react2.default.createElement(
     _react2.default.createElement(_Divider2.default, null),
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 6, checkbox: true, shortcut: "c" },
+      { action: action, checkbox: true, shortcut: "c" },
       " checkbox "
     ),
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 7, checkbox: true, defaultChecked: true },
+      { action: action, checkbox: true, defaultChecked: true },
       " checkbox checked "
     ),
     _react2.default.createElement(
@@ -21427,44 +21600,44 @@ _reactDom2.default.render(_react2.default.createElement(
         null,
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 1, checkbox: true, shortcut: "h" },
+          { action: action, checkbox: true, shortcut: "h" },
           " Hello world "
         ),
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 2, icon: "glyphicon glyphicon-print", label: "another submenu" },
+          { action: action, icon: "glyphicon glyphicon-print", label: "another submenu" },
           _react2.default.createElement(
             _Menu2.default,
             null,
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 1 },
+              { action: action },
               " Hello world "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 2, disabled: true },
+              { action: action, disabled: true },
               " Disabled "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 3, icon: "glyphicon glyphicon-fire", label: "submenu again" },
+              { action: action, icon: "glyphicon glyphicon-fire", label: "submenu again" },
               _react2.default.createElement(
                 _Menu2.default,
                 null,
                 _react2.default.createElement(
                   _MenuItem2.default,
-                  { action: action, key: 1 },
+                  { action: action },
                   " Hello world "
                 ),
                 _react2.default.createElement(
                   _MenuItem2.default,
-                  { action: action, key: 2, disabled: true },
+                  { action: action, disabled: true },
                   " Disabled "
                 ),
                 _react2.default.createElement(
                   _MenuItem2.default,
-                  { action: action, key: 3, icon: "glyphicon glyphicon-thumbs-up" },
+                  { action: action, icon: "glyphicon glyphicon-thumbs-up" },
                   " Fa Icon "
                 )
               )
@@ -21479,44 +21652,44 @@ _reactDom2.default.render(_react2.default.createElement(
     { label: "Edit" },
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 1, checkbox: true, shortcut: "h" },
+      { action: action, checkbox: true, shortcut: "h" },
       " Hello world "
     ),
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 2, icon: "glyphicon glyphicon-print", label: "another submenu" },
+      { action: action, icon: "glyphicon glyphicon-print", label: "another submenu" },
       _react2.default.createElement(
         _Menu2.default,
         null,
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 1 },
+          { action: action },
           " Hello world "
         ),
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 2, disabled: true },
+          { action: action, disabled: true },
           " Disabled "
         ),
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 3, icon: "glyphicon glyphicon-fire", label: "submenu again" },
+          { action: action, icon: "glyphicon glyphicon-fire", label: "submenu again" },
           _react2.default.createElement(
             _Menu2.default,
             null,
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 1 },
+              { action: action },
               " Hello world "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 2, disabled: true },
+              { action: action, disabled: true },
               " Disabled "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 3, icon: "glyphicon glyphicon-thumbs-up" },
+              { action: action, icon: "glyphicon glyphicon-thumbs-up" },
               " Fa Icon "
             )
           )
@@ -21529,44 +21702,44 @@ _reactDom2.default.render(_react2.default.createElement(
     { label: "View" },
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 1, checkbox: true, shortcut: "h" },
+      { action: action, checkbox: true, shortcut: "h" },
       " Hello world "
     ),
     _react2.default.createElement(
       _MenuItem2.default,
-      { action: action, key: 2, icon: "glyphicon glyphicon-print", label: "another submenu" },
+      { action: action, icon: "glyphicon glyphicon-print", label: "another submenu" },
       _react2.default.createElement(
         _Menu2.default,
         null,
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 1 },
+          { action: action },
           " Hello world "
         ),
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 2, disabled: true },
+          { action: action, disabled: true },
           " Disabled "
         ),
         _react2.default.createElement(
           _MenuItem2.default,
-          { action: action, key: 3, icon: "glyphicon glyphicon-fire", label: "submenu again" },
+          { action: action, icon: "glyphicon glyphicon-fire", label: "submenu again" },
           _react2.default.createElement(
             _Menu2.default,
             null,
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 1 },
+              { action: action },
               " Hello world "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 2, disabled: true },
+              { action: action, disabled: true },
               " Disabled "
             ),
             _react2.default.createElement(
               _MenuItem2.default,
-              { action: action, key: 3, icon: "glyphicon glyphicon-thumbs-up" },
+              { action: action, icon: "glyphicon glyphicon-thumbs-up" },
               " Fa Icon "
             )
           )
@@ -21574,6 +21747,78 @@ _reactDom2.default.render(_react2.default.createElement(
       )
     )
   )
-), document.getElementById("content"));
+), document.getElementById("menubar"));
 
-},{"./Divider":183,"./Menu":184,"./MenuItem":185,"./Menubar":186,"react":182,"react-dom":2}]},{},[187]);
+_reactDom2.default.render(_react2.default.createElement(
+  _ContextMenu2.default,
+  null,
+  _react2.default.createElement("div", { style: { height: 500, backgroundColor: "#eee" } }),
+  _react2.default.createElement(
+    _Menu2.default,
+    null,
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action },
+      " Hello world "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, disabled: true },
+      " Disabled "
+    ),
+    _react2.default.createElement(
+      _MenuItem2.default,
+      { action: action, icon: "glyphicon glyphicon-fire", label: "submenu again" },
+      _react2.default.createElement(
+        _Menu2.default,
+        null,
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: function action() {
+              return console.log("action");
+            } },
+          " Hello world "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: function action() {
+              return console.log("action");
+            }, keepMenu: true },
+          " Keep menu open on action "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, disabled: true },
+          " Disabled "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, icon: "glyphicon glyphicon-thumbs-up" },
+          " Fa Icon "
+        )
+      )
+    )
+  )
+), document.getElementById("contextmenu"));
+
+},{"./ContextMenu":183,"./Divider":184,"./Menu":185,"./MenuItem":186,"./Menubar":187,"react":182,"react-dom":2}],189:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isChildOf = isChildOf;
+function isChildOf(elmt, parent) {
+
+  var testElmt = elmt;
+
+  while (testElmt) {
+
+    if (testElmt === parent) return true;
+    testElmt = testElmt.parentNode;
+  }
+
+  return false;
+}
+
+},{}]},{},[188]);

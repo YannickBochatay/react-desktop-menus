@@ -61,6 +61,8 @@ class MenuItem extends React.Component {
 
     e.preventDefault()
 
+    if (this.props.keepMenu) e.stopPropagation()
+
     if (this.props.disabled) return
 
     if (this.props.action) this.props.action(e, !this.state.checked)
@@ -263,6 +265,7 @@ MenuItem.propTypes = {
   children : PropTypes.node,
   disabled : PropTypes.bool,
   action : PropTypes.func,
+  keepMenu : PropTypes.bool,
   checkbox : PropTypes.bool,
   shortcut : PropTypes.string,
   onMouseOver : PropTypes.func,

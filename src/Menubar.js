@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from "react"
 import Menu from "./Menu"
+import { isChildOf } from "./utils"
 
 const styles = {
 
@@ -18,21 +19,6 @@ const styles = {
   menu : { marginLeft : "-0.5em" }
 }
 
-function isChildOf(elmt, parent) {
-
-  let testElmt = elmt
-
-  while (testElmt) {
-
-    if (testElmt === parent) return true
-    testElmt = testElmt.parentNode
-
-  }
-
-  return false
-
-}
-
 class Menubar extends Component {
 
   constructor(props) {
@@ -44,7 +30,7 @@ class Menubar extends Component {
       menuActive : null
     }
 
-    this.handleClick = this.handleClick.bind(this)
+    this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleClickDoc = this.handleClickDoc.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleMouseOut = this.handleMouseOut.bind(this)
@@ -53,7 +39,7 @@ class Menubar extends Component {
 
   }
 
-  handleClick() {
+  handleMouseDown() {
 
     this.setState({ showMenus : true })
 
@@ -193,7 +179,7 @@ class Menubar extends Component {
       <ul
         { ...rest }
         style={ { ...styles.ul, ...style } }
-        onClick={ this.handleClick }
+        onMouseDown={ this.handleMouseDown }
         onMouseOut={ this.handleMouseOut }
         ref={ node => this.ul = node }
       >
