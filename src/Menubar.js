@@ -46,6 +46,10 @@ class Menubar extends Component {
 
     this.handleClick = this.handleClick.bind(this)
     this.handleClickDoc = this.handleClickDoc.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleMouseOut = this.handleMouseOut.bind(this)
+
+    this.items = []
 
   }
 
@@ -65,29 +69,89 @@ class Menubar extends Component {
 
   }
 
+  handleMouseOut() {
+
+    if (!this.state.showMenus) this.setState({ menuActive : null })
+
+  }
+
   handleClickDoc(e) {
 
-    if (!isChildOf(e.target, this.ul)) this.setState({ showMenus : false })
+    if (!isChildOf(e.target, this.ul)) this.setState({ showMenus : false, menuActive : null })
+
+  }
+
+  handleKeyDown(e) {
+
+    const length = React.Children.count(this.props.children)
+    const current = this.state.menuActive
+    const currentElmt = this.items[current]
+    const submenuDisplay = currentElmt && currentElmt.state.submenuDisplay
+
+    let newValue = null
+
+    switch (e.key) {
+
+    case "Escape" :
+
+      if (!submenuDisplay) this.setState({ showMenus : false, menuActive : null })
+      break
+
+    case "ArrowLeft" :
+
+      if (submenuDisplay || !this.state.showMenus) return
+
+      if (current === null || current - 1 < 0) newValue = length - 1
+      else newValue = current - 1
+      break
+
+    case "ArrowRight" :
+
+      if (submenuDisplay || !this.state.showMenus) return
+
+      if (current === null || current + 1 >= length) newValue = 0
+      else newValue = current + 1
+      break
+
+    default :
+
+      break
+
+    }
+
+    if (newValue !== null) this.setState({ menuActive : newValue })
 
   }
 
   componentDidMount() {
 
     document.addEventListener("click", this.handleClickDoc)
+    document.addEventListener("keydown", this.handleKeyDown)
 
   }
 
   componentWillUnmount() {
 
     document.removeEventListener("click", this.handleClickDoc)
+    document.removeEventListener("keydown", this.handleKeyDown)
+
+  }
+
+  setRef(i, elmt) {
+
+    this.items[i] = elmt
 
   }
 
   renderChildren() {
 
+    let index = -1
+
     return React.Children.map(this.props.children, (child, i) => {
 
       if (child.type === Menu) {
+
+        index++
 
         const active = this.state.menuActive === i
 
@@ -95,6 +159,7 @@ class Menubar extends Component {
           child,
           {
             display : this.state.showMenus && active,
+            ref : this.setRef.bind(this, index),
             style : { ...styles.menu, ...child.props.style }
           }
         )
@@ -102,7 +167,10 @@ class Menubar extends Component {
         const style = { ...styles.li, ...(active ? styles.liHover : null) }
 
         return (
-          <li style={ style } onMouseOver={ this.handleMouseOver.bind(this, i) }>
+          <li
+            style={ style }
+            onMouseOver={ this.handleMouseOver.bind(this, index) }
+          >
             { child.props.label }
             <br/>
             { menu }
@@ -126,6 +194,7 @@ class Menubar extends Component {
         { ...rest }
         style={ { ...styles.ul, ...style } }
         onClick={ this.handleClick }
+        onMouseOut={ this.handleMouseOut }
         ref={ node => this.ul = node }
       >
         { this.renderChildren() }
