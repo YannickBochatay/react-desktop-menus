@@ -20486,8 +20486,6 @@ var _Menu = require("./Menu");
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _utils = require("./utils");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -20525,7 +20523,9 @@ var ContextMenu = function (_Component) {
     key: "handleClickDoc",
     value: function handleClickDoc(e) {
 
-      if (!(0, _utils.isChildOf)(e.target, _reactDom2.default.findDOMNode(this.menu))) this.setState({ display: false });
+      var node = _reactDom2.default.findDOMNode(this.menu);
+
+      if (node && !node.contains(e.target)) this.setState({ display: false });
     }
   }, {
     key: "handleClick",
@@ -20634,7 +20634,7 @@ ContextMenu.propTypes = { children: _react.PropTypes.node };
 
 exports.default = ContextMenu;
 
-},{"./Menu":185,"./utils":189,"react":182,"react-dom":2}],184:[function(require,module,exports){
+},{"./Menu":185,"react":182,"react-dom":2}],184:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21252,8 +21252,6 @@ var _Menu = require("./Menu");
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _utils = require("./utils");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -21329,7 +21327,7 @@ var Menubar = function (_Component) {
     key: "handleClickDoc",
     value: function handleClickDoc(e) {
 
-      if (!(0, _utils.isChildOf)(e.target, this.ul)) this.setState({ showMenus: false, menuActive: null });
+      if (this.ul && !this.ul.contains(e.target)) this.setState({ showMenus: false, menuActive: null });
     }
   }, {
     key: "handleKeyDown",
@@ -21463,7 +21461,7 @@ Menubar.propTypes = {
 
 exports.default = Menubar;
 
-},{"./Menu":185,"./utils":189,"react":182}],188:[function(require,module,exports){
+},{"./Menu":185,"react":182}],188:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -21801,24 +21799,4 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById("contextmenu"));
 
-},{"./ContextMenu":183,"./Divider":184,"./Menu":185,"./MenuItem":186,"./Menubar":187,"react":182,"react-dom":2}],189:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isChildOf = isChildOf;
-function isChildOf(elmt, parent) {
-
-  var testElmt = elmt;
-
-  while (testElmt) {
-
-    if (testElmt === parent) return true;
-    testElmt = testElmt.parentNode;
-  }
-
-  return false;
-}
-
-},{}]},{},[188]);
+},{"./ContextMenu":183,"./Divider":184,"./Menu":185,"./MenuItem":186,"./Menubar":187,"react":182,"react-dom":2}]},{},[188]);

@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from "react"
 import ReactDOM from "react-dom"
 import Menu from "./Menu"
-import { isChildOf } from "./utils"
 
 class ContextMenu extends Component {
 
@@ -25,7 +24,9 @@ class ContextMenu extends Component {
 
   handleClickDoc(e) {
 
-    if (!isChildOf(e.target, ReactDOM.findDOMNode(this.menu))) this.setState({ display : false })
+    const node = ReactDOM.findDOMNode(this.menu)
+
+    if (node && !node.contains(e.target)) this.setState({ display : false })
 
   }
 

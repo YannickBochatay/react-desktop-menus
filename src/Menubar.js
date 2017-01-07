@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from "react"
 import Menu from "./Menu"
-import { isChildOf } from "./utils"
 
 const styles = {
 
@@ -63,7 +62,7 @@ class Menubar extends Component {
 
   handleClickDoc(e) {
 
-    if (!isChildOf(e.target, this.ul)) this.setState({ showMenus : false, menuActive : null })
+    if (this.ul && !this.ul.contains(e.target)) this.setState({ showMenus : false, menuActive : null })
 
   }
 
