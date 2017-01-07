@@ -1,5 +1,4 @@
 import React, { PropTypes } from "react"
-import ReactDOM from "react-dom"
 import Menu from "./Menu"
 
 const styles = {
@@ -19,8 +18,6 @@ const styles = {
     marginRight : 5,
     color : "black"
   },
-
-  active : { backgroundColor : "#e5ecff" },
 
   disabled : {
     color : "gray",
@@ -61,13 +58,11 @@ class MenuItem extends React.Component {
 
     e.preventDefault()
 
-    if (this.props.keepMenu) e.stopPropagation()
-
     if (this.props.disabled) return
 
-    if (this.props.action) this.props.action(e, !this.state.checked)
-
     this.setState({ checked : !this.state.checked })
+
+    if (this.props.action) this.props.action(e, !this.state.checked)
 
   }
 
@@ -79,14 +74,14 @@ class MenuItem extends React.Component {
 
   getStyle() {
 
-    const { active, disabled, style } = this.props
+    const { active, disabled, style, activeColor } = this.props
 
     let stateStyle = { ...styles.li }
 
     if (active) {
 
       if (disabled) stateStyle = { ...stateStyle, ...styles.disabled, ...styles.disabledActive }
-      else stateStyle = { ...stateStyle, ...styles.active }
+      else stateStyle = { ...stateStyle, backgroundColor : activeColor }
 
     } else if (disabled) stateStyle = { ...stateStyle, ...styles.disabled }
 
@@ -203,18 +198,22 @@ class MenuItem extends React.Component {
 
   setSubmenuPosition() {
 
-    const li = ReactDOM.findDOMNode(this)
-    const dim = li.getBoundingClientRect()
-    const sub = ReactDOM.findDOMNode(this.submenu)
+    const { node } = this
+    const dim = node.getBoundingClientRect()
+    const subNode = this.submenu.node
 
-    if (!sub) return
+    if (!subNode) return
 
-    let left = li.offsetWidth
-    let top = li.offsetTop
+    let left = node.offsetWidth
+    let top = node.offsetTop
 
-    if (dim.right + sub.offsetWidth > window.innerWidth) left = -sub.offsetWidth
+    if (dim.right + subNode.offsetWidth > window.innerWidth) left = -subNode.offsetWidth
 
-    if (dim.bottom + sub.offsetHeight > window.innerHeight) top = li.offsetTop + li.offsetHeight - sub.offsetHeight
+    if (dim.bottom + subNode.offsetHeight > window.innerHeight) {
+
+      top = node.offsetTop + node.offsetHeight - subNode.offsetHeight
+
+    }
 
     this.setState({ submenuPosition : { left, top } })
 
@@ -245,6 +244,7 @@ class MenuItem extends React.Component {
         style={ this.getStyle() }
         onMouseOver={ this.handleMouseOver }
         onClick={ !submenu && action ? this.handleAction : null }
+        ref={ node => this.node = node }
       >
         { this.createIcon() }
         { this.createLabel() }
@@ -261,23 +261,25 @@ MenuItem.propTypes = {
   icon : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   info : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   label : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  style : PropTypes.object,
-  children : PropTypes.node,
   disabled : PropTypes.bool,
   action : PropTypes.func,
-  keepMenu : PropTypes.bool,
   checkbox : PropTypes.bool,
+  defaultChecked : PropTypes.bool,
   shortcut : PropTypes.string,
+  activeColor : PropTypes.string,
+
+  style : PropTypes.object,
+  children : PropTypes.node,
   onMouseOver : PropTypes.func,
   onMouseOut : PropTypes.func,
   active : PropTypes.bool,
-  submenuDisplay : PropTypes.bool,
-  defaultChecked : PropTypes.bool
+  submenuDisplay : PropTypes.bool
 }
 
 MenuItem.defaultProps = {
   disabled : false,
-  submenuDisplay : false
+  submenuDisplay : false,
+  activeColor : "#e5ecff"
 }
 
 export default MenuItem

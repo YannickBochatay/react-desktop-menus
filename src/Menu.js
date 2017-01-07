@@ -146,6 +146,7 @@ class Menu extends Component {
           {
             onMouseOver : this.handleMouseOver.bind(this, index),
             active : index === this.state.itemActive,
+            activeColor : this.props.itemHoverColor,
             ref : this.setRef.bind(this, index),
             submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
             key : i
@@ -183,6 +184,7 @@ class Menu extends Component {
     delete rest.children
     delete rest.label
     delete rest.onAction
+    delete rest.itemHoverColor
 
     if (!display) return null
 
@@ -190,6 +192,7 @@ class Menu extends Component {
       <ul
         { ...rest }
         style={ { ...baseStyle, ...style } }
+        ref={ node => this.node = node }
       >
         { this.renderChildren() }
       </ul>
@@ -203,9 +206,13 @@ Menu.propTypes = {
   children : PropTypes.node,
   display : PropTypes.bool,
   style : PropTypes.object,
-  label : PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  label : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  itemHoverColor : PropTypes.string
 }
 
-Menu.defaultProps = { display : true }
+Menu.defaultProps = {
+  display : true,
+  itemHoverColor : "#e5ecff"
+}
 
 export default Menu

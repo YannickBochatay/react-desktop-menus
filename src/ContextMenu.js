@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from "react"
-import ReactDOM from "react-dom"
 import Menu from "./Menu"
 
 class ContextMenu extends Component {
@@ -16,17 +15,25 @@ class ContextMenu extends Component {
 
   }
 
-  handleBlurWindow() {
+  close() {
 
     this.setState({ display : false })
 
   }
 
+  handleBlurWindow() {
+
+    this.close()
+
+  }
+
   handleClickDoc(e) {
 
-    const node = ReactDOM.findDOMNode(this.menu)
+    if (!this.menu) return
 
-    if (node && !node.contains(e.target)) this.setState({ display : false })
+    const { node } = this.menu
+
+    if (node && !node.contains(e.target)) this.close()
 
   }
 
@@ -50,26 +57,26 @@ class ContextMenu extends Component {
 
   setPosition(e) {
 
-    const menu = ReactDOM.findDOMNode(this.menu)
-    const parent = menu && menu.offsetParent
+    const { node } = this.menu
+    const parent = node && node.offsetParent
     const dimParent = parent && parent.getBoundingClientRect()
 
-    if (!menu) return
+    if (!node) return
 
     let x = e.clientX - dimParent.left
     let y = e.clientY - dimParent.top
 
-    if (e.clientX + menu.offsetWidth > window.innerWidth) {
+    if (e.clientX + node.offsetWidth > window.innerWidth) {
 
-      x -= menu.offsetWidth
-      if (x < 0) x = window.innerWidth - menu.offsetWidth
+      x -= node.offsetWidth
+      if (x < 0) x = window.innerWidth - node.offsetWidth
 
     }
 
-    if (e.clientY + menu.offsetHeight > window.innerHeight) {
+    if (e.clientY + node.offsetHeight > window.innerHeight) {
 
-      y -= menu.offsetHeight
-      if (y < 0) y = window.innerHeight - menu.offsetHeight
+      y -= node.offsetHeight
+      if (y < 0) y = window.innerHeight - node.offsetHeight
 
     }
 
@@ -116,7 +123,7 @@ class ContextMenu extends Component {
         }
       })
 
-    } else menu = null
+    } else menu = undefined
 
     return React.cloneElement(container, {
       ref : elmt => this.container = elmt,

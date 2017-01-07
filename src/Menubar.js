@@ -14,7 +14,6 @@ const styles = {
     cursor : "default",
     margin : 0
   },
-  liHover : { backgroundColor : "#e5ecff" },
   menu : { marginLeft : "-0.5em" }
 }
 
@@ -35,6 +34,12 @@ class Menubar extends Component {
     this.handleMouseOut = this.handleMouseOut.bind(this)
 
     this.items = []
+
+  }
+
+  close() {
+
+    this.setState({ showMenus : false, menuActive : null })
 
   }
 
@@ -62,7 +67,7 @@ class Menubar extends Component {
 
   handleClickDoc(e) {
 
-    if (this.ul && !this.ul.contains(e.target)) this.setState({ showMenus : false, menuActive : null })
+    if (this.ul && !this.ul.contains(e.target)) this.close()
 
   }
 
@@ -149,7 +154,9 @@ class Menubar extends Component {
           }
         )
 
-        const style = { ...styles.li, ...(active ? styles.liHover : null) }
+        const style = { ...styles.li }
+
+        if (active) style.backgroundColor = this.props.itemHoverColor
 
         return (
           <li
@@ -173,6 +180,7 @@ class Menubar extends Component {
     const { style, ...rest } = this.props
 
     delete rest.children
+    delete rest.itemHoverColor
 
     return (
       <ul
@@ -192,7 +200,10 @@ class Menubar extends Component {
 
 Menubar.propTypes = {
   children : PropTypes.node,
-  style : PropTypes.object
+  style : PropTypes.object,
+  itemHoverColor : PropTypes.string
 }
+
+Menubar.defaultProps = { itemHoverColor : "#e5ecff" }
 
 export default Menubar
