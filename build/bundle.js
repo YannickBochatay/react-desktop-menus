@@ -20492,6 +20492,25 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function getOffsetDim(elmt) {
+
+  var parent = elmt;
+
+  var offset = {
+    left: 0,
+    top: 0
+  };
+
+  while (parent) {
+
+    offset.left += elmt.offsetLeft;
+    offset.top += elmt.offsetTop;
+    parent = parent.offsetParent;
+  }
+
+  return offset;
+}
+
 var ContextMenu = function (_Component) {
   _inherits(ContextMenu, _Component);
 
@@ -20556,12 +20575,12 @@ var ContextMenu = function (_Component) {
       var node = this.menu.node;
 
       var parent = node && node.offsetParent;
-      var dimParent = parent && parent.getBoundingClientRect();
+      var dimParent = getOffsetDim(parent);
 
       if (!node) return;
 
-      var x = e.clientX - dimParent.left;
-      var y = e.clientY - dimParent.top;
+      var x = e.pageX - dimParent.left;
+      var y = e.pageY - dimParent.top;
 
       if (e.clientX + node.offsetWidth > window.innerWidth) {
 

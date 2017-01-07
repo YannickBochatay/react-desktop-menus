@@ -1,6 +1,27 @@
 import React, { PropTypes, Component } from "react"
 import Menu from "./Menu"
 
+function getOffsetDim(elmt) {
+
+  let parent = elmt
+
+  const offset = {
+    left : 0,
+    top : 0
+  }
+
+  while (parent) {
+
+    offset.left += elmt.offsetLeft
+    offset.top += elmt.offsetTop
+    parent = parent.offsetParent
+
+  }
+
+  return offset
+
+}
+
 class ContextMenu extends Component {
 
   constructor(props) {
@@ -59,12 +80,12 @@ class ContextMenu extends Component {
 
     const { node } = this.menu
     const parent = node && node.offsetParent
-    const dimParent = parent && parent.getBoundingClientRect()
+    const dimParent = getOffsetDim(parent)
 
     if (!node) return
 
-    let x = e.clientX - dimParent.left
-    let y = e.clientY - dimParent.top
+    let x = e.pageX - dimParent.left
+    let y = e.pageY - dimParent.top
 
     if (e.clientX + node.offsetWidth > window.innerWidth) {
 
