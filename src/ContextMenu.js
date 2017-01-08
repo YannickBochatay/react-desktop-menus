@@ -78,11 +78,14 @@ class ContextMenu extends Component {
 
   setPosition(e) {
 
+    if (!this.menu) return
+
     const { node } = this.menu
-    const parent = node && node.offsetParent
-    const dimParent = getOffsetDim(parent)
 
     if (!node) return
+
+    const parent = node && node.offsetParent
+    const dimParent = getOffsetDim(parent)
 
     let x = e.pageX - dimParent.left
     let y = e.pageY - dimParent.top
@@ -139,6 +142,7 @@ class ContextMenu extends Component {
       menu = React.cloneElement(menu, {
         ref : elmt => this.menu = elmt,
         style : {
+          position : "absolute",
           left : this.state.position.x,
           top : this.state.position.y
         }

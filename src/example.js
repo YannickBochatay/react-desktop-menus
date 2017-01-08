@@ -1,24 +1,83 @@
-/*eslint-disable*/
-
-import React from "react"
+import React, { Component, PropTypes } from "react"
 import ReactDOM from "react-dom"
-import Menubar from "./Menubar"
-import Menu from "./Menu"
 import ContextMenu from "./ContextMenu"
-import Item from "./MenuItem"
 import Divider from "./Divider"
+import Menu from "./Menu"
+import Menubar from "./Menubar"
+import Item from "./MenuItem"
 
-class MenubarExample extends React.Component {
+const MenuExample = ({ action, label }) => (
+  <Menu label={ label }>
+    <Item action={ action } label="Simple item"/>
+    <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+    <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+    <Item
+      action={ action }
+      disabled
+      label="Item disabled"
+      icon={ <i className="glyphicon glyphicon-headphones"/> }
+    />
+    <Divider/>
+    <Item action={ action } label="Custom hover color" activeColor="pink"/>
+    <Item action={ action } checkbox> Item as a checkbox </Item>
+    <Item action={ action } checkbox defaultChecked> Item as a checkbox checked </Item>
+    <Item
+      action={ action }
+      icon={ <i className="fa fa-modx"/> }
+      shortcut="s"
+      label="Item with shortcut"
+    />
+    <Item
+      action={ action }
+      icon={ <i className="glyphicon glyphicon-print"/> }
+      info="Info"
+      label="Item with info"
+    />
+    <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu">
+      <Menu>
+        <Item action={ action } label="Simple item"/>
+        <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+        <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+        <Item
+          action={ action }
+          disabled
+          label="Item disabled"
+          icon={ <i className="glyphicon glyphicon-headphones"/> }
+        />
+        <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu again">
+          <Menu>
+            <Item action={ action } label="Simple item"/>
+            <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+            <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+            <Item
+              action={ action }
+              disabled
+              label="Item disabled"
+              icon={ <i className="glyphicon glyphicon-headphones"/> }
+            />
+          </Menu>
+        </Item>
+      </Menu>
+    </Item>
+  </Menu>
+)
+
+MenuExample.propTypes = {
+  action : PropTypes.func,
+  label : PropTypes.string
+}
+
+class MenubarExample extends Component {
 
   constructor(props) {
 
     super(props)
 
-    this.handleClick = this.handleClick.bind(this)
+    this.onClick = this.onClick.bind(this)
 
   }
 
-  handleClick() {
+  onClick() {
 
     console.log("hello world")
 
@@ -28,105 +87,64 @@ class MenubarExample extends React.Component {
 
   render() {
 
-    const action = this.handleClick
+    const action = this.onClick
 
     return (
       <Menubar ref={ elmt => this.menubar = elmt } style={ { border : "1px solid #eee" } }>
         <Menu label="File">
-          <Item action={ action } > Hello world </Item>
-          <Item action={ action } disabled> Disabled </Item>
-          <Item action={ action } icon="glyphicon glyphicon-th-list"> Fa Icon </Item>
-          <Item action={ action } icon={ <img src="build/icon.svg"/> }> Custom Icon </Item>
-          <Item
-            action={ action }
-            icon={ <i className="fa fa-modx"/> }
-            shortcut="s"
-            label="exemple with shortcut"
-            info="ctrl+S"
-          />
-          <Item icon="fa fa-bar-chart" label="submenu again" shortcut="a">
+          <Item action={ action } label="Simple item"/>
+          <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+          <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+          <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu again">
             <Menu>
-              <Item action={ action }> Hello world </Item>
-              <Item action={ action } disabled> Disabled </Item>
-              <Item action={ action } icon="glyphicon glyphicon-road" label="submenu again">
-                <Menu>
-                  <Item action={ action }> Hello world </Item>
-                  <Item action={ action } disabled> Disabled </Item>
-                  <Item action={ action } icon="glyphicon glyphicon-headphones"> Fa Icon </Item>
-                </Menu>
-              </Item>
-            </Menu>
-          </Item>
-          <Divider/>
-          <Item action={ action } checkbox shortcut="c"> checkbox </Item>
-          <Item action={ action } checkbox defaultChecked> checkbox checked </Item>
-          <Item key={ 8 } label="sub-menu" shortcut="m">
-            <Menu>
-              <Item action={ action } checkbox shortcut="h"> Hello world </Item>
-              <Item action={ action } icon="glyphicon glyphicon-print" label="another submenu">
-                <Menu>
-                  <Item action={ action }> Hello world </Item>
-                  <Item action={ action } disabled> Disabled </Item>
-                  <Item action={ action } icon="glyphicon glyphicon-fire" label="submenu again">
-                    <Menu>
-                      <Item action={ action } > Hello world </Item>
-                      <Item action={ action } disabled> Disabled </Item>
-                      <Item action={ action } icon="glyphicon glyphicon-thumbs-up"> Fa Icon </Item>
-                    </Menu>
-                  </Item>
-                </Menu>
-              </Item>
+              <Item action={ action } label="Simple item"/>
+              <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+              <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
             </Menu>
           </Item>
         </Menu>
         <Menu label="Edit">
-          <Item action={ action } checkbox shortcut="h"> Hello world </Item>
-          <Item action={ action } icon="glyphicon glyphicon-print" label="another submenu">
+          <Item action={ action } label="Simple item"/>
+          <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+          <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+          <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu again">
             <Menu>
-              <Item action={ action }> Hello world </Item>
-              <Item action={ action } disabled> Disabled </Item>
-              <Item action={ action } icon="glyphicon glyphicon-fire" label="submenu again">
-                <Menu>
-                  <Item action={ action } > Hello world </Item>
-                  <Item action={ action } disabled> Disabled </Item>
-                  <Item action={ action } icon="glyphicon glyphicon-thumbs-up"> Fa Icon </Item>
-                </Menu>
-              </Item>
+              <Item action={ action } label="Simple item"/>
+              <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+              <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
             </Menu>
           </Item>
         </Menu>
         <Menu label="View">
-          <Item action={ action } checkbox shortcut="h"> Hello world </Item>
-          <Item action={ action } icon="glyphicon glyphicon-print" label="another submenu">
+          <Item action={ action } label="Simple item"/>
+          <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+          <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+          <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu again">
             <Menu>
-              <Item action={ action } > Hello world </Item>
-              <Item action={ action } disabled> Disabled </Item>
-              <Item action={ action } icon="glyphicon glyphicon-fire" label="submenu again">
-                <Menu>
-                  <Item action={ action } > Hello world </Item>
-                  <Item action={ action } disabled> Disabled </Item>
-                  <Item action={ action } icon="glyphicon glyphicon-thumbs-up"> Fa Icon </Item>
-                </Menu>
-              </Item>
+              <Item action={ action } label="Simple item"/>
+              <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+              <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
             </Menu>
           </Item>
         </Menu>
       </Menubar>
     )
+
   }
+
 }
 
-class ContextMenuExample extends React.Component {
+class ContextMenuExample extends Component {
 
   constructor(props) {
 
     super(props)
 
-    this.handleClick = this.handleClick.bind(this)
+    this.onClick = this.onClick.bind(this)
 
   }
 
-  handleClick() {
+  onClick() {
 
     console.log("hello world")
 
@@ -136,8 +154,6 @@ class ContextMenuExample extends React.Component {
 
   render() {
 
-    const action = this.handleClick
-
     const style = {
       height : 300,
       backgroundColor : "#eee",
@@ -146,19 +162,22 @@ class ContextMenuExample extends React.Component {
       justifyContent : "center"
     }
 
+    const action = this.onClick
+
     return (
       <ContextMenu ref={ elmt => this.contextmenu = elmt }>
         <div style={ style }>
           Click right to see context menu
         </div>
-        <Menu>
-          <Item action={ action } > Hello world </Item>
-          <Item action={ action } disabled> Disabled </Item>
-          <Item action={ action } icon="glyphicon glyphicon-fire" label="submenu again">
+        <Menu label="File">
+          <Item action={ action } label="Simple item"/>
+          <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+          <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+          <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu again">
             <Menu>
-              <Item action={ action }> Hello world </Item>
-              <Item action={ action } disabled> Disabled </Item>
-              <Item action={ action } icon="glyphicon glyphicon-thumbs-up"> Fa Icon </Item>
+              <Item action={ action } label="Simple item"/>
+              <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+              <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
             </Menu>
           </Item>
         </Menu>
@@ -175,8 +194,16 @@ const Section = ({ title, children }) => (
   </section>
 )
 
+Section.propTypes = {
+  title : PropTypes.string,
+  children : PropTypes.node
+}
+
 ReactDOM.render(
   <article>
+    <Section title="Static menu">
+      <MenuExample action={ () => console.log("hello") }/>
+    </Section>
     <Section title="Menu bar">
       <MenubarExample/>
     </Section>

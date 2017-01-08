@@ -14,7 +14,10 @@ const styles = {
     cursor : "default",
     margin : 0
   },
-  menu : { marginLeft : "-0.5em" }
+  menu : {
+    position : "absolute",
+    marginLeft : "-0.5em"
+  }
 }
 
 class Menubar extends Component {

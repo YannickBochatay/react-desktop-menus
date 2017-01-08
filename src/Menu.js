@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from "react"
 import MenuItem from "./MenuItem"
 
 const baseStyle = {
-  position : "absolute",
+  display : "inline-block",
   backgroundColor : "white",
   border : "1px solid gray",
   borderRadius : 2,
