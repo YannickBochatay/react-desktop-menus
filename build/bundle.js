@@ -20775,7 +20775,7 @@ var Menu = function (_Component) {
     value: function handleKeyDown(e) {
       var _this3 = this;
 
-      if (!this.props.display) return;
+      if (!this.props.display || this.props.frozen) return;
 
       var length = _react2.default.Children.count(this.props.children);
       var current = this.state.itemActive;
@@ -20792,6 +20792,8 @@ var Menu = function (_Component) {
 
           if (submenuDisplay) return;
 
+          e.preventDefault();
+
           if (current === null || current + 1 >= length) newValue = 0;else newValue = current + 1;
           break;
 
@@ -20799,12 +20801,16 @@ var Menu = function (_Component) {
 
           if (submenuDisplay) return;
 
+          e.preventDefault();
+
           if (current === null || current - 1 < 0) newValue = length - 1;else newValue = current - 1;
           break;
 
         case "ArrowLeft":case "Escape":
 
           if (submenuDisplay && (!submenu || !submenu.state.submenuDisplay)) {
+
+            e.preventDefault();
 
             window.setTimeout(function () {
               return _this3.setState({ submenuDisplay: false });
@@ -20814,14 +20820,30 @@ var Menu = function (_Component) {
 
         case "ArrowRight":
 
-          if (submenu && !submenuDisplay) this.setState({ submenuDisplay: true });else if (!submenuDisplay && current === -1) newValue = 0;
+          if (submenu && !submenuDisplay) {
+
+            e.preventDefault();
+            this.setState({ submenuDisplay: true });
+          } else if (!submenuDisplay && current === -1) {
+
+            e.preventDefault();
+            newValue = 0;
+          }
           break;
 
         case "Enter":
 
           if (!submenuDisplay) {
 
-            if (submenu) this.setState({ submenuDisplay: true });else if (currentElmt && currentElmt.handleAction) currentElmt.handleAction(e);
+            if (submenu) {
+
+              e.preventDefault();
+              this.setState({ submenuDisplay: true });
+            } else if (currentElmt && currentElmt.handleAction) {
+
+              e.preventDefault();
+              currentElmt.handleAction(e);
+            }
           }
           break;
 
@@ -20835,6 +20857,7 @@ var Menu = function (_Component) {
 
             if (index !== -1) {
 
+              e.preventDefault();
               newValue = index;
               if (this.items[index].handleAction) this.items[index].handleAction(e);
             }
@@ -20860,18 +20883,24 @@ var Menu = function (_Component) {
 
       return _react2.default.Children.map(this.props.children, function (child, i) {
 
-        if (child.type === _MenuItem2.default) {
+        if (!_this4.props.frozen && child.type === _MenuItem2.default) {
 
           index++;
 
-          return _react2.default.cloneElement(child, {
+          var props = {
             onMouseOver: _this4.handleMouseOver.bind(_this4, index),
             active: index === _this4.state.itemActive,
-            activeColor: _this4.props.itemHoverColor,
             ref: _this4.setRef.bind(_this4, index),
             submenuDisplay: index === _this4.state.itemActive && _this4.state.submenuDisplay,
             key: i
-          });
+          };
+
+          if ("itemHoverColor" in _this4.props && !("activeColor" in child.props)) {
+
+            props.activeColor = _this4.props.itemHoverColor;
+          }
+
+          return _react2.default.cloneElement(child, props);
         } else return _react2.default.cloneElement(child, { key: i });
       });
     }
@@ -20907,6 +20936,7 @@ var Menu = function (_Component) {
       delete rest.label;
       delete rest.onAction;
       delete rest.itemHoverColor;
+      delete rest.frozen;
 
       if (!display) return null;
 
@@ -20931,12 +20961,13 @@ Menu.propTypes = {
   display: _react.PropTypes.bool,
   style: _react.PropTypes.object,
   label: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.node]),
-  itemHoverColor: _react.PropTypes.string
+  itemHoverColor: _react.PropTypes.string,
+  frozen: _react.PropTypes.bool
 };
 
 Menu.defaultProps = {
   display: true,
-  itemHoverColor: "#e5ecff"
+  frozen: false
 };
 
 exports.default = Menu;
@@ -21559,51 +21590,45 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MenuExample = function MenuExample(_ref) {
-  var action = _ref.action,
-      label = _ref.label;
-  return _react2.default.createElement(
-    _Menu2.default,
-    { label: label },
-    _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-    _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-    _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
-    _react2.default.createElement(_MenuItem2.default, {
-      action: action,
-      disabled: true,
-      label: "Item disabled",
-      icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
-    }),
-    _react2.default.createElement(_Divider2.default, null),
-    _react2.default.createElement(_MenuItem2.default, { action: action, label: "Custom hover color", activeColor: "pink" }),
-    _react2.default.createElement(
-      _MenuItem2.default,
-      { action: action, checkbox: true },
-      " Item as a checkbox "
-    ),
-    _react2.default.createElement(
-      _MenuItem2.default,
-      { action: action, checkbox: true, defaultChecked: true },
-      " Item as a checkbox checked "
-    ),
-    _react2.default.createElement(_MenuItem2.default, {
-      action: action,
-      icon: _react2.default.createElement("i", { className: "fa fa-modx" }),
-      shortcut: "s",
-      label: "Item with shortcut"
-    }),
-    _react2.default.createElement(_MenuItem2.default, {
-      action: action,
-      icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-print" }),
-      info: "Info",
-      label: "Item with info"
-    }),
-    _react2.default.createElement(
-      _MenuItem2.default,
-      { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu" },
-      _react2.default.createElement(
+var MenuExample = function (_Component) {
+  _inherits(MenuExample, _Component);
+
+  function MenuExample(props) {
+    _classCallCheck(this, MenuExample);
+
+    var _this = _possibleConstructorReturn(this, (MenuExample.__proto__ || Object.getPrototypeOf(MenuExample)).call(this, props));
+
+    _this.state = { frozen: false };
+
+    _this.onClick = _this.onClick.bind(_this);
+
+    return _this;
+  }
+
+  _createClass(MenuExample, [{
+    key: "onClick",
+    value: function onClick() {
+
+      console.log("hello world");
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      window.addEventListener("scroll", function () {
+        return _this2.setState({ frozen: window.scrollY > 100 });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+
+      var action = this.onClick;
+
+      return _react2.default.createElement(
         _Menu2.default,
-        null,
+        { frozen: this.state.frozen },
         _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
         _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
         _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
@@ -21613,9 +21638,33 @@ var MenuExample = function MenuExample(_ref) {
           label: "Item disabled",
           icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
         }),
+        _react2.default.createElement(_Divider2.default, null),
+        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Custom hover color", activeColor: "pink" }),
         _react2.default.createElement(
           _MenuItem2.default,
-          { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
+          { action: action, checkbox: true },
+          " Item as a checkbox "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, checkbox: true, defaultChecked: true },
+          " Item as a checkbox checked "
+        ),
+        _react2.default.createElement(_MenuItem2.default, {
+          action: action,
+          icon: _react2.default.createElement("i", { className: "fa fa-modx" }),
+          shortcut: "s",
+          label: "Item with shortcut"
+        }),
+        _react2.default.createElement(_MenuItem2.default, {
+          action: action,
+          icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-print" }),
+          info: "Info",
+          label: "Item with info"
+        }),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu" },
           _react2.default.createElement(
             _Menu2.default,
             null,
@@ -21627,30 +21676,44 @@ var MenuExample = function MenuExample(_ref) {
               disabled: true,
               label: "Item disabled",
               icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
-            })
+            }),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
+              _react2.default.createElement(
+                _Menu2.default,
+                null,
+                _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+                _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+                _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
+                _react2.default.createElement(_MenuItem2.default, {
+                  action: action,
+                  disabled: true,
+                  label: "Item disabled",
+                  icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
+                })
+              )
+            )
           )
         )
-      )
-    )
-  );
-};
+      );
+    }
+  }]);
 
-MenuExample.propTypes = {
-  action: _react.PropTypes.func,
-  label: _react.PropTypes.string
-};
+  return MenuExample;
+}(_react.Component);
 
-var MenubarExample = function (_Component) {
-  _inherits(MenubarExample, _Component);
+var MenubarExample = function (_Component2) {
+  _inherits(MenubarExample, _Component2);
 
   function MenubarExample(props) {
     _classCallCheck(this, MenubarExample);
 
-    var _this = _possibleConstructorReturn(this, (MenubarExample.__proto__ || Object.getPrototypeOf(MenubarExample)).call(this, props));
+    var _this3 = _possibleConstructorReturn(this, (MenubarExample.__proto__ || Object.getPrototypeOf(MenubarExample)).call(this, props));
 
-    _this.onClick = _this.onClick.bind(_this);
+    _this3.onClick = _this3.onClick.bind(_this3);
 
-    return _this;
+    return _this3;
   }
 
   _createClass(MenubarExample, [{
@@ -21664,14 +21727,14 @@ var MenubarExample = function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this4 = this;
 
       var action = this.onClick;
 
       return _react2.default.createElement(
         _Menubar2.default,
         { ref: function ref(elmt) {
-            return _this2.menubar = elmt;
+            return _this4.menubar = elmt;
           }, style: { border: "1px solid #eee" } },
         _react2.default.createElement(
           _Menu2.default,
@@ -21734,17 +21797,17 @@ var MenubarExample = function (_Component) {
   return MenubarExample;
 }(_react.Component);
 
-var ContextMenuExample = function (_Component2) {
-  _inherits(ContextMenuExample, _Component2);
+var ContextMenuExample = function (_Component3) {
+  _inherits(ContextMenuExample, _Component3);
 
   function ContextMenuExample(props) {
     _classCallCheck(this, ContextMenuExample);
 
-    var _this3 = _possibleConstructorReturn(this, (ContextMenuExample.__proto__ || Object.getPrototypeOf(ContextMenuExample)).call(this, props));
+    var _this5 = _possibleConstructorReturn(this, (ContextMenuExample.__proto__ || Object.getPrototypeOf(ContextMenuExample)).call(this, props));
 
-    _this3.onClick = _this3.onClick.bind(_this3);
+    _this5.onClick = _this5.onClick.bind(_this5);
 
-    return _this3;
+    return _this5;
   }
 
   _createClass(ContextMenuExample, [{
@@ -21758,7 +21821,7 @@ var ContextMenuExample = function (_Component2) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this6 = this;
 
       var style = {
         height: 300,
@@ -21773,7 +21836,7 @@ var ContextMenuExample = function (_Component2) {
       return _react2.default.createElement(
         _ContextMenu2.default,
         { ref: function ref(elmt) {
-            return _this4.contextmenu = elmt;
+            return _this6.contextmenu = elmt;
           } },
         _react2.default.createElement(
           "div",
@@ -21805,9 +21868,9 @@ var ContextMenuExample = function (_Component2) {
   return ContextMenuExample;
 }(_react.Component);
 
-var Section = function Section(_ref2) {
-  var title = _ref2.title,
-      children = _ref2.children;
+var Section = function Section(_ref) {
+  var title = _ref.title,
+      children = _ref.children;
   return _react2.default.createElement(
     "section",
     null,

@@ -50,7 +50,7 @@ class Menu extends Component {
 
   handleKeyDown(e) {
 
-    if (!this.props.display) return
+    if (!this.props.display || this.props.frozen) return
 
     const length = React.Children.count(this.props.children)
     const current = this.state.itemActive
@@ -66,6 +66,8 @@ class Menu extends Component {
 
       if (submenuDisplay) return
 
+      e.preventDefault()
+
       if (current === null || current + 1 >= length) newValue = 0
       else newValue = current + 1
       break
@@ -73,6 +75,8 @@ class Menu extends Component {
     case "ArrowUp" :
 
       if (submenuDisplay) return
+
+      e.preventDefault()
 
       if (current === null || current - 1 < 0) newValue = length - 1
       else newValue = current - 1
@@ -82,6 +86,8 @@ class Menu extends Component {
 
       if (submenuDisplay && (!submenu || !submenu.state.submenuDisplay)) {
 
+        e.preventDefault()
+
         window.setTimeout(() => this.setState({ submenuDisplay : false }), 0)
 
       }
@@ -89,16 +95,34 @@ class Menu extends Component {
 
     case "ArrowRight" :
 
-      if (submenu && !submenuDisplay) this.setState({ submenuDisplay : true })
-      else if (!submenuDisplay && current === -1) newValue = 0
+      if (submenu && !submenuDisplay) {
+
+        e.preventDefault()
+        this.setState({ submenuDisplay : true })
+
+      } else if (!submenuDisplay && current === -1) {
+
+        e.preventDefault()
+        newValue = 0
+
+      }
       break
 
     case "Enter" :
 
       if (!submenuDisplay) {
 
-        if (submenu) this.setState({ submenuDisplay : true })
-        else if (currentElmt && currentElmt.handleAction) currentElmt.handleAction(e)
+        if (submenu) {
+
+          e.preventDefault()
+          this.setState({ submenuDisplay : true })
+
+        } else if (currentElmt && currentElmt.handleAction) {
+
+          e.preventDefault()
+          currentElmt.handleAction(e)
+
+        }
 
       }
       break
@@ -111,6 +135,7 @@ class Menu extends Component {
 
         if (index !== -1) {
 
+          e.preventDefault()
           newValue = index
           if (this.items[index].handleAction) this.items[index].handleAction(e)
 
@@ -137,21 +162,25 @@ class Menu extends Component {
 
     return React.Children.map(this.props.children, (child, i) => {
 
-      if (child.type === MenuItem) {
+      if (!this.props.frozen && child.type === MenuItem) {
 
         index++
 
-        return React.cloneElement(
-          child,
-          {
-            onMouseOver : this.handleMouseOver.bind(this, index),
-            active : index === this.state.itemActive,
-            activeColor : this.props.itemHoverColor,
-            ref : this.setRef.bind(this, index),
-            submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
-            key : i
-          }
-        )
+        const props = {
+          onMouseOver : this.handleMouseOver.bind(this, index),
+          active : index === this.state.itemActive,
+          ref : this.setRef.bind(this, index),
+          submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
+          key : i
+        }
+
+        if (("itemHoverColor" in this.props) && !("activeColor" in child.props)) {
+
+          props.activeColor = this.props.itemHoverColor
+
+        }
+
+        return React.cloneElement(child, props)
 
       } else return React.cloneElement(child, { key : i })
 
@@ -185,6 +214,7 @@ class Menu extends Component {
     delete rest.label
     delete rest.onAction
     delete rest.itemHoverColor
+    delete rest.frozen
 
     if (!display) return null
 
@@ -207,12 +237,13 @@ Menu.propTypes = {
   display : PropTypes.bool,
   style : PropTypes.object,
   label : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  itemHoverColor : PropTypes.string
+  itemHoverColor : PropTypes.string,
+  frozen : PropTypes.bool
 }
 
 Menu.defaultProps = {
   display : true,
-  itemHoverColor : "#e5ecff"
+  frozen : false
 }
 
 export default Menu
