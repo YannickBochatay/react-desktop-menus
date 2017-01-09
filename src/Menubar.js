@@ -48,11 +48,15 @@ class Menubar extends Component {
 
   handleMouseDown() {
 
+    if (this.props.frozen) return
+
     this.setState({ showMenus : true })
 
   }
 
   handleMouseOver(i) {
+
+    if (this.props.frozen) return
 
     if (i !== this.state.menuActive) {
 
@@ -75,6 +79,8 @@ class Menubar extends Component {
   }
 
   handleKeyDown(e) {
+
+    if (this.props.frozen) return
 
     const length = React.Children.count(this.props.children)
     const current = this.state.menuActive
@@ -184,6 +190,7 @@ class Menubar extends Component {
 
     delete rest.children
     delete rest.itemHoverColor
+    delete rest.frozen
 
     return (
       <ul
@@ -204,9 +211,13 @@ class Menubar extends Component {
 Menubar.propTypes = {
   children : PropTypes.node,
   style : PropTypes.object,
-  itemHoverColor : PropTypes.string
+  itemHoverColor : PropTypes.string,
+  frozen : PropTypes.bool
 }
 
-Menubar.defaultProps = { itemHoverColor : "#e5ecff" }
+Menubar.defaultProps = {
+  itemHoverColor : "#e5ecff",
+  frozen : false
+}
 
 export default Menubar

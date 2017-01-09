@@ -23,8 +23,8 @@
   },
   "scripts": {
     "build:lib": "babel src -d lib",
-    "build:ex": "browserify src/example.js -v -t babelify -o build/bundle.js",
-    "lint": "eslint src --fix"
+    "build:ex": "browserify example/index.js -v -t babelify -o build/bundle.js",
+    "lint": "eslint example --fix"
   },
   "repository": {
     "type": "git",

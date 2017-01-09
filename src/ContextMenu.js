@@ -60,7 +60,7 @@ class ContextMenu extends Component {
 
   handleClick(e) {
 
-    if (e.which !== 3) return
+    if (e.which !== 3 || this.props.frozen) return
 
     e.stopPropagation()
 
@@ -132,6 +132,8 @@ class ContextMenu extends Component {
 
     if (React.Children.count(children) !== 2) throw new Error("You should have exactly 2 children")
 
+    delete rest.frozen
+
     const elmts = React.Children.toArray(children)
 
     let menu = elmts[0].type === Menu ? elmts[0] : elmts[1]
@@ -159,6 +161,11 @@ class ContextMenu extends Component {
 
 }
 
-ContextMenu.propTypes = { children : PropTypes.node }
+ContextMenu.propTypes = {
+  children : PropTypes.node,
+  frozen : PropTypes.bool
+}
+
+ContextMenu.defaultProps = { frozen : false }
 
 export default ContextMenu
