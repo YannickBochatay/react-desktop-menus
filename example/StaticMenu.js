@@ -3,7 +3,7 @@ import Divider from "../src/Divider"
 import Menu from "../src/Menu"
 import Item from "../src/MenuItem"
 
-export default class MenuExample extends Component {
+export default class StaticMenuExample extends Component {
 
   constructor(props) {
 
@@ -24,7 +24,7 @@ export default class MenuExample extends Component {
     const action = this.onClick
 
     return (
-      <Menu { ...this.props }>
+      <Menu { ...this.props } keyboard={ false }>
         <Item action={ action } label="Simple item"/>
         <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
         <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>

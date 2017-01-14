@@ -36,7 +36,7 @@ export default class ContextMenuExample extends Component {
     return (
       <ContextMenu ref={ elmt => this.contextmenu = elmt } { ...this.props }>
         <div style={ style }>
-          Click right to see context menu
+          Click right to display context menu
         </div>
         <Menu label="File">
           <Item action={ action } label="Simple item"/>

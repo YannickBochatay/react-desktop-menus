@@ -1,3 +1,5 @@
+/* eslint react/jsx-no-bind:0 */
+
 import React, { PropTypes, Component } from "react"
 import Menu from "./Menu"
 
@@ -48,15 +50,11 @@ class Menubar extends Component {
 
   handleMouseDown() {
 
-    if (this.props.frozen) return
-
     this.setState({ showMenus : true })
 
   }
 
   handleMouseOver(i) {
-
-    if (this.props.frozen) return
 
     if (i !== this.state.menuActive) {
 
@@ -79,8 +77,6 @@ class Menubar extends Component {
   }
 
   handleKeyDown(e) {
-
-    if (this.props.frozen) return
 
     const length = React.Children.count(this.props.children)
     const current = this.state.menuActive
@@ -122,17 +118,36 @@ class Menubar extends Component {
 
   }
 
+  addKeyboardListener() {
+
+    document.addEventListener("keydown", this.handleKeyDown)
+
+  }
+
+  removeKeyboardListener() {
+
+    document.removeEventListener("keydown", this.handleKeyDown)
+
+  }
+
   componentDidMount() {
 
     document.addEventListener("click", this.handleClickDoc)
-    document.addEventListener("keydown", this.handleKeyDown)
+    if (this.props.keyboard) this.addKeyboardListener()
 
   }
 
   componentWillUnmount() {
 
     document.removeEventListener("click", this.handleClickDoc)
-    document.removeEventListener("keydown", this.handleKeyDown)
+    this.removeKeyboardListener()
+
+  }
+
+  componentDidUpdate(prevProps) {
+
+    if (prevProps.keyboard && !this.props.keyboard) this.removeKeyboardListener()
+    else if (!prevProps.keyboard && this.props.keyboard) this.addKeyboardListener()
 
   }
 
@@ -154,14 +169,15 @@ class Menubar extends Component {
 
         const active = this.state.menuActive === i
 
-        const menu = React.cloneElement(
-          child,
-          {
-            display : this.state.showMenus && active,
-            ref : this.setRef.bind(this, index),
-            style : { ...styles.menu, ...child.props.style }
-          }
-        )
+        const props = {
+          display : this.state.showMenus && active,
+          ref : this.setRef.bind(this, index),
+          style : { ...styles.menu, ...child.props.style }
+        }
+
+        if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard
+
+        const menu = React.cloneElement(child, props)
 
         const style = { ...styles.li }
 
@@ -190,7 +206,7 @@ class Menubar extends Component {
 
     delete rest.children
     delete rest.itemHoverColor
-    delete rest.frozen
+    delete rest.keyboard
 
     return (
       <ul
@@ -212,12 +228,12 @@ Menubar.propTypes = {
   children : PropTypes.node,
   style : PropTypes.object,
   itemHoverColor : PropTypes.string,
-  frozen : PropTypes.bool
+  keyboard : PropTypes.bool
 }
 
 Menubar.defaultProps = {
   itemHoverColor : "#e5ecff",
-  frozen : false
+  keyboard : true
 }
 
 export default Menubar

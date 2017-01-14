@@ -60,7 +60,7 @@ class ContextMenu extends Component {
 
   handleClick(e) {
 
-    if (e.which !== 3 || this.props.frozen) return
+    if (e.which !== 3) return
 
     e.stopPropagation()
 
@@ -132,40 +132,33 @@ class ContextMenu extends Component {
 
     if (React.Children.count(children) !== 2) throw new Error("You should have exactly 2 children")
 
-    delete rest.frozen
-
     const elmts = React.Children.toArray(children)
-
-    let menu = elmts[0].type === Menu ? elmts[0] : elmts[1]
+    const menu = elmts[0].type === Menu ? elmts[0] : elmts[1]
     const container = elmts[0].type === Menu ? elmts[1] : elmts[0]
+    const containerChildren = container.props.children ? React.Children.toArray(container.props.children) : []
 
     if (this.state.display) {
 
-      menu = React.cloneElement(menu, {
+      containerChildren.push(React.cloneElement(menu, {
         ref : elmt => this.menu = elmt,
         style : {
           position : "absolute",
           left : this.state.position.x,
           top : this.state.position.y
         }
-      })
+      }))
 
-    } else menu = undefined
+    }
 
     return React.cloneElement(container, {
       ref : elmt => this.container = elmt,
       ...rest
-    }, menu)
+    }, containerChildren)
 
   }
 
 }
 
-ContextMenu.propTypes = {
-  children : PropTypes.node,
-  frozen : PropTypes.bool
-}
-
-ContextMenu.defaultProps = { frozen : false }
+ContextMenu.propTypes = { children : PropTypes.node }
 
 export default ContextMenu

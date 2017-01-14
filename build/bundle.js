@@ -77,7 +77,7 @@ var ContextMenuExample = function (_Component) {
         _react2.default.createElement(
           "div",
           { style: style },
-          "Click right to see context menu"
+          "Click right to display context menu"
         ),
         _react2.default.createElement(
           _Menu2.default,
@@ -107,143 +107,6 @@ var ContextMenuExample = function (_Component) {
 exports.default = ContextMenuExample;
 
 },{"../src/ContextMenu":187,"../src/Menu":189,"../src/MenuItem":190,"react":186}],2:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Divider = require("../src/Divider");
-
-var _Divider2 = _interopRequireDefault(_Divider);
-
-var _Menu = require("../src/Menu");
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
-var _MenuItem = require("../src/MenuItem");
-
-var _MenuItem2 = _interopRequireDefault(_MenuItem);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var MenuExample = function (_Component) {
-  _inherits(MenuExample, _Component);
-
-  function MenuExample(props) {
-    _classCallCheck(this, MenuExample);
-
-    var _this = _possibleConstructorReturn(this, (MenuExample.__proto__ || Object.getPrototypeOf(MenuExample)).call(this, props));
-
-    _this.onClick = _this.onClick.bind(_this);
-
-    return _this;
-  }
-
-  _createClass(MenuExample, [{
-    key: "onClick",
-    value: function onClick() {
-
-      console.log("hello world");
-    }
-  }, {
-    key: "render",
-    value: function render() {
-
-      var action = this.onClick;
-
-      return _react2.default.createElement(
-        _Menu2.default,
-        this.props,
-        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
-        _react2.default.createElement(_MenuItem2.default, {
-          action: action,
-          disabled: true,
-          label: "Item disabled",
-          icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
-        }),
-        _react2.default.createElement(_Divider2.default, null),
-        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Custom hover color", activeColor: "pink" }),
-        _react2.default.createElement(
-          _MenuItem2.default,
-          { action: action, checkbox: true },
-          " Item as a checkbox "
-        ),
-        _react2.default.createElement(
-          _MenuItem2.default,
-          { action: action, checkbox: true, defaultChecked: true },
-          " Item as a checkbox checked "
-        ),
-        _react2.default.createElement(_MenuItem2.default, {
-          action: action,
-          icon: _react2.default.createElement("i", { className: "fa fa-modx" }),
-          shortcut: "s",
-          label: "Item with shortcut"
-        }),
-        _react2.default.createElement(_MenuItem2.default, {
-          action: action,
-          icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-print" }),
-          info: "Info",
-          label: "Item with info"
-        }),
-        _react2.default.createElement(
-          _MenuItem2.default,
-          { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu" },
-          _react2.default.createElement(
-            _Menu2.default,
-            null,
-            _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
-            _react2.default.createElement(_MenuItem2.default, {
-              action: action,
-              disabled: true,
-              label: "Item disabled",
-              icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
-            }),
-            _react2.default.createElement(
-              _MenuItem2.default,
-              { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
-              _react2.default.createElement(
-                _Menu2.default,
-                null,
-                _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-                _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-                _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
-                _react2.default.createElement(_MenuItem2.default, {
-                  action: action,
-                  disabled: true,
-                  label: "Item disabled",
-                  icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
-                })
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return MenuExample;
-}(_react.Component);
-
-exports.default = MenuExample;
-
-},{"../src/Divider":188,"../src/Menu":189,"../src/MenuItem":190,"react":186}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -374,8 +237,12 @@ var MenubarExample = function (_Component) {
 
 exports.default = MenubarExample;
 
-},{"../src/Menu":189,"../src/MenuItem":190,"../src/Menubar":191,"react":186}],4:[function(require,module,exports){
+},{"../src/Menu":189,"../src/MenuItem":190,"../src/Menubar":191,"react":186}],3:[function(require,module,exports){
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -385,13 +252,146 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Divider = require("../src/Divider");
+
+var _Divider2 = _interopRequireDefault(_Divider);
+
+var _Menu = require("../src/Menu");
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _MenuItem = require("../src/MenuItem");
+
+var _MenuItem2 = _interopRequireDefault(_MenuItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StaticMenuExample = function (_Component) {
+  _inherits(StaticMenuExample, _Component);
+
+  function StaticMenuExample(props) {
+    _classCallCheck(this, StaticMenuExample);
+
+    var _this = _possibleConstructorReturn(this, (StaticMenuExample.__proto__ || Object.getPrototypeOf(StaticMenuExample)).call(this, props));
+
+    _this.onClick = _this.onClick.bind(_this);
+
+    return _this;
+  }
+
+  _createClass(StaticMenuExample, [{
+    key: "onClick",
+    value: function onClick() {
+
+      console.log("hello world");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+
+      var action = this.onClick;
+
+      return _react2.default.createElement(
+        _Menu2.default,
+        _extends({}, this.props, { keyboard: false }),
+        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
+        _react2.default.createElement(_MenuItem2.default, {
+          action: action,
+          disabled: true,
+          label: "Item disabled",
+          icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
+        }),
+        _react2.default.createElement(_Divider2.default, null),
+        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Custom hover color", activeColor: "pink" }),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, checkbox: true },
+          " Item as a checkbox "
+        ),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { action: action, checkbox: true, defaultChecked: true },
+          " Item as a checkbox checked "
+        ),
+        _react2.default.createElement(_MenuItem2.default, {
+          action: action,
+          icon: _react2.default.createElement("i", { className: "fa fa-modx" }),
+          shortcut: "s",
+          label: "Item with shortcut"
+        }),
+        _react2.default.createElement(_MenuItem2.default, {
+          action: action,
+          icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-print" }),
+          info: "Info",
+          label: "Item with info"
+        }),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu" },
+          _react2.default.createElement(
+            _Menu2.default,
+            null,
+            _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
+            _react2.default.createElement(_MenuItem2.default, {
+              action: action,
+              disabled: true,
+              label: "Item disabled",
+              icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
+            }),
+            _react2.default.createElement(
+              _MenuItem2.default,
+              { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
+              _react2.default.createElement(
+                _Menu2.default,
+                null,
+                _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+                _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+                _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
+                _react2.default.createElement(_MenuItem2.default, {
+                  action: action,
+                  disabled: true,
+                  label: "Item disabled",
+                  icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-headphones" })
+                })
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return StaticMenuExample;
+}(_react.Component);
+
+exports.default = StaticMenuExample;
+
+},{"../src/Divider":188,"../src/Menu":189,"../src/MenuItem":190,"react":186}],4:[function(require,module,exports){
+"use strict";
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
 var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Menu = require("./Menu");
+var _StaticMenu = require("./StaticMenu");
 
-var _Menu2 = _interopRequireDefault(_Menu);
+var _StaticMenu2 = _interopRequireDefault(_StaticMenu);
 
 var _ContextMenu = require("./ContextMenu");
 
@@ -403,86 +403,54 @@ var _Menubar2 = _interopRequireDefault(_Menubar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+var Section = function Section(_ref) {
+  var title = _ref.title,
+      children = _ref.children,
+      rest = _objectWithoutProperties(_ref, ["title", "children"]);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  return _react2.default.createElement(
+    "section",
+    _extends({}, rest, {
+      style: { marginBottom: 80 }
+    }),
+    _react2.default.createElement(
+      "h3",
+      null,
+      title
+    ),
+    children
+  );
+};
 
-var Examples = function (_Component) {
-  _inherits(Examples, _Component);
+Section.propTypes = {
+  title: _react.PropTypes.string,
+  active: _react.PropTypes.bool,
+  children: _react.PropTypes.node
+};
 
-  function Examples(props) {
-    _classCallCheck(this, Examples);
+_reactDom2.default.render(_react2.default.createElement(
+  "article",
+  null,
+  _react2.default.createElement(
+    Section,
+    { title: "Static menu example" },
+    _react2.default.createElement(_StaticMenu2.default, { keyboard: false })
+  ),
+  _react2.default.createElement(
+    Section,
+    { title: "Menu bar example" },
+    _react2.default.createElement(_Menubar2.default, null)
+  ),
+  _react2.default.createElement(
+    Section,
+    { title: "Context menu example" },
+    _react2.default.createElement(_ContextMenu2.default, null)
+  )
+), document.getElementById("content"));
 
-    var _this = _possibleConstructorReturn(this, (Examples.__proto__ || Object.getPrototypeOf(Examples)).call(this, props));
-
-    _this.state = { active: 0 };
-
-    _this.examples = [];
-
-    return _this;
-  }
-
-  _createClass(Examples, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      var ticks = this.examples.map(function (example) {
-
-        var node = _reactDom2.default.findDOMNode(example);
-        var rect = node.getBoundingClientRect();
-
-        return rect.top;
-      });
-
-      window.addEventListener("scroll", function () {
-
-        ticks.forEach(function (tick, i) {
-
-          if (tick - 200 < window.scrollY) _this2.setState({ active: i });
-        });
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
-
-      var style = { active: {} };
-
-      return _react2.default.createElement(
-        "article",
-        null,
-        [_Menu2.default, _Menubar2.default, _ContextMenu2.default].map(function (Example, i) {
-          return _react2.default.createElement(
-            "section",
-            {
-              key: "section" + i,
-              style: _extends({ marginTop: 200 }, _this3.state.active === i ? style.active : null),
-              ref: function ref(elmt) {
-                return _this3.examples[i] = elmt;
-              }
-            },
-            _react2.default.createElement(
-              "h3",
-              null,
-              Example.name
-            ),
-            _react2.default.createElement(Example, null)
-          );
-        })
-      );
-    }
-  }]);
-
-  return Examples;
-}(_react.Component);
-
-_reactDom2.default.render(_react2.default.createElement(Examples, null), document.getElementById("content"));
-
-},{"./ContextMenu":1,"./Menu":2,"./Menubar":3,"react":186,"react-dom":6}],5:[function(require,module,exports){
+},{"./ContextMenu":1,"./Menubar":2,"./StaticMenu":3,"react":186,"react-dom":6}],5:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -21039,7 +21007,7 @@ var ContextMenu = function (_Component) {
     key: "handleClick",
     value: function handleClick(e) {
 
-      if (e.which !== 3 || this.props.frozen) return;
+      if (e.which !== 3) return;
 
       e.stopPropagation();
 
@@ -21113,16 +21081,14 @@ var ContextMenu = function (_Component) {
 
       if (_react2.default.Children.count(children) !== 2) throw new Error("You should have exactly 2 children");
 
-      delete rest.frozen;
-
       var elmts = _react2.default.Children.toArray(children);
-
       var menu = elmts[0].type === _Menu2.default ? elmts[0] : elmts[1];
       var container = elmts[0].type === _Menu2.default ? elmts[1] : elmts[0];
+      var containerChildren = container.props.children ? _react2.default.Children.toArray(container.props.children) : [];
 
       if (this.state.display) {
 
-        menu = _react2.default.cloneElement(menu, {
+        containerChildren.push(_react2.default.cloneElement(menu, {
           ref: function ref(elmt) {
             return _this2.menu = elmt;
           },
@@ -21131,26 +21097,21 @@ var ContextMenu = function (_Component) {
             left: this.state.position.x,
             top: this.state.position.y
           }
-        });
-      } else menu = undefined;
+        }));
+      }
 
       return _react2.default.cloneElement(container, _extends({
         ref: function ref(elmt) {
           return _this2.container = elmt;
         }
-      }, rest), menu);
+      }, rest), containerChildren);
     }
   }]);
 
   return ContextMenu;
 }(_react.Component);
 
-ContextMenu.propTypes = {
-  children: _react.PropTypes.node,
-  frozen: _react.PropTypes.bool
-};
-
-ContextMenu.defaultProps = { frozen: false };
+ContextMenu.propTypes = { children: _react.PropTypes.node };
 
 exports.default = ContextMenu;
 
@@ -21190,6 +21151,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -21266,7 +21229,7 @@ var Menu = function (_Component) {
     value: function handleKeyDown(e) {
       var _this3 = this;
 
-      if (!this.props.display || this.props.frozen) return;
+      if (!this.props.display) return;
 
       var length = _react2.default.Children.count(this.props.children);
       var current = this.state.itemActive;
@@ -21374,38 +21337,78 @@ var Menu = function (_Component) {
 
       return _react2.default.Children.map(this.props.children, function (child, i) {
 
-        if (!_this4.props.frozen && child.type === _MenuItem2.default) {
+        if (child.type === _MenuItem2.default) {
+          var _ret = function () {
 
-          index++;
+            index++;
 
-          var props = {
-            onMouseOver: _this4.handleMouseOver.bind(_this4, index),
-            active: index === _this4.state.itemActive,
-            ref: _this4.setRef.bind(_this4, index),
-            submenuDisplay: index === _this4.state.itemActive && _this4.state.submenuDisplay,
-            key: i
-          };
+            var props = {
+              active: index === _this4.state.itemActive,
+              ref: _this4.setRef.bind(_this4, index),
+              submenuDisplay: index === _this4.state.itemActive && _this4.state.submenuDisplay,
+              key: i
+            };
 
-          if ("itemHoverColor" in _this4.props && !("activeColor" in child.props)) {
+            var onMouseOver = _this4.handleMouseOver.bind(_this4, index);
 
-            props.activeColor = _this4.props.itemHoverColor;
-          }
+            if ("onMouseOver" in child.props) {
+              (function () {
 
-          return _react2.default.cloneElement(child, props);
+                var ownMouseOver = child.props.onMouseOver;
+
+                props.onMouseOver = function (e) {
+
+                  ownMouseOver(e);
+                  onMouseOver(e);
+                };
+              })();
+            } else props.onMouseOver = onMouseOver;
+
+            if ("itemHoverColor" in _this4.props && !("activeColor" in child.props)) {
+
+              props.activeColor = _this4.props.itemHoverColor;
+            }
+
+            if (!("keyboard" in child.props)) props.keyboard = _this4.props.keyboard;
+
+            return {
+              v: _react2.default.cloneElement(child, props)
+            };
+          }();
+
+          if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
         } else return _react2.default.cloneElement(child, { key: i });
       });
+    }
+  }, {
+    key: "addKeyboardListener",
+    value: function addKeyboardListener() {
+
+      document.addEventListener("keydown", this.handleKeyDown);
+    }
+  }, {
+    key: "removeKeyboardListener",
+    value: function removeKeyboardListener() {
+
+      document.removeEventListener("keydown", this.handleKeyDown);
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
 
-      document.addEventListener("keydown", this.handleKeyDown);
+      if (this.props.keyboard) this.addKeyboardListener();
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
 
-      document.removeEventListener("keydown", this.handleKeyDown);
+      this.removeKeyboardListener();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+
+      if (prevProps.keyboard && !this.props.keyboard) this.removeKeyboardListener();else if (!prevProps.keyboard && this.props.keyboard) this.addKeyboardListener();
     }
   }, {
     key: "componentWillUpdate",
@@ -21427,7 +21430,7 @@ var Menu = function (_Component) {
       delete rest.label;
       delete rest.onAction;
       delete rest.itemHoverColor;
-      delete rest.frozen;
+      delete rest.keyboard;
 
       if (!display) return null;
 
@@ -21453,13 +21456,10 @@ Menu.propTypes = {
   style: _react.PropTypes.object,
   label: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.node]),
   itemHoverColor: _react.PropTypes.string,
-  frozen: _react.PropTypes.bool
+  keyboard: _react.PropTypes.bool
 };
 
-Menu.defaultProps = {
-  display: true,
-  frozen: false
-};
+Menu.defaultProps = { display: true };
 
 exports.default = Menu;
 
@@ -21669,13 +21669,17 @@ var MenuItem = function (_React$Component) {
     value: function createSubmenu(child) {
       var _this2 = this;
 
-      return _react2.default.cloneElement(child, {
+      var props = {
         display: this.props.submenuDisplay,
         style: _extends({ position: "absolute" }, this.state.submenuPosition),
         ref: function ref(node) {
           return _this2.submenu = node;
         }
-      });
+      };
+
+      if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard;
+
+      return _react2.default.cloneElement(child, props);
     }
   }, {
     key: "hasSubmenu",
@@ -21787,7 +21791,8 @@ MenuItem.propTypes = {
   onMouseOver: _react.PropTypes.func,
   onMouseOut: _react.PropTypes.func,
   active: _react.PropTypes.bool,
-  submenuDisplay: _react.PropTypes.bool
+  submenuDisplay: _react.PropTypes.bool,
+  keyboard: _react.PropTypes.bool
 };
 
 MenuItem.defaultProps = {
@@ -21825,7 +21830,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* eslint react/jsx-no-bind:0 */
 
 var styles = {
 
@@ -21879,15 +21884,11 @@ var Menubar = function (_Component) {
     key: "handleMouseDown",
     value: function handleMouseDown() {
 
-      if (this.props.frozen) return;
-
       this.setState({ showMenus: true });
     }
   }, {
     key: "handleMouseOver",
     value: function handleMouseOver(i) {
-
-      if (this.props.frozen) return;
 
       if (i !== this.state.menuActive) {
 
@@ -21909,8 +21910,6 @@ var Menubar = function (_Component) {
   }, {
     key: "handleKeyDown",
     value: function handleKeyDown(e) {
-
-      if (this.props.frozen) return;
 
       var length = _react2.default.Children.count(this.props.children);
       var current = this.state.menuActive;
@@ -21949,18 +21948,36 @@ var Menubar = function (_Component) {
       if (newValue !== null) this.setState({ menuActive: newValue });
     }
   }, {
+    key: "addKeyboardListener",
+    value: function addKeyboardListener() {
+
+      document.addEventListener("keydown", this.handleKeyDown);
+    }
+  }, {
+    key: "removeKeyboardListener",
+    value: function removeKeyboardListener() {
+
+      document.removeEventListener("keydown", this.handleKeyDown);
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
 
       document.addEventListener("click", this.handleClickDoc);
-      document.addEventListener("keydown", this.handleKeyDown);
+      if (this.props.keyboard) this.addKeyboardListener();
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
 
       document.removeEventListener("click", this.handleClickDoc);
-      document.removeEventListener("keydown", this.handleKeyDown);
+      this.removeKeyboardListener();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+
+      if (prevProps.keyboard && !this.props.keyboard) this.removeKeyboardListener();else if (!prevProps.keyboard && this.props.keyboard) this.addKeyboardListener();
     }
   }, {
     key: "setRef",
@@ -21983,11 +22000,15 @@ var Menubar = function (_Component) {
 
           var active = _this2.state.menuActive === i;
 
-          var menu = _react2.default.cloneElement(child, {
+          var props = {
             display: _this2.state.showMenus && active,
             ref: _this2.setRef.bind(_this2, index),
             style: _extends({}, styles.menu, child.props.style)
-          });
+          };
+
+          if (!("keyboard" in child.props)) props.keyboard = _this2.props.keyboard;
+
+          var menu = _react2.default.cloneElement(child, props);
 
           var style = _extends({}, styles.li);
 
@@ -22017,7 +22038,7 @@ var Menubar = function (_Component) {
 
       delete rest.children;
       delete rest.itemHoverColor;
-      delete rest.frozen;
+      delete rest.keyboard;
 
       return _react2.default.createElement(
         "ul",
@@ -22041,12 +22062,12 @@ Menubar.propTypes = {
   children: _react.PropTypes.node,
   style: _react.PropTypes.object,
   itemHoverColor: _react.PropTypes.string,
-  frozen: _react.PropTypes.bool
+  keyboard: _react.PropTypes.bool
 };
 
 Menubar.defaultProps = {
   itemHoverColor: "#e5ecff",
-  frozen: false
+  keyboard: true
 };
 
 exports.default = Menubar;

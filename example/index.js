@@ -1,65 +1,37 @@
-import React, { Component } from "react"
+import React, { PropTypes } from "react"
 import ReactDOM from "react-dom"
-import Menu from "./Menu"
+import StaticMenu from "./StaticMenu"
 import ContextMenu from "./ContextMenu"
 import Menubar from "./Menubar"
 
-class Examples extends Component {
+const Section = ({ title, children, ...rest }) => (
+  <section
+    { ...rest }
+    style={ { marginBottom : 80 } }
+  >
+    <h3>{ title }</h3>
+    { children }
+  </section>
+)
 
-  constructor(props) {
-
-    super(props)
-
-    this.state = { active : 0 }
-
-    this.examples = []
-
-  }
-
-  componentDidMount() {
-
-    const ticks = this.examples.map(example => {
-
-      const node = ReactDOM.findDOMNode(example)
-      const rect = node.getBoundingClientRect()
-
-      return rect.top
-
-    })
-
-    window.addEventListener("scroll", () => {
-
-      ticks.forEach((tick, i) => {
-
-        if (tick - 200 < window.scrollY) this.setState({ active : i })
-
-      })
-
-    })
-
-  }
-
-  render() {
-
-    const style = { active : {} }
-
-    return (
-      <article>{
-        [Menu, Menubar, ContextMenu].map((Example, i) => (
-          <section
-            key={ "section" + i }
-            style={ { marginTop : 200, ...(this.state.active === i ? style.active : null) } }
-            ref={ elmt => this.examples[i] = elmt }
-          >
-            <h3>{ Example.name }</h3>
-            <Example/>
-          </section>
-        ))
-      }
-      </article>
-    )
-
-  }
+Section.propTypes = {
+  title : PropTypes.string,
+  active : PropTypes.bool,
+  children : PropTypes.node
 }
 
-ReactDOM.render(<Examples/>, document.getElementById("content"))
+ReactDOM.render(
+  <article>
+    <Section title="Static menu example">
+      <StaticMenu keyboard={ false }/>
+    </Section>
+    <Section title="Menu bar example">
+      <Menubar/>
+    </Section>
+    <Section title="Context menu example">
+      <ContextMenu/>
+    </Section>
+  </article>,
+
+  document.getElementById("content")
+)

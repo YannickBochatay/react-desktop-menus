@@ -164,11 +164,15 @@ class MenuItem extends React.Component {
 
   createSubmenu(child) {
 
-    return React.cloneElement(child, {
+    const props = {
       display : this.props.submenuDisplay,
       style : { position : "absolute", ...this.state.submenuPosition },
       ref : node => this.submenu = node
-    })
+    }
+
+    if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard
+
+    return React.cloneElement(child, props)
 
   }
 
@@ -273,7 +277,8 @@ MenuItem.propTypes = {
   onMouseOver : PropTypes.func,
   onMouseOut : PropTypes.func,
   active : PropTypes.bool,
-  submenuDisplay : PropTypes.bool
+  submenuDisplay : PropTypes.bool,
+  keyboard : PropTypes.bool
 }
 
 MenuItem.defaultProps = {

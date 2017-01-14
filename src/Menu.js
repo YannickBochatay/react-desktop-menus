@@ -50,7 +50,7 @@ class Menu extends Component {
 
   handleKeyDown(e) {
 
-    if (!this.props.display || this.props.frozen) return
+    if (!this.props.display) return
 
     const length = React.Children.count(this.props.children)
     const current = this.state.itemActive
@@ -162,23 +162,40 @@ class Menu extends Component {
 
     return React.Children.map(this.props.children, (child, i) => {
 
-      if (!this.props.frozen && child.type === MenuItem) {
+      if (child.type === MenuItem) {
 
         index++
 
         const props = {
-          onMouseOver : this.handleMouseOver.bind(this, index),
           active : index === this.state.itemActive,
           ref : this.setRef.bind(this, index),
           submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
           key : i
         }
 
+        const onMouseOver = this.handleMouseOver.bind(this, index)
+
+        if ("onMouseOver" in child.props) {
+
+          const ownMouseOver = child.props.onMouseOver
+
+          props.onMouseOver = e => {
+
+            ownMouseOver(e)
+            onMouseOver(e)
+
+          }
+
+        } else props.onMouseOver = onMouseOver
+
+
         if (("itemHoverColor" in this.props) && !("activeColor" in child.props)) {
 
           props.activeColor = this.props.itemHoverColor
 
         }
+
+        if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard
 
         return React.cloneElement(child, props)
 
@@ -188,15 +205,34 @@ class Menu extends Component {
 
   }
 
-  componentDidMount() {
+  addKeyboardListener() {
 
     document.addEventListener("keydown", this.handleKeyDown)
 
   }
 
-  componentWillUnmount() {
+  removeKeyboardListener() {
 
     document.removeEventListener("keydown", this.handleKeyDown)
+
+  }
+
+  componentDidMount() {
+
+    if (this.props.keyboard) this.addKeyboardListener()
+
+  }
+
+  componentWillUnmount() {
+
+    this.removeKeyboardListener()
+
+  }
+
+  componentDidUpdate(prevProps) {
+
+    if (prevProps.keyboard && !this.props.keyboard) this.removeKeyboardListener()
+    else if (!prevProps.keyboard && this.props.keyboard) this.addKeyboardListener()
 
   }
 
@@ -214,7 +250,7 @@ class Menu extends Component {
     delete rest.label
     delete rest.onAction
     delete rest.itemHoverColor
-    delete rest.frozen
+    delete rest.keyboard
 
     if (!display) return null
 
@@ -238,12 +274,9 @@ Menu.propTypes = {
   style : PropTypes.object,
   label : PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   itemHoverColor : PropTypes.string,
-  frozen : PropTypes.bool
+  keyboard : PropTypes.bool
 }
 
-Menu.defaultProps = {
-  display : true,
-  frozen : false
-}
+Menu.defaultProps = { display : true }
 
 export default Menu
