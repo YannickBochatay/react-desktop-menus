@@ -12,8 +12,8 @@ function getOffsetDim(elmt) {
 
   while (parent) {
 
-    offset.left += elmt.offsetLeft
-    offset.top += elmt.offsetTop
+    offset.left += parent.offsetLeft
+    offset.top += parent.offsetTop
     parent = parent.offsetParent
 
   }
