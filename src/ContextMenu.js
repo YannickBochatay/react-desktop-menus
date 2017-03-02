@@ -128,37 +128,40 @@ class ContextMenu extends Component {
 
   render() {
 
-    const { children, ...rest } = this.props
+    const { children, menu, ...rest } = this.props
 
-    if (React.Children.count(children) !== 2) throw new Error("You should have exactly 2 children")
-
-    const elmts = React.Children.toArray(children)
-    const menu = elmts[0].type === Menu ? elmts[0] : elmts[1]
-    const container = elmts[0].type === Menu ? elmts[1] : elmts[0]
-    const containerChildren = container.props.children ? React.Children.toArray(container.props.children) : []
+    const content = React.Children.only(children)
+    const contentChildren = React.Children.toArray(children)
 
     if (this.state.display) {
 
-      containerChildren.push(React.cloneElement(menu, {
-        ref : elmt => this.menu = elmt,
-        style : {
-          position : "absolute",
-          left : this.state.position.x,
-          top : this.state.position.y
-        }
-      }))
+      contentChildren.push(
+        React.cloneElement(menu, {
+          ref : elmt => this.menu = elmt,
+          style : {
+            ...menu.props.style,
+            position : "absolute",
+            left : this.state.position.x,
+            top : this.state.position.y
+          },
+          key : "contextMenu"
+        })
+      )
 
     }
 
-    return React.cloneElement(container, {
+    return React.cloneElement(content, {
       ref : elmt => this.container = elmt,
       ...rest
-    }, containerChildren)
+    }, contentChildren)
 
   }
 
 }
 
-ContextMenu.propTypes = { children : PropTypes.node }
+ContextMenu.propTypes = {
+  children : PropTypes.node,
+  menu : PropTypes.node
+}
 
 export default ContextMenu

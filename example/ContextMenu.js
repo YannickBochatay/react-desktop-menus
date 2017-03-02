@@ -15,8 +15,6 @@ export default class ContextMenuExample extends Component {
 
   onClick() {
 
-    console.log("hello world")
-
     this.contextmenu.close()
 
   }
@@ -33,23 +31,26 @@ export default class ContextMenuExample extends Component {
 
     const action = this.onClick
 
+    const menu = (
+      <Menu label="File">
+        <Item action={ action } label="Simple item"/>
+        <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+        <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+        <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu again">
+          <Menu>
+            <Item action={ action } label="Simple item"/>
+            <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+            <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+          </Menu>
+        </Item>
+      </Menu>
+    )
+
     return (
-      <ContextMenu ref={ elmt => this.contextmenu = elmt } { ...this.props }>
+      <ContextMenu menu={ menu } ref={ elmt => this.contextmenu = elmt } { ...this.props }>
         <div style={ style }>
           Click right to display context menu
         </div>
-        <Menu label="File">
-          <Item action={ action } label="Simple item"/>
-          <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
-          <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
-          <Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu again">
-            <Menu>
-              <Item action={ action } label="Simple item"/>
-              <Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
-              <Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
-            </Menu>
-          </Item>
-        </Menu>
       </ContextMenu>
     )
 

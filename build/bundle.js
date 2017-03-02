@@ -50,8 +50,6 @@ var ContextMenuExample = function (_Component) {
     key: "onClick",
     value: function onClick() {
 
-      console.log("hello world");
-
       this.contextmenu.close();
     }
   }, {
@@ -69,33 +67,34 @@ var ContextMenuExample = function (_Component) {
 
       var action = this.onClick;
 
+      var menu = _react2.default.createElement(
+        _Menu2.default,
+        { label: "File" },
+        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
+        _react2.default.createElement(
+          _MenuItem2.default,
+          { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
+          _react2.default.createElement(
+            _Menu2.default,
+            null,
+            _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" })
+          )
+        )
+      );
+
       return _react2.default.createElement(
         _ContextMenu2.default,
-        _extends({ ref: function ref(elmt) {
+        _extends({ menu: menu, ref: function ref(elmt) {
             return _this2.contextmenu = elmt;
           } }, this.props),
         _react2.default.createElement(
           "div",
           { style: style },
           "Click right to display context menu"
-        ),
-        _react2.default.createElement(
-          _Menu2.default,
-          { label: "File" },
-          _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-          _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-          _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
-          _react2.default.createElement(
-            _MenuItem2.default,
-            { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
-            _react2.default.createElement(
-              _Menu2.default,
-              null,
-              _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-              _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-              _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" })
-            )
-          )
         )
       );
     }
@@ -21100,41 +21099,42 @@ var ContextMenu = function (_Component) {
 
       var _props = this.props,
           children = _props.children,
-          rest = _objectWithoutProperties(_props, ["children"]);
+          menu = _props.menu,
+          rest = _objectWithoutProperties(_props, ["children", "menu"]);
 
-      if (_react2.default.Children.count(children) !== 2) throw new Error("You should have exactly 2 children");
-
-      var elmts = _react2.default.Children.toArray(children);
-      var menu = elmts[0].type === _Menu2.default ? elmts[0] : elmts[1];
-      var container = elmts[0].type === _Menu2.default ? elmts[1] : elmts[0];
-      var containerChildren = container.props.children ? _react2.default.Children.toArray(container.props.children) : [];
+      var content = _react2.default.Children.only(children);
+      var contentChildren = _react2.default.Children.toArray(children);
 
       if (this.state.display) {
 
-        containerChildren.push(_react2.default.cloneElement(menu, {
+        contentChildren.push(_react2.default.cloneElement(menu, {
           ref: function ref(elmt) {
             return _this2.menu = elmt;
           },
-          style: {
+          style: _extends({}, menu.props.style, {
             position: "absolute",
             left: this.state.position.x,
             top: this.state.position.y
-          }
+          }),
+          key: "contextMenu"
         }));
       }
 
-      return _react2.default.cloneElement(container, _extends({
+      return _react2.default.cloneElement(content, _extends({
         ref: function ref(elmt) {
           return _this2.container = elmt;
         }
-      }, rest), containerChildren);
+      }, rest), contentChildren);
     }
   }]);
 
   return ContextMenu;
 }(_react.Component);
 
-ContextMenu.propTypes = { children: _react.PropTypes.node };
+ContextMenu.propTypes = {
+  children: _react.PropTypes.node,
+  menu: _react.PropTypes.node
+};
 
 exports.default = ContextMenu;
 
