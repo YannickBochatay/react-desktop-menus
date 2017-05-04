@@ -163,7 +163,7 @@ class Menubar extends Component {
 
     return React.Children.map(this.props.children, (child, i) => {
 
-      if (child.type === Menu) {
+      // if (child.type === Menu) {
 
         index++
 
@@ -194,7 +194,7 @@ class Menubar extends Component {
           </li>
         )
 
-      } else return child
+      // } else return child
 
     })
 
