@@ -131,29 +131,27 @@ class ContextMenu extends Component {
     const { children, menu, ...rest } = this.props
 
     const content = React.Children.only(children)
-    const contentChildren = React.Children.toArray(children)
+
+    let menuElmt
 
     if (this.state.display) {
 
-      contentChildren.push(
-        React.cloneElement(menu, {
-          ref : elmt => this.menu = elmt,
-          style : {
-            ...menu.props.style,
-            position : "absolute",
-            left : this.state.position.x,
-            top : this.state.position.y
-          },
-          key : "contextMenu"
-        })
-      )
-
+      menuElmt = React.cloneElement(menu, {
+        ref : elmt => this.menu = elmt,
+        style : {
+          ...menu.props.style,
+          position : "absolute",
+          left : this.state.position.x,
+          top : this.state.position.y
+        },
+        key : "contextMenu"
+      })
     }
 
     return React.cloneElement(content, {
       ref : elmt => this.container = elmt,
       ...rest
-    }, contentChildren)
+    }, menuElmt)
 
   }
 
