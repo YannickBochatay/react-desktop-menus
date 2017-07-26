@@ -132,11 +132,11 @@ class ContextMenu extends Component {
 
     const content = React.Children.only(children)
 
-    let menuElmt
+    const childrenContent = React.Children.toArray(content.props.children)
 
     if (this.state.display) {
 
-      menuElmt = React.cloneElement(menu, {
+      childrenContent.push(React.cloneElement(menu, {
         ref : elmt => this.menu = elmt,
         style : {
           ...menu.props.style,
@@ -145,13 +145,13 @@ class ContextMenu extends Component {
           top : this.state.position.y
         },
         key : "contextMenu"
-      })
+      }))
     }
 
     return React.cloneElement(content, {
       ref : elmt => this.container = elmt,
       ...rest
-    }, menuElmt)
+    }, childrenContent)
 
   }
 

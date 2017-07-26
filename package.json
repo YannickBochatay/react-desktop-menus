@@ -1,6 +1,6 @@
 {
   "name": "react-desktop-menus",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "desktop app menus with react",
   "main": "lib/index.js",
   "dependencies": {

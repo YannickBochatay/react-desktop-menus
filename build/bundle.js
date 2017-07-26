@@ -94,7 +94,12 @@ var ContextMenuExample = function (_Component) {
         _react2.default.createElement(
           "div",
           { style: style },
-          "Click right to display context menu"
+          "Click right to display context menu",
+          _react2.default.createElement(
+            "span",
+            null,
+            " Avec du contenu"
+          )
         )
       );
     }
@@ -21772,11 +21777,11 @@ var ContextMenu = function (_Component) {
 
             var content = _react2.default.Children.only(children);
 
-            var menuElmt = void 0;
+            var childrenContent = _react2.default.Children.toArray(content.props.children);
 
             if (this.state.display) {
 
-                menuElmt = _react2.default.cloneElement(menu, {
+                childrenContent.push(_react2.default.cloneElement(menu, {
                     ref: function ref(elmt) {
                         return _this2.menu = elmt;
                     },
@@ -21786,14 +21791,14 @@ var ContextMenu = function (_Component) {
                         top: this.state.position.y
                     }),
                     key: "contextMenu"
-                });
+                }));
             }
 
             return _react2.default.cloneElement(content, _extends({
                 ref: function ref(elmt) {
                     return _this2.container = elmt;
                 }
-            }, rest), menuElmt);
+            }, rest), childrenContent);
         }
     }]);
 
