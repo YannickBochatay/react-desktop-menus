@@ -21886,36 +21886,38 @@ var Menu = function (_Component) {
 
       return _react2.default.Children.map(this.props.children, function (child, i) {
 
-        index++;
+        if (child.type && child.type.isReactDesktopMenuItem) {
 
-        var props = {
-          active: index === _this4.state.itemActive,
-          ref: _this4.setRef.bind(_this4, index),
-          submenuDisplay: index === _this4.state.itemActive && _this4.state.submenuDisplay,
-          key: i
-        };
+          index++;
 
-        var onMouseOver = _this4.handleMouseOver.bind(_this4, index);
-
-        if ("onMouseOver" in child.props) {
-
-          var ownMouseOver = child.props.onMouseOver;
-
-          props.onMouseOver = function (e) {
-
-            ownMouseOver(e);
-            onMouseOver(e);
+          var props = {
+            active: index === _this4.state.itemActive,
+            ref: _this4.setRef.bind(_this4, index),
+            submenuDisplay: index === _this4.state.itemActive && _this4.state.submenuDisplay
           };
-        } else props.onMouseOver = onMouseOver;
 
-        if ("itemHoverColor" in _this4.props && !("activeColor" in child.props)) {
+          var onMouseOver = _this4.handleMouseOver.bind(_this4, index);
 
-          props.activeColor = _this4.props.itemHoverColor;
-        }
+          if ("onMouseOver" in child.props) {
 
-        if (!("keyboard" in child.props)) props.keyboard = _this4.props.keyboard;
+            var ownMouseOver = child.props.onMouseOver;
 
-        return _react2.default.cloneElement(child, props);
+            props.onMouseOver = function (e) {
+
+              ownMouseOver(e);
+              onMouseOver(e);
+            };
+          } else props.onMouseOver = onMouseOver;
+
+          if ("itemHoverColor" in _this4.props && !("activeColor" in child.props)) {
+
+            props.activeColor = _this4.props.itemHoverColor;
+          }
+
+          if (!("keyboard" in child.props)) props.keyboard = _this4.props.keyboard;
+
+          return _react2.default.cloneElement(child, props);
+        } else return child;
       });
     }
   }, {
@@ -21999,6 +22001,8 @@ Menu.propTypes = {
 
 Menu.defaultProps = { display: true };
 
+Menu.isReactDesktopMenu = true;
+
 exports.default = Menu;
 
 },{"prop-types":35,"react":189}],193:[function(require,module,exports){
@@ -22020,10 +22024,6 @@ var _propTypes = require("prop-types");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Menu = require("./Menu");
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -22033,8 +22033,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var menuType = _react2.default.createElement(_Menu2.default, null).type; // hook for react-hot-loader
 
 var styles = {
 
@@ -22230,7 +22228,7 @@ var MenuItem = function (_React$Component) {
     value: function hasSubmenu() {
 
       return _react2.default.Children.toArray(this.props.children).some(function (child) {
-        return child.type === menuType;
+        return child.type && child.type.isReactDesktopMenu;
       });
     }
   }, {
@@ -22277,7 +22275,7 @@ var MenuItem = function (_React$Component) {
 
       return _react2.default.Children.map(this.props.children, function (child) {
 
-        if (child.type === menuType) return _this3.createSubmenu(child);else return child;
+        if (child.type && child.type.isReactDesktopMenu) return _this3.createSubmenu(child);else return child;
       });
     }
   }, {
@@ -22345,9 +22343,11 @@ MenuItem.defaultProps = {
   activeColor: "#e5ecff"
 };
 
+MenuItem.isReactDesktopMenuItem = true;
+
 exports.default = MenuItem;
 
-},{"./Menu":192,"prop-types":35,"react":189}],194:[function(require,module,exports){
+},{"prop-types":35,"react":189}],194:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22366,10 +22366,6 @@ var _propTypes = require("prop-types");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Menu = require("./Menu");
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -22379,8 +22375,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* eslint react/jsx-no-bind:0 */
-
-var menuType = _react2.default.createElement(_Menu2.default, null).type; // hook for react-hot-loader
 
 var styles = {
 
@@ -22544,7 +22538,7 @@ var Menubar = function (_Component) {
 
       return _react2.default.Children.map(this.props.children, function (child, i) {
 
-        if (child.type === menuType) {
+        if (child.type && child.type.isReactDesktopMenu) {
 
           index++;
 
@@ -22622,4 +22616,4 @@ Menubar.defaultProps = {
 
 exports.default = Menubar;
 
-},{"./Menu":192,"prop-types":35,"react":189}]},{},[4]);
+},{"prop-types":35,"react":189}]},{},[4]);

@@ -2,9 +2,6 @@
 
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import Menu from "./Menu"
-
-const menuType = (<Menu/>).type  // hook for react-hot-loader
 
 const styles = {
 
@@ -166,7 +163,7 @@ class Menubar extends Component {
 
     return React.Children.map(this.props.children, (child, i) => {
 
-      if (child.type === menuType) {
+      if (child.type && child.type.isReactDesktopMenu) {
 
         index++
 

@@ -161,40 +161,43 @@ class Menu extends Component {
 
     return React.Children.map(this.props.children, (child, i) => {
 
-      index++
+      if (child.type && child.type.isReactDesktopMenuItem) {
 
-      const props = {
-        active : index === this.state.itemActive,
-        ref : this.setRef.bind(this, index),
-        submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
-        key : i
-      }
+        index++
 
-      const onMouseOver = this.handleMouseOver.bind(this, index)
+        const props = {
+          active : index === this.state.itemActive,
+          ref : this.setRef.bind(this, index),
+          submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay
+        }
 
-      if ("onMouseOver" in child.props) {
+        const onMouseOver = this.handleMouseOver.bind(this, index)
 
-        const ownMouseOver = child.props.onMouseOver
+        if ("onMouseOver" in child.props) {
 
-        props.onMouseOver = e => {
+          const ownMouseOver = child.props.onMouseOver
 
-          ownMouseOver(e)
-          onMouseOver(e)
+          props.onMouseOver = e => {
+
+            ownMouseOver(e)
+            onMouseOver(e)
+
+          }
+
+        } else props.onMouseOver = onMouseOver
+
+
+        if (("itemHoverColor" in this.props) && !("activeColor" in child.props)) {
+
+          props.activeColor = this.props.itemHoverColor
 
         }
 
-      } else props.onMouseOver = onMouseOver
+        if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard
 
+        return React.cloneElement(child, props)
 
-      if (("itemHoverColor" in this.props) && !("activeColor" in child.props)) {
-
-        props.activeColor = this.props.itemHoverColor
-
-      }
-
-      if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard
-
-      return React.cloneElement(child, props)
+      } else return child
 
     })
 
@@ -273,5 +276,7 @@ Menu.propTypes = {
 }
 
 Menu.defaultProps = { display : true }
+
+Menu.isReactDesktopMenu = true
 
 export default Menu
