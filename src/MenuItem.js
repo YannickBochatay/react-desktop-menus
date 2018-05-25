@@ -10,7 +10,8 @@ const styles = {
     padding : "2px 5px",
     cursor : "default",
     display : "flex",
-    alignItems : "center"
+    alignItems : "center",
+    color : "#333"
   },
 
   icon : {

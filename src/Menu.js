@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 const baseStyle = {
   display : "inline-block",
+  position : "relative",
   backgroundColor : "white",
   border : "1px solid gray",
   borderRadius : 2,

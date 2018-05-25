@@ -21351,6 +21351,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var baseStyle = {
   display: "inline-block",
+  position: "relative",
   backgroundColor: "white",
   border: "1px solid gray",
   borderRadius: 2,
@@ -21669,7 +21670,8 @@ var styles = {
     padding: "2px 5px",
     cursor: "default",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    color: "#333"
   },
 
   icon: {
