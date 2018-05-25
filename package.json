@@ -1,12 +1,11 @@
 {
   "name": "react-desktop-menus",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "desktop app menus with react",
   "main": "lib/index.js",
   "dependencies": {
-    "npm": "^6.1.0",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
