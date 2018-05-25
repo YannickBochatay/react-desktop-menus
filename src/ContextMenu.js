@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from "react"
-import Menu from "./Menu"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
 function getOffsetDim(elmt) {
 

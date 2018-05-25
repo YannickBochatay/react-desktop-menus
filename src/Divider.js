@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 
 const Divider = ({ style, ...rest }) => (
   <li style={ { borderBottom : "1px solid #ccc", width : "100%", ...style } } { ...rest } />

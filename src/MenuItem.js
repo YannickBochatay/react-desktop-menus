@@ -1,5 +1,8 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import Menu from "./Menu"
+
+const menuType = (<Menu/>).type // hook for react-hot-loader
 
 const styles = {
 
@@ -180,7 +183,7 @@ class MenuItem extends React.Component {
 
     return React.Children
       .toArray(this.props.children)
-      .some(child => child.type === Menu)
+      .some(child => child.type === menuType)
 
   }
 
@@ -227,7 +230,7 @@ class MenuItem extends React.Component {
 
     return React.Children.map(this.props.children, child => {
 
-      if (child.type === Menu) return this.createSubmenu(child)
+      if (child.type === menuType) return this.createSubmenu(child)
       else return child
 
     })

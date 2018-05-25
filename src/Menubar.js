@@ -1,7 +1,10 @@
 /* eslint react/jsx-no-bind:0 */
 
-import React, { PropTypes, Component } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 import Menu from "./Menu"
+
+const menuType = (<Menu/>).type  // hook for react-hot-loader
 
 const styles = {
 
@@ -163,7 +166,7 @@ class Menubar extends Component {
 
     return React.Children.map(this.props.children, (child, i) => {
 
-      // if (child.type === Menu) {
+      if (child.type === menuType) {
 
         index++
 
@@ -194,7 +197,7 @@ class Menubar extends Component {
           </li>
         )
 
-      // } else return child
+      } else return child
 
     })
 

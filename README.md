@@ -13,29 +13,29 @@ npm install react-desktop-menus
 ```javascript
 import React from "react"
 import { render } from "react-dom"
-import Menu from "react-desktop-menus"
+import { Menu, MenuItem, Divider } from "react-desktop-menus"
 
 const action = () => console.log("hello")
 
 render(
   <Menu keyboard>
-    <Menu.Item action={ action } label="Simple item"/>
-    <Menu.Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
-    <Menu.Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
-    <Menu.Item disabled label="Item disabled" icon={ <i className="glyphicon glyphicon-headphones"/> }/>
+    <MenuItem action={ action } label="Simple item"/>
+    <MenuItem action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+    <MenuItem action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+    <MenuItem disabled label="Item disabled" icon={ <i className="glyphicon glyphicon-headphones"/> }/>
     <Divider/>
-    <Menu.Item action={ action } label="Custom hover color" activeColor="pink"/>
-    <Menu.Item action={ action } checkbox> Item as a checkbox </Menu.Item>
-    <Menu.Item action={ action } checkbox defaultChecked> Item as a checkbox checked </Menu.Item>
-    <Menu.Item action={ action } icon={ <i className="fa fa-modx"/> } shortcut="s" label="Item with shortcut"/>
-    <Menu.Item action={ action } icon={ <i className="glyphicon glyphicon-print"/> } info="Info" label="Item with info"/>
-    <Menu.Item icon={ <i className="fa fa-bar-chart"/> } label="Submenu">
+    <MenuItem action={ action } label="Custom hover color" activeColor="pink"/>
+    <MenuItem action={ action } checkbox> Item as a checkbox </Menu.Item>
+    <MenuItem action={ action } checkbox defaultChecked> Item as a checkbox checked </Menu.Item>
+    <MenuItem action={ action } icon={ <i className="fa fa-modx"/> } shortcut="s" label="Item with shortcut"/>
+    <MenuItem action={ action } icon={ <i className="glyphicon glyphicon-print"/> } info="Info" label="Item with info"/>
+    <MenuItem icon={ <i className="fa fa-bar-chart"/> } label="Submenu">
       <Menu>
-        <Menu.Item action={ action } label="Simple item"/>
-        <Menu.Item action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
-        <Menu.Item action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
+        <MenuItem action={ action } label="Simple item"/>
+        <MenuItem action={ action } icon={ <i className="glyphicon glyphicon-road"/> } label="Item with icon"/>
+        <MenuItem action={ action } icon={ <img src="build/icon.svg"/> } label="Item with any kind of icon"/>
       </Menu>
-    </Menu.Item>
+    </MenuItem>
   </Menu>
   ,
   document.getElementById("content")
@@ -48,7 +48,7 @@ render(
 
 #### Usage
 ```javascript
-import Menu from "react-desktop-menus"
+import { Menu } from "react-desktop-menus"
 
 ReactDOM.render(<Menu>, document.getElementById("content"))
 ```
@@ -72,11 +72,11 @@ ReactDOM.render(<Menu>, document.getElementById("content"))
 
 #### Usage
 ```javascript
-import Menu from "react-desktop-menus"
+import { Menu, MenuItem } from "react-desktop-menus"
 
 ReactDOM.render(
   <Menu>
-    <Menu.Item action={ () => console.log(hello) } label="toto"/>
+    <MenuItem action={ () => console.log(hello) } label="toto"/>
   </Menu>,
   document.getElementById("content")
 )

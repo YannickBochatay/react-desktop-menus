@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from "react"
-import MenuItem from "./MenuItem"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 
 const baseStyle = {
   display : "inline-block",
@@ -12,7 +12,6 @@ const baseStyle = {
   margin : 0,
   lineHeight : "normal"
 }
-
 
 class Menu extends Component {
 
@@ -162,44 +161,40 @@ class Menu extends Component {
 
     return React.Children.map(this.props.children, (child, i) => {
 
-      if (child.type === MenuItem) {
+      index++
 
-        index++
+      const props = {
+        active : index === this.state.itemActive,
+        ref : this.setRef.bind(this, index),
+        submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
+        key : i
+      }
 
-        const props = {
-          active : index === this.state.itemActive,
-          ref : this.setRef.bind(this, index),
-          submenuDisplay : index === this.state.itemActive && this.state.submenuDisplay,
-          key : i
-        }
+      const onMouseOver = this.handleMouseOver.bind(this, index)
 
-        const onMouseOver = this.handleMouseOver.bind(this, index)
+      if ("onMouseOver" in child.props) {
 
-        if ("onMouseOver" in child.props) {
+        const ownMouseOver = child.props.onMouseOver
 
-          const ownMouseOver = child.props.onMouseOver
+        props.onMouseOver = e => {
 
-          props.onMouseOver = e => {
-
-            ownMouseOver(e)
-            onMouseOver(e)
-
-          }
-
-        } else props.onMouseOver = onMouseOver
-
-
-        if (("itemHoverColor" in this.props) && !("activeColor" in child.props)) {
-
-          props.activeColor = this.props.itemHoverColor
+          ownMouseOver(e)
+          onMouseOver(e)
 
         }
 
-        if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard
+      } else props.onMouseOver = onMouseOver
 
-        return React.cloneElement(child, props)
 
-      } else return React.cloneElement(child, { key : i })
+      if (("itemHoverColor" in this.props) && !("activeColor" in child.props)) {
+
+        props.activeColor = this.props.itemHoverColor
+
+      }
+
+      if (!("keyboard" in child.props)) props.keyboard = this.props.keyboard
+
+      return React.cloneElement(child, props)
 
     })
 
