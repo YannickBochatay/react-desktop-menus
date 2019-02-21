@@ -33,10 +33,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Div = function Div(props) {
-  return _react2.default.createElement("div", props);
-};
-
 var ContextMenuExample = function (_Component) {
   _inherits(ContextMenuExample, _Component);
 
@@ -63,7 +59,6 @@ var ContextMenuExample = function (_Component) {
 
       var style = {
         height: 300,
-        overflow: "auto",
         backgroundColor: "#eee",
         display: "flex",
         alignItems: "center",
@@ -73,24 +68,20 @@ var ContextMenuExample = function (_Component) {
       var action = this.onClick;
 
       var menu = _react2.default.createElement(
-        "div",
-        { style: { border: "5px solid violet" } },
+        _Menu2.default,
+        { label: "File" },
+        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
         _react2.default.createElement(
-          _Menu2.default,
-          { label: "File" },
-          _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-          _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-          _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
+          _MenuItem2.default,
+          { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
           _react2.default.createElement(
-            _MenuItem2.default,
-            { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
-            _react2.default.createElement(
-              _Menu2.default,
-              null,
-              _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-              _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-              _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" })
-            )
+            _Menu2.default,
+            null,
+            _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" })
           )
         )
       );
@@ -101,13 +92,9 @@ var ContextMenuExample = function (_Component) {
             return _this2.contextmenu = elmt;
           } }, this.props),
         _react2.default.createElement(
-          Div,
+          "div",
           { style: style },
-          _react2.default.createElement(
-            "div",
-            { style: { height: 800 } },
-            "Click right to display context menu"
-          )
+          "Click right to display context menu"
         )
       );
     }
