@@ -70,12 +70,12 @@ class ContextMenu extends Component {
   }
 
   addEventListeners() {
-    document.addEventListener("mouseup", this.handleClickDoc)
+    document.addEventListener("mousedown", this.handleClickDoc)
     window.addEventListener("blur", this.handleBlurWindow)
   }
 
   removeEventListeners() {
-    document.removeEventListener("mouseup", this.handleClickDoc)
+    document.removeEventListener("mousedown", this.handleClickDoc)
     window.removeEventListener("blur", this.handleBlurWindow)
   }
 
@@ -90,6 +90,8 @@ class ContextMenu extends Component {
   componentWillUnmount() {
     this.removeEventListeners()
   }
+
+  handlePreventDefault(e) { e.preventDefault() }
 
   render() {
 
@@ -109,6 +111,7 @@ class ContextMenu extends Component {
         <div
           key="contextMenu"
           ref={ this.menu }
+          onContextMenu={ this.handlePreventDefault }
           style={ {
             position : "fixed",
             left : this.state.position.x,

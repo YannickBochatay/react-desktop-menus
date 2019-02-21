@@ -21203,13 +21203,13 @@ var ContextMenu = function (_Component) {
   }, {
     key: "addEventListeners",
     value: function addEventListeners() {
-      document.addEventListener("mouseup", this.handleClickDoc);
+      document.addEventListener("mousedown", this.handleClickDoc);
       window.addEventListener("blur", this.handleBlurWindow);
     }
   }, {
     key: "removeEventListeners",
     value: function removeEventListeners() {
-      document.removeEventListener("mouseup", this.handleClickDoc);
+      document.removeEventListener("mousedown", this.handleClickDoc);
       window.removeEventListener("blur", this.handleBlurWindow);
     }
   }, {
@@ -21225,6 +21225,11 @@ var ContextMenu = function (_Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this.removeEventListeners();
+    }
+  }, {
+    key: "handlePreventDefault",
+    value: function handlePreventDefault(e) {
+      e.preventDefault();
     }
   }, {
     key: "render",
@@ -21249,6 +21254,7 @@ var ContextMenu = function (_Component) {
           {
             key: "contextMenu",
             ref: this.menu,
+            onContextMenu: this.handlePreventDefault,
             style: {
               position: "fixed",
               left: this.state.position.x,
