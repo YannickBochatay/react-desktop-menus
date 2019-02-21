@@ -21237,9 +21237,10 @@ var ContextMenu = function (_Component) {
       var content = _react2.default.Children.only(children);
 
       var container = _react2.default.cloneElement(content, _extends({
-        key: "container",
+        key: "container"
+      }, rest, {
         onContextMenu: this.handleContextMenu
-      }, rest));
+      }));
 
       if (this.state.display) {
 
@@ -21267,7 +21268,8 @@ var ContextMenu = function (_Component) {
 
 ContextMenu.propTypes = {
   children: _propTypes2.default.node,
-  menu: _propTypes2.default.node
+  menu: _propTypes2.default.node,
+  onContextMenu: _propTypes2.default.func
 };
 
 exports.default = ContextMenu;

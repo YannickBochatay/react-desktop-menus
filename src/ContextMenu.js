@@ -99,8 +99,8 @@ class ContextMenu extends Component {
 
     const container = React.cloneElement(content, {
       key : "container",
-      onContextMenu : this.handleContextMenu,
-      ...rest
+      ...rest,
+      onContextMenu : this.handleContextMenu
     })
 
     if (this.state.display) {
@@ -129,7 +129,8 @@ class ContextMenu extends Component {
 
 ContextMenu.propTypes = {
   children : PropTypes.node,
-  menu : PropTypes.node
+  menu : PropTypes.node,
+  onContextMenu : PropTypes.func
 }
 
 export default ContextMenu
