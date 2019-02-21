@@ -33,6 +33,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var Div = function Div(props) {
+  return _react2.default.createElement("div", props);
+};
+
 var ContextMenuExample = function (_Component) {
   _inherits(ContextMenuExample, _Component);
 
@@ -59,6 +63,7 @@ var ContextMenuExample = function (_Component) {
 
       var style = {
         height: 300,
+        overflow: "auto",
         backgroundColor: "#eee",
         display: "flex",
         alignItems: "center",
@@ -68,20 +73,24 @@ var ContextMenuExample = function (_Component) {
       var action = this.onClick;
 
       var menu = _react2.default.createElement(
-        _Menu2.default,
-        { label: "File" },
-        _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-        _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
+        "div",
+        { style: { border: "5px solid violet" } },
         _react2.default.createElement(
-          _MenuItem2.default,
-          { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
+          _Menu2.default,
+          { label: "File" },
+          _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+          _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+          _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" }),
           _react2.default.createElement(
-            _Menu2.default,
-            null,
-            _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
-            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
-            _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" })
+            _MenuItem2.default,
+            { icon: _react2.default.createElement("i", { className: "fa fa-bar-chart" }), label: "Submenu again" },
+            _react2.default.createElement(
+              _Menu2.default,
+              null,
+              _react2.default.createElement(_MenuItem2.default, { action: action, label: "Simple item" }),
+              _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("i", { className: "glyphicon glyphicon-road" }), label: "Item with icon" }),
+              _react2.default.createElement(_MenuItem2.default, { action: action, icon: _react2.default.createElement("img", { src: "build/icon.svg" }), label: "Item with any kind of icon" })
+            )
           )
         )
       );
@@ -92,9 +101,13 @@ var ContextMenuExample = function (_Component) {
             return _this2.contextmenu = elmt;
           } }, this.props),
         _react2.default.createElement(
-          "div",
+          Div,
           { style: style },
-          "Click right to display context menu"
+          _react2.default.createElement(
+            "div",
+            { style: { height: 800 } },
+            "Click right to display context menu"
+          )
         )
       );
     }
@@ -21101,6 +21114,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require("react-dom");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _propTypes = require("prop-types");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -21115,25 +21132,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function getOffsetDim(elmt) {
-
-  var parent = elmt;
-
-  var offset = {
-    left: 0,
-    top: 0
-  };
-
-  while (parent) {
-
-    offset.left += parent.offsetLeft;
-    offset.top += parent.offsetTop;
-    parent = parent.offsetParent;
-  }
-
-  return offset;
-}
-
 var ContextMenu = function (_Component) {
   _inherits(ContextMenu, _Component);
 
@@ -21146,51 +21144,46 @@ var ContextMenu = function (_Component) {
 
     _this.handleBlurWindow = _this.handleBlurWindow.bind(_this);
     _this.handleClickDoc = _this.handleClickDoc.bind(_this);
-    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleContextMenu = _this.handleContextMenu.bind(_this);
 
+    _this.menu = _react2.default.createRef();
     return _this;
   }
 
   _createClass(ContextMenu, [{
     key: "close",
     value: function close() {
-
       this.setState({ display: false });
     }
   }, {
     key: "handleBlurWindow",
     value: function handleBlurWindow() {
-
       this.close();
     }
   }, {
     key: "handleClickDoc",
     value: function handleClickDoc(e) {
 
-      if (!this.menu) return;
+      if (!this.menu.current) return;
 
-      var node = this.menu.node;
+      var current = this.menu.current;
 
 
-      if (node && !node.contains(e.target)) this.close();
+      if (current && !current.contains(e.target)) this.close();
     }
   }, {
-    key: "handleClick",
-    value: function handleClick(e) {
-
-      if (e.which !== 3) return;
-
-      e.stopPropagation();
-
-      this.setState({ display: true });
-
-      this.setPosition(e);
-    }
-  }, {
-    key: "preventDefault",
-    value: function preventDefault(e) {
+    key: "handleContextMenu",
+    value: function handleContextMenu(e) {
+      var _this2 = this;
 
       e.preventDefault();
+      e.persist();
+
+      this.setState({ display: true }, function () {
+        return _this2.setPosition(e);
+      });
+
+      if (this.props.onContextMenu) this.props.onContextMenu(e);
     }
   }, {
     key: "setPosition",
@@ -21198,54 +21191,57 @@ var ContextMenu = function (_Component) {
 
       if (!this.menu) return;
 
-      var node = this.menu.node;
+      var current = this.menu.current;
 
 
-      if (!node) return;
+      if (!current) return;
 
-      var parent = node && node.offsetParent;
-      var dimParent = getOffsetDim(parent);
+      var x = e.clientX;
+      var y = e.clientY;
 
-      var x = e.pageX - dimParent.left;
-      var y = e.pageY - dimParent.top;
+      if (e.clientX + current.offsetWidth > window.innerWidth) {
 
-      if (e.clientX + node.offsetWidth > window.innerWidth) {
-
-        x -= node.offsetWidth;
-        if (x < 0) x = window.innerWidth - node.offsetWidth;
+        x -= current.offsetWidth;
+        if (x < 0) x = window.innerWidth - current.offsetWidth;
       }
 
-      if (e.clientY + node.offsetHeight > window.innerHeight) {
+      if (e.clientY + current.offsetHeight > window.innerHeight) {
 
-        y -= node.offsetHeight;
-        if (y < 0) y = window.innerHeight - node.offsetHeight;
+        y -= current.offsetHeight;
+        if (y < 0) y = window.innerHeight - current.offsetHeight;
       }
 
       this.setState({ position: { x: x, y: y } });
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-
-      this.container.addEventListener("mouseup", this.handleClick);
-      this.container.addEventListener("contextmenu", this.preventDefault);
+    key: "addEventListeners",
+    value: function addEventListeners() {
       document.addEventListener("mouseup", this.handleClickDoc);
       window.addEventListener("blur", this.handleBlurWindow);
     }
   }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-
-      this.container.removeEventListener("mouseup", this.handleClick);
-      this.container.removeEventListener("contextmenu", this.preventDefault);
+    key: "removeEventListeners",
+    value: function removeEventListeners() {
       document.removeEventListener("mouseup", this.handleClickDoc);
       window.removeEventListener("blur", this.handleBlurWindow);
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.state.display && !prevState.display) {
+        this.addEventListeners();
+      } else if (!this.state.display && prevState.display) {
+        this.removeEventListeners();
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.removeEventListeners();
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       var _props = this.props,
           children = _props.children,
           menu = _props.menu,
@@ -21253,28 +21249,29 @@ var ContextMenu = function (_Component) {
 
       var content = _react2.default.Children.only(children);
 
-      var childrenContent = _react2.default.Children.toArray(content.props.children);
+      var container = _react2.default.cloneElement(content, _extends({
+        key: "container",
+        onContextMenu: this.handleContextMenu
+      }, rest));
 
       if (this.state.display) {
 
-        childrenContent.push(_react2.default.cloneElement(menu, {
-          ref: function ref(elmt) {
-            return _this2.menu = elmt;
+        var contextMenu = _reactDom2.default.createPortal(_react2.default.createElement(
+          "div",
+          {
+            key: "contextMenu",
+            ref: this.menu,
+            style: {
+              position: "fixed",
+              left: this.state.position.x,
+              top: this.state.position.y
+            }
           },
-          style: _extends({}, menu.props.style, {
-            position: "absolute",
-            left: this.state.position.x,
-            top: this.state.position.y
-          }),
-          key: "contextMenu"
-        }));
-      }
+          menu
+        ), document.body);
 
-      return _react2.default.cloneElement(content, _extends({
-        ref: function ref(elmt) {
-          return _this2.container = elmt;
-        }
-      }, rest), childrenContent);
+        return [container, contextMenu];
+      } else return container;
     }
   }]);
 
@@ -21288,7 +21285,7 @@ ContextMenu.propTypes = {
 
 exports.default = ContextMenu;
 
-},{"prop-types":24,"react":31}],33:[function(require,module,exports){
+},{"prop-types":24,"react":31,"react-dom":28}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

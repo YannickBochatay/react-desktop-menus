@@ -1,26 +1,6 @@
 import React, { Component } from "react"
+import ReactDOM from "react-dom"
 import PropTypes from "prop-types"
-
-function getOffsetDim(elmt) {
-
-  let parent = elmt
-
-  const offset = {
-    left : 0,
-    top : 0
-  }
-
-  while (parent) {
-
-    offset.left += parent.offsetLeft
-    offset.top += parent.offsetTop
-    parent = parent.offsetParent
-
-  }
-
-  return offset
-
-}
 
 class ContextMenu extends Component {
 
@@ -32,75 +12,56 @@ class ContextMenu extends Component {
 
     this.handleBlurWindow = this.handleBlurWindow.bind(this)
     this.handleClickDoc = this.handleClickDoc.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleContextMenu = this.handleContextMenu.bind(this)
 
+    this.menu = React.createRef()
   }
 
-  close() {
+  close() { this.setState({ display : false }) }
 
-    this.setState({ display : false })
-
-  }
-
-  handleBlurWindow() {
-
-    this.close()
-
-  }
+  handleBlurWindow() { this.close() }
 
   handleClickDoc(e) {
 
-    if (!this.menu) return
+    if (!this.menu.current) return
 
-    const { node } = this.menu
+    const { current } = this.menu
 
-    if (node && !node.contains(e.target)) this.close()
-
+    if (current && !current.contains(e.target)) this.close()
   }
 
-  handleClick(e) {
-
-    if (e.which !== 3) return
-
-    e.stopPropagation()
-
-    this.setState({ display : true })
-
-    this.setPosition(e)
-
-  }
-
-  preventDefault(e) {
+  handleContextMenu(e) {
 
     e.preventDefault()
+    e.persist()
 
+    this.setState({ display : true }, () => this.setPosition(e))
+
+    if (this.props.onContextMenu) this.props.onContextMenu(e)
   }
 
   setPosition(e) {
 
     if (!this.menu) return
 
-    const { node } = this.menu
+    const { current } = this.menu
 
-    if (!node) return
+    if (!current) return
 
-    const parent = node && node.offsetParent
-    const dimParent = getOffsetDim(parent)
+    let x = e.clientX
+    let y = e.clientY
 
-    let x = e.pageX - dimParent.left
-    let y = e.pageY - dimParent.top
+    if (e.clientX + current.offsetWidth > window.innerWidth) {
 
-    if (e.clientX + node.offsetWidth > window.innerWidth) {
-
-      x -= node.offsetWidth
-      if (x < 0) x = window.innerWidth - node.offsetWidth
+      x -= current.offsetWidth
+      if (x < 0) x = window.innerWidth - current.offsetWidth
 
     }
 
-    if (e.clientY + node.offsetHeight > window.innerHeight) {
+    if (e.clientY + current.offsetHeight > window.innerHeight) {
 
-      y -= node.offsetHeight
-      if (y < 0) y = window.innerHeight - node.offsetHeight
+      y -= current.offsetHeight
+      if (y < 0) y = window.innerHeight - current.offsetHeight
 
     }
 
@@ -108,22 +69,26 @@ class ContextMenu extends Component {
 
   }
 
-  componentDidMount() {
-
-    this.container.addEventListener("mouseup", this.handleClick)
-    this.container.addEventListener("contextmenu", this.preventDefault)
+  addEventListeners() {
     document.addEventListener("mouseup", this.handleClickDoc)
     window.addEventListener("blur", this.handleBlurWindow)
+  }
 
+  removeEventListeners() {
+    document.removeEventListener("mouseup", this.handleClickDoc)
+    window.removeEventListener("blur", this.handleBlurWindow)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.display && !prevState.display) {
+      this.addEventListeners()
+    } else if (!this.state.display && prevState.display) {
+      this.removeEventListeners()
+    }
   }
 
   componentWillUnmount() {
-
-    this.container.removeEventListener("mouseup", this.handleClick)
-    this.container.removeEventListener("contextmenu", this.preventDefault)
-    document.removeEventListener("mouseup", this.handleClickDoc)
-    window.removeEventListener("blur", this.handleBlurWindow)
-
+    this.removeEventListeners()
   }
 
   render() {
@@ -132,26 +97,31 @@ class ContextMenu extends Component {
 
     const content = React.Children.only(children)
 
-    const childrenContent = React.Children.toArray(content.props.children)
+    const container = React.cloneElement(content, {
+      key : "container",
+      onContextMenu : this.handleContextMenu,
+      ...rest
+    })
 
     if (this.state.display) {
 
-      childrenContent.push(React.cloneElement(menu, {
-        ref : elmt => this.menu = elmt,
-        style : {
-          ...menu.props.style,
-          position : "absolute",
-          left : this.state.position.x,
-          top : this.state.position.y
-        },
-        key : "contextMenu"
-      }))
-    }
+      const contextMenu = ReactDOM.createPortal((
+        <div
+          key="contextMenu"
+          ref={ this.menu }
+          style={ {
+            position : "fixed",
+            left : this.state.position.x,
+            top : this.state.position.y
+          } }
+        >
+          { menu }
+        </div>
+      ), document.body)
 
-    return React.cloneElement(content, {
-      ref : elmt => this.container = elmt,
-      ...rest
-    }, childrenContent)
+      return [container, contextMenu]
+
+    } else return container
 
   }
 
