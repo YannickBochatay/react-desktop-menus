@@ -49,7 +49,7 @@ class MenuItem extends React.Component {
     this.handleMouseOver = this.handleMouseOver.bind(this)
 
     this.state = {
-      checked : false,
+      checked : this.props.defaultChecked,
       submenuPosition : { left : 0, top : 0 }
     }
 
@@ -192,12 +192,6 @@ class MenuItem extends React.Component {
       this.setSubmenuPosition()
 
     }
-
-  }
-
-  componentWillMount() {
-
-    this.setState({ checked : this.props.defaultChecked })
 
   }
 

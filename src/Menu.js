@@ -160,7 +160,7 @@ class Menu extends Component {
 
     let index = -1
 
-    return React.Children.map(this.props.children, (child, i) => {
+    return React.Children.map(this.props.children, child => {
 
       if (child.type && child.type.isReactDesktopMenuItem) {
 
@@ -230,14 +230,11 @@ class Menu extends Component {
 
   componentDidUpdate(prevProps) {
 
+    // eslint-disable-next-line react/no-did-update-set-state
+    if (!prevProps.display && this.props.display) this.setState({ itemActive : -1 })
+
     if (prevProps.keyboard && !this.props.keyboard) this.removeKeyboardListener()
     else if (!prevProps.keyboard && this.props.keyboard) this.addKeyboardListener()
-
-  }
-
-  componentWillUpdate(nextProps) {
-
-    if (!this.props.display && nextProps.display) this.setState({ itemActive : -1 })
 
   }
 
