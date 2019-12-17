@@ -34173,11 +34173,7 @@ var Menu = function (_Component) {
     value: function componentDidUpdate(prevProps) {
 
       // eslint-disable-next-line react/no-did-update-set-state
-      if (!prevProps.display && this.props.display) {
-
-        console.log("yeah");
-        this.setState({ itemActive: -1 });
-      }
+      if (!prevProps.display && this.props.display) this.setState({ itemActive: -1 });
 
       if (prevProps.keyboard && !this.props.keyboard) this.removeKeyboardListener();else if (!prevProps.keyboard && this.props.keyboard) this.addKeyboardListener();
     }
